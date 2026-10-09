@@ -28,12 +28,37 @@ public class PlayerCraft implements Listener {
         }
         CraftingRecipes craftingRecipes = new CraftingRecipes();
         ArrayList<ArrayList<Material>> allCustomRecipes = craftingRecipes.getTranslatedVariants(customRecipe);
+        ArrayList<Material> mirroredCrafting = getMirroredRecipe(crafting); //Shaped recipes also match when mirrored
         for (ArrayList<Material> customRecipeVariant : allCustomRecipes) {
-            if (customRecipeVariant.equals(crafting)) {
+            if (customRecipeVariant.equals(crafting) || customRecipeVariant.equals(mirroredCrafting)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private ArrayList<Material> getMirroredRecipe(ArrayList<Material> crafting) {
+        ArrayList<Material> mirrored = new ArrayList<>();
+        for (int row = 0; row < 3; row++) {
+            for (int column = 2; column >= 0; column--) {
+                mirrored.add(crafting.get(row*3 + column));
+            }
+        }
+        return mirrored;
+    }
+
+    //Puts a 2x2 (player inventory) crafting matrix in the top left of a 3x3 one, so small recipes
+    //crafted in the inventory are checked too instead of bypassing the skill requirements
+    private ItemStack[] toThreeByThree(ItemStack[] craftingMatrix) {
+        if (craftingMatrix.length != 4) {
+            return craftingMatrix;
+        }
+        ItemStack[] matrix = new ItemStack[9];
+        matrix[0] = craftingMatrix[0];
+        matrix[1] = craftingMatrix[1];
+        matrix[3] = craftingMatrix[2];
+        matrix[4] = craftingMatrix[3];
+        return matrix;
     }
 
     private int getAmountToBeCrafted(ItemStack[] craftingMatrix) {
@@ -70,7 +95,7 @@ public class PlayerCraft implements Listener {
         defenseClass.armorEXP(e.getResult());
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true) //Don't charge levels for crafts other plugins cancelled
     void onPlayerCraft(CraftItemEvent e) {
         Player p = (Player) e.getWhoClicked();
         PlayerStats pStatClass = new PlayerStats(p);
@@ -79,7 +104,7 @@ public class PlayerCraft implements Listener {
         ConfigLoad configLoad = new ConfigLoad();
 
         CraftingRecipes craftingRecipes = new CraftingRecipes();
-        ItemStack[] craftingMatrix = e.getInventory().getMatrix();
+        ItemStack[] craftingMatrix = toThreeByThree(e.getInventory().getMatrix());
         if (craftingMatrix.length != 9) {
             return;
         }
