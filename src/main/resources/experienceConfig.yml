@@ -122,7 +122,7 @@ digging:
       - [block: CLAY,                       breakExp: 60, natural: true ]
       - [block: FARMLAND ,                  breakExp: 20, natural: true ]
       - [block: GRASS_BLOCK,                breakExp: 20, natural: true ]
-      - [block: GRASS_PATH,                 breakExp: 20, natural: true ]
+      - [block: DIRT_PATH,                  breakExp: 20, natural: true ]
       - [block: MYCELIUM,                   breakExp: 22, natural: true ]
       - [block: PODZOL,                     breakExp: 22, natural: true ]
       - [block: COARSE_DIRT,                breakExp: 22, natural: true ]
@@ -247,7 +247,7 @@ farming:
 
     # Mobs that give experience for various actions. See comments at the top of the page for more information.
     mobs:
-      - [mob: MUSHROOM_COW, breedExp: 150, killExp: 100]
+      - [mob: MOOSHROOM, breedExp: 150, killExp: 100]
       - [mob: COW,          breedExp: 150, killExp: 100]
       - [mob: SHEEP,        breedExp: 125, killExp: 100]
       - [mob: PIG,          breedExp: 125, killExp: 100]
@@ -263,7 +263,7 @@ farming:
     # Blocks broken that give experience. See comments at the top of the page for more information.
     blocks:
       - [block: WHEAT,            breakExp: 50,  natural: true ]
-      - [block: BEATROOTS ,       breakExp: 50,  natural: true ]
+      - [block: BEETROOTS ,       breakExp: 50,  natural: true ]
       - [block: CARROTS,          breakExp: 50,  natural: true ]
       - [block: POTATOES,         breakExp: 50,  natural: true ]
       - [block: MELON,            breakExp: 85,  natural: true ]
@@ -320,7 +320,7 @@ archery:
       - [mob: FOX,              killExp: 50,    hitExp: 20, damageExp: 16]
       - [mob: HORSE,            killExp: 40,    hitExp: 20, damageExp: 16]
       - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 20, damageExp: 16]
-      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 20, damageExp: 16]
+      - [mob: MOOSHROOM,        killExp: 40,    hitExp: 20, damageExp: 16]
       - [mob: MULE,             killExp: 40,    hitExp: 20, damageExp: 16]
       - [mob: OCELOT,           killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: PARROT,           killExp: 25,    hitExp: 20, damageExp: 16]
@@ -329,7 +329,7 @@ archery:
       - [mob: SALMON,           killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: SHEEP,            killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 20, damageExp: 16]
-      - [mob: SNOWMAN,          killExp: 10,    hitExp: 20, damageExp: 16]
+      - [mob: SNOW_GOLEM,       killExp: 10,    hitExp: 20, damageExp: 16]
       - [mob: SQUID,            killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: TURTLE,           killExp: 30,    hitExp: 20, damageExp: 16]
@@ -378,7 +378,6 @@ archery:
       - [mob: ZOGLIN,           killExp: 110,   hitExp: 20, damageExp: 16]
       - [mob: HOGLIN,           killExp: 100,   hitExp: 20, damageExp: 16]
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 20, damageExp: 16]
-      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 20, damageExp: 16] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    hitExp: 20, damageExp: 16]
 beastMastery:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
@@ -402,7 +401,7 @@ beastMastery:
       - [mob: FOX,              killExp: 600,   hitExp: 50, damageExp: 40]
       - [mob: HORSE,            killExp: 600,   hitExp: 50, damageExp: 40, tameExp: 1500, breedExp: 1250]
       - [mob: POLAR_BEAR,       killExp: 750,   hitExp: 50, damageExp: 40]
-      - [mob: MUSHROOM_COW,     killExp: 550,   hitExp: 50, damageExp: 40]
+      - [mob: MOOSHROOM,        killExp: 550,   hitExp: 50, damageExp: 40]
       - [mob: MULE,             killExp: 600,   hitExp: 50, damageExp: 40]
       - [mob: OCELOT,           killExp: 500,   hitExp: 50, damageExp: 40]
       - [mob: PARROT,           killExp: 450,   hitExp: 50, damageExp: 40, tameExp: 1750, breedExp: 1450]
@@ -411,7 +410,7 @@ beastMastery:
       - [mob: SALMON,           killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: SHEEP,            killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: SKELETON_HORSE,   killExp: 750,   hitExp: 50, damageExp: 40]
-      - [mob: SNOWMAN,          killExp: 100,   hitExp: 50, damageExp: 40]
+      - [mob: SNOW_GOLEM,       killExp: 100,   hitExp: 50, damageExp: 40]
       - [mob: SQUID,            killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: TROPICAL_FISH,    killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: TURTLE,           killExp: 450,   hitExp: 50, damageExp: 40]
@@ -460,7 +459,6 @@ beastMastery:
       - [mob: ZOGLIN,           killExp: 900,   hitExp: 50, damageExp: 40]
       - [mob: HOGLIN,           killExp: 800,   hitExp: 50, damageExp: 40]
       - [mob: ZOMBIFIED_PIGLIN, killExp: 600,   hitExp: 50, damageExp: 40]
-      - [mob: PIG_ZOMBIE,       killExp: 600,   hitExp: 50, damageExp: 40] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 500,   hitExp: 50, damageExp: 40]
 swordsmanship:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
@@ -485,7 +483,7 @@ swordsmanship:
       - [mob: FOX,              killExp: 50,    hitExp: 15, damageExp: 12]
       - [mob: HORSE,            killExp: 40,    hitExp: 15, damageExp: 12]
       - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 15, damageExp: 12]
-      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 15, damageExp: 12]
+      - [mob: MOOSHROOM,        killExp: 40,    hitExp: 15, damageExp: 12]
       - [mob: MULE,             killExp: 40,    hitExp: 15, damageExp: 12]
       - [mob: OCELOT,           killExp: 30,    hitExp: 15, damageExp: 12]
       - [mob: PARROT,           killExp: 25,    hitExp: 15, damageExp: 12]
@@ -494,7 +492,7 @@ swordsmanship:
       - [mob: SALMON,           killExp: 30,    hitExp: 15, damageExp: 12]
       - [mob: SHEEP,            killExp: 30,    hitExp: 15, damageExp: 12]
       - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 15, damageExp: 12]
-      - [mob: SNOWMAN,          killExp: 10,    hitExp: 15, damageExp: 12]
+      - [mob: SNOW_GOLEM,       killExp: 10,    hitExp: 15, damageExp: 12]
       - [mob: SQUID,            killExp: 30,    hitExp: 15, damageExp: 12]
       - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 15, damageExp: 12]
       - [mob: TURTLE,           killExp: 30,    hitExp: 15, damageExp: 12]
@@ -543,7 +541,6 @@ swordsmanship:
       - [mob: ZOGLIN,           killExp: 110,   hitExp: 15, damageExp: 12]
       - [mob: HOGLIN,           killExp: 100,   hitExp: 15, damageExp: 12]
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 15, damageExp: 12]
-      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 15, damageExp: 12] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    hitExp: 15, damageExp: 12]
 defense:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
@@ -590,7 +587,7 @@ defense:
       - [mob: FOX,              killExp: 50,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: HORSE,            killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: POLAR_BEAR,       killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
-      - [mob: MUSHROOM_COW,     killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: MOOSHROOM,        killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: MULE,             killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: OCELOT,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: PARROT,           killExp: 25,    takeHitExp: 15, takeDamageExp: 20]
@@ -599,7 +596,7 @@ defense:
       - [mob: SALMON,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: SHEEP,            killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: SKELETON_HORSE,   killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
-      - [mob: SNOWMAN,          killExp: 10,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SNOW_GOLEM,       killExp: 10,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: SQUID,            killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: TROPICAL_FISH,    killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: TURTLE,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
@@ -648,7 +645,6 @@ defense:
       - [mob: ZOGLIN,           killExp: 110,   takeHitExp: 15, takeDamageExp: 20]
       - [mob: HOGLIN,           killExp: 100,   takeHitExp: 15, takeDamageExp: 20]
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
-      - [mob: PIG_ZOMBIE,       killExp: 75,    takeHitExp: 15, takeDamageExp: 20] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
 axeMastery:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
@@ -673,7 +669,7 @@ axeMastery:
       - [mob: FOX,              killExp: 50,    hitExp: 20, damageExp: 14]
       - [mob: HORSE,            killExp: 40,    hitExp: 20, damageExp: 14]
       - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 20, damageExp: 14]
-      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 20, damageExp: 14]
+      - [mob: MOOSHROOM,        killExp: 40,    hitExp: 20, damageExp: 14]
       - [mob: MULE,             killExp: 40,    hitExp: 20, damageExp: 14]
       - [mob: OCELOT,           killExp: 30,    hitExp: 20, damageExp: 14]
       - [mob: PARROT,           killExp: 25,    hitExp: 20, damageExp: 14]
@@ -682,7 +678,7 @@ axeMastery:
       - [mob: SALMON,           killExp: 30,    hitExp: 20, damageExp: 14]
       - [mob: SHEEP,            killExp: 30,    hitExp: 20, damageExp: 14]
       - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 20, damageExp: 14]
-      - [mob: SNOWMAN,          killExp: 10,    hitExp: 20, damageExp: 14]
+      - [mob: SNOW_GOLEM,       killExp: 10,    hitExp: 20, damageExp: 14]
       - [mob: SQUID,            killExp: 30,    hitExp: 20, damageExp: 14]
       - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 20, damageExp: 14]
       - [mob: TURTLE,           killExp: 30,    hitExp: 20, damageExp: 14]
@@ -731,7 +727,6 @@ axeMastery:
       - [mob: ZOGLIN,           killExp: 110,   hitExp: 20, damageExp: 14]
       - [mob: HOGLIN,           killExp: 100,   hitExp: 20, damageExp: 14]
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 20, damageExp: 14]
-      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 20, damageExp: 14] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    hitExp: 20, damageExp: 14]
 repair:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
