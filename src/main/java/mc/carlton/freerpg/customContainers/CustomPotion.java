@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -44,7 +43,7 @@ public class CustomPotion extends CustomItem {
         ItemStack potion = getItemStackWithoutPotionEffects();
         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
         if (potionType != null) {
-            potionMeta.setBasePotionData(new PotionData(potionType,isExtended,isUpgraded));
+            potionMeta.setBasePotionType(UtilityMethods.getPotionTypeVariant(potionType,isExtended,isUpgraded));
         } else {
             for (PotionEffect potionEffect : potionEffects) {
                 potionMeta.addCustomEffect(potionEffect,true);
@@ -130,37 +129,37 @@ public class CustomPotion extends CustomItem {
             PotionMeta potionMeta = ((PotionMeta) new ItemStack(Material.POTION).getItemMeta());
 
             //Effects with predetermined color
-            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
+            potionMeta.setBasePotionType(PotionType.FIRE_RESISTANCE);
             potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
+            potionMeta.setBasePotionType(PotionType.FIRE_RESISTANCE);
             potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
+            potionMeta.setBasePotionType(PotionType.FIRE_RESISTANCE);
             potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.HARMING));
+            potionMeta.setBasePotionType(PotionType.HARMING);
             potionEffectColors.put(PotionEffectType.INSTANT_DAMAGE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.HEALING));
+            potionMeta.setBasePotionType(PotionType.HEALING);
             potionEffectColors.put(PotionEffectType.INSTANT_HEALTH,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.STRENGTH));
+            potionMeta.setBasePotionType(PotionType.STRENGTH);
             potionEffectColors.put(PotionEffectType.STRENGTH,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
+            potionMeta.setBasePotionType(PotionType.INVISIBILITY);
             potionEffectColors.put(PotionEffectType.INVISIBILITY,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.LEAPING));
+            potionMeta.setBasePotionType(PotionType.LEAPING);
             potionEffectColors.put(PotionEffectType.JUMP_BOOST,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.SLOW_FALLING));
+            potionMeta.setBasePotionType(PotionType.SLOW_FALLING);
             potionEffectColors.put(PotionEffectType.LEVITATION,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.NIGHT_VISION));
+            potionMeta.setBasePotionType(PotionType.NIGHT_VISION);
             potionEffectColors.put(PotionEffectType.NIGHT_VISION,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.POISON));
+            potionMeta.setBasePotionType(PotionType.POISON);
             potionEffectColors.put(PotionEffectType.POISON,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.REGENERATION));
+            potionMeta.setBasePotionType(PotionType.REGENERATION);
             potionEffectColors.put(PotionEffectType.REGENERATION,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.SLOWNESS));
+            potionMeta.setBasePotionType(PotionType.SLOWNESS);
             potionEffectColors.put(PotionEffectType.SLOWNESS,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.SWIFTNESS));
+            potionMeta.setBasePotionType(PotionType.SWIFTNESS);
             potionEffectColors.put(PotionEffectType.SPEED,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.WATER_BREATHING));
+            potionMeta.setBasePotionType(PotionType.WATER_BREATHING);
             potionEffectColors.put(PotionEffectType.WATER_BREATHING,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.WEAKNESS));
+            potionMeta.setBasePotionType(PotionType.WEAKNESS);
             potionEffectColors.put(PotionEffectType.WEAKNESS,potionMeta.getColor());
 
             // Effects with no predetermined color

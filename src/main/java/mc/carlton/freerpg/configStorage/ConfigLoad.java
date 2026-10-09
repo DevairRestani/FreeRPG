@@ -13,6 +13,7 @@ import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import mc.carlton.freerpg.utilities.UtilityMethods;
 
 import java.io.File;
 import java.util.*;
@@ -232,7 +233,12 @@ public class ConfigLoad {
         //Alchemy Info
         for (int i = 1; i<= 5; i++) {
             OldCustomPotion customPotion = new OldCustomPotion();
-            customPotion.setPotionEffectType(PotionEffectType.getByName(advancedConfig.getString("alchemy.customPotions.potionType"+i)));
+            String potionEffectTypeString = advancedConfig.getString("alchemy.customPotions.potionType"+i);
+            PotionEffectType potionEffectType = UtilityMethods.matchPotionEffectType(potionEffectTypeString); //Also accepts pre-1.20.5 names (e.g. SLOW_DIGGING)
+            if (potionEffectType == null) {
+                System.out.println("[FreeRPG] WARNING: Unrecognized potion effect type " + potionEffectTypeString + " in alchemy.customPotions.potionType"+i);
+            }
+            customPotion.setPotionEffectType(potionEffectType);
             customPotion.setIngredient(Material.matchMaterial(advancedConfig.getString("alchemy.customPotions.potionIngredient"+i)));
             customPotion.setPotionDuration(advancedConfig.getInt("alchemy.customPotions.potionDuration"+i));
             customPotion.setColor(getColorFromString(advancedConfig.getString("alchemy.customPotions.potionColor"+i)));
@@ -305,7 +311,12 @@ public class ConfigLoad {
             oldCustomRecipe.setOutput(Material.matchMaterial(materialString));
             oldCustomRecipe.setOutputAmount(advancedConfig.getInt("alchemy.crafting.recipeOutputAmount"+i));
             if (materialString.equalsIgnoreCase("POTION")) {
-                oldCustomRecipe.setPotionType(PotionType.valueOf(advancedConfig.getString("alchemy.crafting.recipePotionType"+i)));
+                String potionTypeString = advancedConfig.getString("alchemy.crafting.recipePotionType"+i);
+                PotionType potionType = UtilityMethods.matchPotionType(potionTypeString); //Also accepts pre-1.20.5 names (e.g. SPEED, INSTANT_HEAL)
+                if (potionType == null) {
+                    System.out.println("[FreeRPG] WARNING: Unrecognized potion type " + potionTypeString + " in alchemy.crafting.recipePotionType"+i);
+                }
+                oldCustomRecipe.setPotionType(potionType);
                 oldCustomRecipe.setExtended(advancedConfig.getBoolean("alchemy.crafting.recipePotionExtended"+i));
                 oldCustomRecipe.setUpgraded(advancedConfig.getBoolean("alchemy.crafting.recipePotionUpgraded"+i));
             }

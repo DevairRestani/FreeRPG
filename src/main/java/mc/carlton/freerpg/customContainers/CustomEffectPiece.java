@@ -205,7 +205,7 @@ public class CustomEffectPiece extends CustomContainer {
     public String toString() {
         String stringValue = "";
         stringValue += "[";
-        stringValue += "Effect: " + this.effectType.getName() + ", ";
+        stringValue += "Effect: " + this.effectType.getKey().getKey() + ", ";
         stringValue += "Duration: " + this.duration + ", ";
         stringValue += "Delay: " + this.delay + ", ";
         stringValue += "Probability: " + this.probability + ", ";

@@ -3,11 +3,11 @@ package mc.carlton.freerpg.globalVariables;
 import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
+import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
@@ -283,7 +283,7 @@ public class ItemGroups {
         Material[] oldIngredients0 = {Material.NETHER_WART,Material.GUNPOWDER,Material.GLOWSTONE_DUST,Material.SPIDER_EYE,Material.GHAST_TEAR,
                 Material.RABBIT_FOOT,Material.BLAZE_POWDER,Material.GLISTERING_MELON_SLICE,Material.SUGAR,Material.MAGMA_CREAM,
                 Material.REDSTONE, Material.PUFFERFISH, Material.GOLDEN_CARROT,Material.TURTLE_HELMET,Material.PHANTOM_MEMBRANE,
-                Material.FERMENTED_SPIDER_EYE};
+                Material.FERMENTED_SPIDER_EYE,Material.BREEZE_ROD,Material.COBWEB,Material.SLIME_BLOCK,Material.STONE};
         oldIngredients = Arrays.asList(oldIngredients0);
     }
 
@@ -549,16 +549,18 @@ public class ItemGroups {
         PotionType[] potionType = {PotionType.WATER,PotionType.MUNDANE,PotionType.THICK,PotionType.AWKWARD,PotionType.NIGHT_VISION,
                 PotionType.INVISIBILITY,PotionType.LEAPING,PotionType.FIRE_RESISTANCE,PotionType.SWIFTNESS,PotionType.SLOWNESS,
                 PotionType.WATER_BREATHING,PotionType.HEALING,PotionType.HARMING,PotionType.POISON,
-                PotionType.REGENERATION,PotionType.STRENGTH,PotionType.WEAKNESS,PotionType.LUCK,PotionType.TURTLE_MASTER,PotionType.SLOW_FALLING};
+                PotionType.REGENERATION,PotionType.STRENGTH,PotionType.WEAKNESS,PotionType.LUCK,PotionType.TURTLE_MASTER,PotionType.SLOW_FALLING,
+                PotionType.WIND_CHARGED,PotionType.WEAVING,PotionType.OOZING,PotionType.INFESTED};
         String[] labels = {"water","mundane","thick","awkward","night_vision","invisibility","leaping","fire_resistance","swiftness","slowness",
-                "breathing_water","healing","harming","poison","regeneration","strength","weakness","luck","turtle_master","slow_falling"};
+                "water_breathing","healing","harming","poison","regeneration","strength","weakness","luck","turtle_master","slow_falling",
+                "wind_charged","weaving","oozing","infested"};
         String[] modifiers = {"","long_","strong_"};
         for (int i = 0; i<labels.length; i++) {
             for (String modifier : modifiers) {
                 if (modifier.equalsIgnoreCase("")) {
                     ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 8);
                     PotionMeta arrowMeta = (PotionMeta) arrow.getItemMeta();
-                    arrowMeta.setBasePotionData(new PotionData(potionType[i],false,false));
+                    arrowMeta.setBasePotionType(potionType[i]);
                     arrow.setItemMeta(arrowMeta);
                     effectArrows.put(modifier+labels[i],arrow);
                 }
@@ -566,7 +568,7 @@ public class ItemGroups {
                     if (potionType[i].isExtendable()) {
                         ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 8);
                         PotionMeta arrowMeta = (PotionMeta) arrow.getItemMeta();
-                        arrowMeta.setBasePotionData(new PotionData(potionType[i], true, false));
+                        arrowMeta.setBasePotionType(UtilityMethods.getPotionTypeVariant(potionType[i], true, false));
                         arrow.setItemMeta(arrowMeta);
                         effectArrows.put(modifier + labels[i], arrow);
                     }
@@ -575,7 +577,7 @@ public class ItemGroups {
                     if (potionType[i].isUpgradeable()) {
                         ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 8);
                         PotionMeta arrowMeta = (PotionMeta) arrow.getItemMeta();
-                        arrowMeta.setBasePotionData(new PotionData(potionType[i], false, true));
+                        arrowMeta.setBasePotionType(UtilityMethods.getPotionTypeVariant(potionType[i], false, true));
                         arrow.setItemMeta(arrowMeta);
                         effectArrows.put(modifier + labels[i], arrow);
                     }
@@ -889,8 +891,9 @@ public class ItemGroups {
 
     public ItemStack getArrow(String type) {
         if (effectArrows.containsKey(type)) {
-            effectArrows.get(type).setAmount(8);
-            return effectArrows.get(type);
+            ItemStack arrow = effectArrows.get(type).clone(); //Don't hand out the shared template
+            arrow.setAmount(8);
+            return arrow;
         }
         return new ItemStack(Material.ARROW,8);
     }

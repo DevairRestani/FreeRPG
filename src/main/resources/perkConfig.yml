@@ -64,10 +64,10 @@
 #    [TAGS] potion, potionEffect,
 #    [DEFAULT VALUE] [[]] (None)
 #    [EXAMPLE 1] potionEffect: [[effect: SPEED, level: 3, duration: 30, color: (100,125,55]]
-#    [EXAMPLE 2] potion: [[effect: SPEED, level: 3, duration: 30, color: (255,255,255)], [effect: JUMP, level: 2, duration: 60]]
+#    [EXAMPLE 2] potion: [[effect: SPEED, level: 3, duration: 30, color: (255,255,255)], [effect: JUMP_BOOST, level: 2, duration: 60]]
 #    [EXAMPLE 3] potion: [effect: WATER]
-#    [EXAMPLE 4] potion: [effect: INSTANT_HEAL, isUpgraded: true]
-#    [EXAMPLE 5] potionEffect: [effect: SPEED, isExtended: true]
+#    [EXAMPLE 4] potion: [effect: HEALING, isUpgraded: true]
+#    [EXAMPLE 5] potionEffect: [effect: SWIFTNESS, isExtended: true]
 #    [NOTES] There are two types of potions:
 #            1) Default minecraft potions (potionType) which can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
 #            2) Custom effect potions (potionEffectType) which can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
@@ -82,7 +82,9 @@
 #            duration has a default value of 0
 #            color is ignored if not supplied. When a potion has multiple colors specified, those colors are mixed. If no color is supplied, a default color is used based on the effects.
 #            isExtended has a default value of false
-#            isUpgraded has a default value of true
+#            isUpgraded has a default value of false
+#            Since Minecraft 1.20.5, extended/upgraded potions are separate potion types (e.g. LONG_SWIFTNESS, STRONG_SWIFTNESS).
+#            They can be used directly, or as the base type (SWIFTNESS) with isExtended/isUpgraded. Old names (SPEED, JUMP, REGEN, INSTANT_HEAL, INSTANT_DAMAGE) are still accepted.
 #
 # 7) WEIGHT: the relative probabilistic weight that something drops
 #    [TAGS] weight
@@ -121,7 +123,7 @@
 # EXAMPLES OF CUSTOM ITEMS:
 # 1) [drop: COAL, amount: 1, exp: 200,  weight: 500]
 # 2) [drop: IRON_HELMET, exp: 1750, weight: 1, durability: [upper: 0.00, lower: 0.85], enchantmentBounds: [upper: 30, lower: 30], weight: 30,  staticEnchantments: [[enchant: RESPIRATION, level: 3]]]
-# 3) [item: POTION, amount: 1, exp: 0, potion: [effect: INSTANT_HEAL, isUpgraded: true]]
+# 3) [item: POTION, amount: 1, exp: 0, potion: [effect: HEALING, isUpgraded: true]]
 # 4) [drop: DIAMOND_SWORD, amount: 1, name="FreeRPG Item"]
 #
 #
@@ -1736,7 +1738,7 @@ archery:
       # Select potion effects from this list https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       # Format: [{effect name}, {is extended ?}, {is upgraded ?}]
       uncraftable-potionDataList:
-        - [effect: SPEED, isExtended: true, isUpgraded: true] #This is an example. It will have no effect because no tipped arrow effect is extended and upgraded
+        - [effect: SWIFTNESS, isExtended: true, isUpgraded: true] #This is an example. It will have no effect because no tipped arrow effect is extended and upgraded
   skill-6: #Crossbow Rapid Load
     enabled: true #Change this to false to disable this skill from working
     level-1:
@@ -2360,7 +2362,7 @@ alchemy:
           recipe: [AIR,PUFFERFISH,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
     level-2:
       recipes:
-        - output: [item: POTION, amount: 1, potion: [effect: SPEED, isUpgraded: false, isExtended: false] ] #Output Item
+        - output: [item: POTION, amount: 1, potion: [effect: SWIFTNESS, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,SUGAR,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
     level-3:
       recipes:
@@ -2368,11 +2370,11 @@ alchemy:
           recipe: [AIR,MAGMA_CREAM,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
     level-4:
       recipes:
-        - output: [item: POTION, amount: 1, potion: [effect: HEAL, isUpgraded: false, isExtended: false] ] #Output Item
+        - output: [item: POTION, amount: 1, potion: [effect: HEALING, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,GLISTERING_MELON_SLICE,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
     level-5:
       recipes:
-        - output: [item: POTION, amount: 1, potion: [effect: INCREASE_DAMAGE, isUpgraded: false, isExtended: false] ] #Output Item
+        - output: [item: POTION, amount: 1, potion: [effect: STRENGTH, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,BLAZE_POWDER,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
   skill-2: #Ancient Knowledge
     enabled: true #Change this to false to disable this skill from working

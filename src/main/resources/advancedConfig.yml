@@ -899,22 +899,24 @@ agility:
 alchemy:
   customPotions: #Ancient Knowledge Data
     # Choices for Potion Types:
-    # "ABSORPTION" , "BAD_OMEN" , "BLINDNESS" , "CONDUIT_POWER", "CONFUSION" , "DAMAGE_RESISTANCE" , "DOLPHINS_GRACE" ,
-    # "FAST_DIGGING" , "FIRE_RESISTANCE" , "GLOWING" , "HARM" , "HEAL" , "HEALTH_BOOST" , "HERO_OF_THE_VILLAGE" ,
-    # "HUNGER" , "INCREASE_DAMAGE" , "INVISIBILITY" , "JUMP" , "LEVITATION" , "LUCK" , "NIGHT_VISION" , "POISON" ,
-    # "REGENERATION" , "SATURATION" , "SLOW" , "SLOW_DIGGING" , "SLOW_FALLING" , "SPEED" , "UNLUCK" , "WATER_BREATHING" ,
-    # "WEAKNESS" , "WITHER"
+    # "ABSORPTION" , "BAD_OMEN" , "BLINDNESS" , "BREATH_OF_THE_NAUTILUS" , "CONDUIT_POWER" , "DARKNESS" , "DOLPHINS_GRACE" ,
+    # "FIRE_RESISTANCE" , "GLOWING" , "HASTE" , "HEALTH_BOOST" , "HERO_OF_THE_VILLAGE" , "HUNGER" , "INFESTED" ,
+    # "INSTANT_DAMAGE" , "INSTANT_HEALTH" , "INVISIBILITY" , "JUMP_BOOST" , "LEVITATION" , "LUCK" , "MINING_FATIGUE" ,
+    # "NAUSEA" , "NIGHT_VISION" , "OOZING" , "POISON" , "RAID_OMEN" , "REGENERATION" , "RESISTANCE" , "SATURATION" ,
+    # "SLOW_FALLING" , "SLOWNESS" , "SPEED" , "STRENGTH" , "TRIAL_OMEN" , "UNLUCK" , "WATER_BREATHING" , "WEAKNESS" ,
+    # "WEAVING" , "WIND_CHARGED" , "WITHER"
+    # (Pre-1.20.5 names like SLOW_DIGGING, FAST_DIGGING or DAMAGE_RESISTANCE are still accepted)
     # HTML Color Picker (Applies to Potion Colors):
     # https://htmlcolorcodes.com/color-picker/
     potionType1: HERO_OF_THE_VILLAGE
     potionIngredient1: emerald
     potionDuration1: 180 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
     potionColor1: "(30,210,64)" #RGB colors for potion
-    potionType2: SLOW_DIGGING
+    potionType2: MINING_FATIGUE
     potionIngredient2: slime_ball
     potionDuration2: 60 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
     potionColor2: "(164,212,10)" #RGB colors for potion
-    potionType3: FAST_DIGGING
+    potionType3: HASTE
     potionIngredient3: clock
     potionDuration3: 180 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
     potionColor3: "(159,232,186)" #RGB colors for potion
@@ -922,7 +924,7 @@ alchemy:
     potionIngredient4: poisonous_potato
     potionDuration4: 30 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
     potionColor4: "(0,0,0)" #RGB colors for potion
-    potionType5: DAMAGE_RESISTANCE
+    potionType5: RESISTANCE
     potionIngredient5: golden_apple
     potionDuration5: 180 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
     potionColor5: "(150,140,175)" #RGB colors for potion
@@ -940,9 +942,10 @@ alchemy:
     # Use "AIR" to represent blank entries
     #
     #Choices for Potion Type:
-    # "AWKWARD" , "FIRE_RESISTANCE" , "INSTANT_DAMAGE" , "INSTANT_HEAL", "INVISIBILITY" , "JUMP" , "LUCK" , "MUNDANE" ,
-    # "NIGHT_VISION" , "POISON" , "REGEN" , "SLOW_FALLING" , "SLOWNESS" , "SPEED" , "STRENGTH" , "THICK" , "TURTLE_MASTER" ,
-    # "UNCRAFTABLE" , "WATER" , "WATER_BREATHING" , "WEAKNESS"
+    # "AWKWARD" , "FIRE_RESISTANCE" , "HARMING" , "HEALING" , "INFESTED" , "INVISIBILITY" , "LEAPING" , "LUCK" , "MUNDANE" ,
+    # "NIGHT_VISION" , "OOZING" , "POISON" , "REGENERATION" , "SLOW_FALLING" , "SLOWNESS" , "STRENGTH" , "SWIFTNESS" , "THICK" ,
+    # "TURTLE_MASTER" , "WATER" , "WATER_BREATHING" , "WEAKNESS" , "WEAVING" , "WIND_CHARGED"
+    # (Pre-1.20.5 names like SPEED, JUMP, REGEN, INSTANT_HEAL and INSTANT_DAMAGE are still accepted)
     #
     # recipePotionType, recipePotionExtended, and recipePotionUpgraded will only take effect if recipeOutput = "POTION"
     #
@@ -954,7 +957,7 @@ alchemy:
     recipe1: [AIR,PUFFERFISH,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
     recipeOutput2: POTION
     recipeOutputAmount2: 1
-    recipePotionType2: SPEED
+    recipePotionType2: SWIFTNESS
     recipePotionExtended2: false
     recipePotionUpgraded2: false
     recipe2: [AIR,SUGAR,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
@@ -966,7 +969,7 @@ alchemy:
     recipe3: [AIR,MAGMA_CREAM,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
     recipeOutput4: POTION
     recipeOutputAmount4: 1
-    recipePotionType4: INSTANT_HEAL
+    recipePotionType4: HEALING
     recipePotionExtended4: false
     recipePotionUpgraded4: false
     recipe4: [AIR,GLISTERING_MELON_SLICE,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]

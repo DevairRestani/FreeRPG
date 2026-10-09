@@ -71,7 +71,9 @@ public class OldCustomPotion {
         ItemStack potion = new ItemStack(Material.POTION,1);
         potion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
         PotionMeta meta = (PotionMeta) potion.getItemMeta();
-        meta.addCustomEffect(new PotionEffect(potionEffectType,potionDuration*20,0),true);
+        if (potionEffectType != null) { //null if the configured effect type doesn't exist
+            meta.addCustomEffect(new PotionEffect(potionEffectType,potionDuration*20,0),true);
+        }
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.setColor(color);
         meta.setDisplayName(ChatColor.RESET + potionName);

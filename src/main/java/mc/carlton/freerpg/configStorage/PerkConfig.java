@@ -164,7 +164,7 @@ public class PerkConfig {
         } else if (UtilityMethods.stringContainsIgnoreCase(localConfigNodeName,CUSTOM_DROP_MAP_KEYS)) {
             return customContainerImporter.getCustomItemMapping(configInformation);
         } else if (UtilityMethods.stringContainsIgnoreCase(localConfigNodeName,POTION_DATA_LIST_KEYS)) {
-            return customContainerImporter.getPotionDataList(configInformation);
+            return customContainerImporter.getPotionTypeList(configInformation);
         } else if (UtilityMethods.stringContainsIgnoreCase(localConfigNodeName,CUSTOM_EFFECTS_GIVEN_KEYS)) {
             CustomEffect customEffect = customContainerImporter.getCustomEffect(configInformation);
             if (configSection.contains("effectChance")) {

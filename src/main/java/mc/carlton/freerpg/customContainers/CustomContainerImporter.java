@@ -15,7 +15,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
@@ -185,26 +184,33 @@ public class CustomContainerImporter {
         return customItemMap;
     }
 
-    public List<PotionData> getPotionDataList(Object configPotionDataList) {
-        if (!(configPotionDataList instanceof List)) {
+    /**
+     * Reads a list of [effect: X, isExtended: true/false, isUpgraded: true/false] rows. Since 1.20.5 potions no longer
+     * have extended/upgraded flags, so each row is converted to the matching PotionType (e.g. SWIFTNESS + isExtended -> LONG_SWIFTNESS)
+     */
+    public List<PotionType> getPotionTypeList(Object configPotionTypeList) {
+        if (!(configPotionTypeList instanceof List)) {
             printReadInError();
             return null;
         }
-        ArrayList<PotionData> potionDataList = new ArrayList<>();
-        for (Object configPotionDataRow : (List) configPotionDataList) {
-            Map<String, Object> potionDataRow = convertListedTableRowToMap(configPotionDataRow);
-            PotionData potionData = null;
-            if (potionDataRow.containsKey(EFFECT_KEYWORD) && potionDataRow.containsKey(IS_EXTENDED_KEYWORD)) {
-                potionData = new PotionData(UtilityMethods.matchPotionType(potionDataRow.get(EFFECT_KEYWORD).toString()), Boolean.valueOf(potionDataRow.get(IS_EXTENDED_KEYWORD).toString()),false);
+        ArrayList<PotionType> potionTypeList = new ArrayList<>();
+        for (Object configPotionTypeRow : (List) configPotionTypeList) {
+            Map<String, Object> potionTypeRow = convertListedTableRowToMap(configPotionTypeRow);
+            if (potionTypeRow == null || !potionTypeRow.containsKey(EFFECT_KEYWORD)) {
+                continue;
             }
-            else if (potionDataRow.containsKey(EFFECT_KEYWORD) && potionDataRow.containsKey(IS_EXTENDED_KEYWORD)) {
-                potionData = new PotionData(UtilityMethods.matchPotionType(potionDataRow.get(EFFECT_KEYWORD).toString()), false,Boolean.valueOf(potionDataRow.get(IS_UPGRADED_KEYWORD).toString()));
+            PotionType potionType = getPotionType(potionTypeRow.get(EFFECT_KEYWORD));
+            if (potionType == null) {
+                continue;
             }
-            if (potionData != null) {
-                potionDataList.add(potionData);
+            boolean isExtended = potionTypeRow.containsKey(IS_EXTENDED_KEYWORD) && Boolean.valueOf(potionTypeRow.get(IS_EXTENDED_KEYWORD).toString());
+            boolean isUpgraded = potionTypeRow.containsKey(IS_UPGRADED_KEYWORD) && Boolean.valueOf(potionTypeRow.get(IS_UPGRADED_KEYWORD).toString());
+            if (isExtended && isUpgraded) { //No potion is both extended and upgraded
+                continue;
             }
+            potionTypeList.add(UtilityMethods.getPotionTypeVariant(potionType, isExtended, isUpgraded));
         }
-        return potionDataList;
+        return potionTypeList;
 
 
     }
@@ -663,7 +669,7 @@ public class CustomContainerImporter {
     }
 
     private PotionType getPotionType(Object value) {
-        PotionType potionType = PotionType.valueOf(value.toString().toUpperCase());
+        PotionType potionType = UtilityMethods.matchPotionType(value.toString()); //Also accepts pre-1.20.5 names (e.g. JUMP, INSTANT_HEAL)
         if (potionType == null) {
             printReadInError(INVALID_POTION_TYPE + value.toString());
             return null;
@@ -672,7 +678,7 @@ public class CustomContainerImporter {
     }
 
     private PotionEffectType getEffectType(Object value) {
-        PotionEffectType effectType = PotionEffectType.getByName(value.toString().toUpperCase());
+        PotionEffectType effectType = UtilityMethods.matchPotionEffectType(value.toString()); //Also accepts pre-1.20.5 names (e.g. SLOW_DIGGING)
         if (effectType == null) {
             printReadInError(INVALID_EFFECT_TYPE + value.toString());
             return null;
