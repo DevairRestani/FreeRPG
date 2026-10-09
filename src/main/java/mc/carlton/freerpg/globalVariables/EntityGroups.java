@@ -39,6 +39,8 @@ public class EntityGroups {
         if (mcVersion >= 1.16) {
             hookableEntities.add(EntityType.ZOMBIFIED_PIGLIN);
         }
+        EntityType[] hookableEntities_append0 = {EntityType.GLOW_SQUID,EntityType.ARMADILLO,EntityType.BOGGED,EntityType.BREEZE};
+        hookableEntities.addAll(Arrays.asList(hookableEntities_append0));
     }
 
     public void initializeHostileMobs() {
@@ -55,26 +57,34 @@ public class EntityGroups {
             hostileMobs.add(EntityType.PIGLIN);
             hostileMobs.add(EntityType.ZOMBIFIED_PIGLIN);
             hostileMobs.add(EntityType.ZOGLIN);
+            hostileMobs.add(EntityType.PIGLIN_BRUTE);
         }
+        EntityType[] hostileMobs_append0 = {EntityType.WARDEN,EntityType.BREEZE,EntityType.BOGGED,EntityType.CREAKING,
+                EntityType.PARCHED};
+        hostileMobs.addAll(Arrays.asList(hostileMobs_append0));
     }
 
     public void initializeTameableAnimals() {
-        EntityType[] breedingAnimals0 = {EntityType.HORSE,EntityType.WOLF,EntityType.CAT,EntityType.OCELOT,EntityType.PARROT};
+        EntityType[] breedingAnimals0 = {EntityType.HORSE,EntityType.WOLF,EntityType.CAT,EntityType.OCELOT,EntityType.PARROT,
+                EntityType.CAMEL};
         breedingAnimals = Arrays.asList(breedingAnimals0);
     }
 
     public void initializeFarmingAnimals() {
         EntityType[] animals0 = {EntityType.CHICKEN,EntityType.COW,EntityType.DONKEY,EntityType.FOX,EntityType.HORSE,EntityType.MOOSHROOM,
                 EntityType.MULE,EntityType.PARROT,EntityType.PIG,EntityType.RABBIT,EntityType.SHEEP,EntityType.SQUID,
-                EntityType.SKELETON_HORSE,EntityType.TURTLE};
+                EntityType.SKELETON_HORSE,EntityType.TURTLE,EntityType.GOAT,EntityType.GLOW_SQUID,EntityType.AXOLOTL,
+                EntityType.FROG,EntityType.CAMEL,EntityType.SNIFFER,EntityType.ARMADILLO};
         animals = Arrays.asList(animals0);
         EntityType[] babyAnimals0 = {EntityType.MOOSHROOM,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
                 EntityType.WOLF,EntityType.CAT,EntityType.OCELOT,EntityType.LLAMA,EntityType.POLAR_BEAR,
                 EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.SKELETON_HORSE,EntityType.TURTLE,
-                EntityType.PANDA,EntityType.FOX,EntityType.BEE};
+                EntityType.PANDA,EntityType.FOX,EntityType.BEE,EntityType.AXOLOTL,EntityType.GOAT,EntityType.CAMEL,
+                EntityType.SNIFFER,EntityType.ARMADILLO,EntityType.HAPPY_GHAST};
         babyAnimals = Arrays.asList(babyAnimals0);
         EntityType[] breedingAnimals0 = {EntityType.MOOSHROOM,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
-                EntityType.TURTLE, EntityType.PANDA,EntityType.FOX,EntityType.BEE};
+                EntityType.TURTLE, EntityType.PANDA,EntityType.FOX,EntityType.BEE,EntityType.AXOLOTL,EntityType.GOAT,
+                EntityType.FROG,EntityType.SNIFFER,EntityType.ARMADILLO};
         breedingAnimalsFarming = Arrays.asList(breedingAnimals0);
     }
 
@@ -87,6 +97,7 @@ public class EntityGroups {
             thirstMobs.add(EntityType.PIGLIN);
             thirstMobs.add(EntityType.ZOMBIFIED_PIGLIN);
             thirstMobs.add(EntityType.ZOGLIN);
+            thirstMobs.add(EntityType.PIGLIN_BRUTE);
         }
     }
 
@@ -296,7 +307,73 @@ public class EntityGroups {
                         expReward =  expMap.get("killZombie_Pigman");
                     } else if (type.equals(EntityType.STRIDER)) {
                         expReward =  expMap.get("killStrider");
+                    } else if (type.equals(EntityType.PIGLIN_BRUTE)) {
+                        expReward =  expMap.get("killPiglin_Brute");
                     }
+                }
+                if (type.equals(EntityType.TRADER_LLAMA)) {
+                    expReward =  expMap.get("killTrader_Llama");
+                }
+                //1.17+ Mobs
+                else if (type.equals(EntityType.AXOLOTL)) {
+                    expReward =  expMap.get("killAxolotl");
+                }
+                else if (type.equals(EntityType.GLOW_SQUID)) {
+                    expReward =  expMap.get("killGlow_Squid");
+                }
+                else if (type.equals(EntityType.GOAT)) {
+                    expReward =  expMap.get("killGoat");
+                }
+                else if (type.equals(EntityType.ALLAY)) {
+                    expReward =  expMap.get("killAllay");
+                }
+                else if (type.equals(EntityType.FROG)) {
+                    expReward =  expMap.get("killFrog");
+                }
+                else if (type.equals(EntityType.TADPOLE)) {
+                    expReward =  expMap.get("killTadpole");
+                }
+                else if (type.equals(EntityType.WARDEN)) {
+                    expReward =  expMap.get("killWarden");
+                }
+                else if (type.equals(EntityType.CAMEL)) {
+                    expReward =  expMap.get("killCamel");
+                }
+                else if (type.equals(EntityType.SNIFFER)) {
+                    expReward =  expMap.get("killSniffer");
+                }
+                else if (type.equals(EntityType.ARMADILLO)) {
+                    expReward =  expMap.get("killArmadillo");
+                }
+                else if (type.equals(EntityType.BREEZE)) {
+                    expReward =  expMap.get("killBreeze");
+                }
+                else if (type.equals(EntityType.BOGGED)) {
+                    expReward =  expMap.get("killBogged");
+                }
+                else if (type.equals(EntityType.CREAKING)) {
+                    expReward =  expMap.get("killCreaking");
+                }
+                else if (type.equals(EntityType.HAPPY_GHAST)) {
+                    expReward =  expMap.get("killHappy_Ghast");
+                }
+                else if (type.equals(EntityType.COPPER_GOLEM)) {
+                    expReward =  expMap.get("killCopper_Golem");
+                }
+                else if (type.equals(EntityType.NAUTILUS)) {
+                    expReward =  expMap.get("killNautilus");
+                }
+                else if (type.equals(EntityType.ZOMBIE_NAUTILUS)) {
+                    expReward =  expMap.get("killZombie_Nautilus");
+                }
+                else if (type.equals(EntityType.CAMEL_HUSK)) {
+                    expReward =  expMap.get("killCamel_Husk");
+                }
+                else if (type.equals(EntityType.PARCHED)) {
+                    expReward =  expMap.get("killParched");
+                }
+                else if (type.equals(EntityType.SULFUR_CUBE)) {
+                    expReward =  expMap.get("killSulfur_Cube");
                 }
                 ExpFarmTracker expFarmTracker = new ExpFarmTracker();
                 double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);

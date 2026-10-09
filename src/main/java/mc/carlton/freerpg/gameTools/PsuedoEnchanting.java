@@ -100,6 +100,14 @@ public class PsuedoEnchanting {
             itemEnchantTypeMap.put(Material.NETHERITE_LEGGINGS, new Object[]{"leggings", 15});
             itemEnchantTypeMap.put(Material.NETHERITE_BOOTS, new Object[]{"boots", 15});
         }
+        itemEnchantTypeMap.put(Material.COPPER_SWORD, new Object[]{"sword", 13});
+        itemEnchantTypeMap.put(Material.COPPER_AXE, new Object[]{"tool", 13});
+        itemEnchantTypeMap.put(Material.COPPER_PICKAXE, new Object[]{"tool", 13});
+        itemEnchantTypeMap.put(Material.COPPER_SHOVEL, new Object[]{"tool", 13});
+        itemEnchantTypeMap.put(Material.COPPER_HELMET, new Object[]{"helmet", 8});
+        itemEnchantTypeMap.put(Material.COPPER_CHESTPLATE, new Object[]{"chestplate", 8});
+        itemEnchantTypeMap.put(Material.COPPER_LEGGINGS, new Object[]{"leggings", 8});
+        itemEnchantTypeMap.put(Material.COPPER_BOOTS, new Object[]{"boots", 8});
 
         enchantmentWeightMap.put(Enchantment.PROTECTION,10);
         enchantmentWeightMap.put(Enchantment.FEATHER_FALLING,5);

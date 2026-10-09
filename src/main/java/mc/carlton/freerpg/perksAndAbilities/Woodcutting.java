@@ -235,7 +235,9 @@ public class Woodcutting extends Skill{
         if (!runMethods) {
             return;
         }
-        Material[] planks0 = {Material.ACACIA_PLANKS,Material.BIRCH_PLANKS,Material.DARK_OAK_PLANKS,Material.JUNGLE_PLANKS,Material.OAK_PLANKS,Material.SPRUCE_PLANKS};
+        Material[] planks0 = {Material.ACACIA_PLANKS,Material.BIRCH_PLANKS,Material.DARK_OAK_PLANKS,Material.JUNGLE_PLANKS,Material.OAK_PLANKS,Material.SPRUCE_PLANKS,
+                Material.CRIMSON_PLANKS,Material.WARPED_PLANKS,Material.MANGROVE_PLANKS,Material.CHERRY_PLANKS,Material.BAMBOO_PLANKS,Material.PALE_OAK_PLANKS,
+                Material.BAMBOO_BLOCK,Material.STRIPPED_BAMBOO_BLOCK};
         List<Material> planks = Arrays.asList(planks0);
         if (planks.contains(block.getType())) {
             return;

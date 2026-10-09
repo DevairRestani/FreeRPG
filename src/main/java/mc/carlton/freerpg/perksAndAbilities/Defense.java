@@ -415,6 +415,11 @@ public class Defense extends Skill{
         armorEXP.put(Material.LEATHER_CHESTPLATE,400*3);
         armorEXP.put(Material.LEATHER_HELMET,250*3);
 
+        armorEXP.put(Material.COPPER_BOOTS,200*4);
+        armorEXP.put(Material.COPPER_LEGGINGS,350*4);
+        armorEXP.put(Material.COPPER_CHESTPLATE,400*4);
+        armorEXP.put(Material.COPPER_HELMET,250*4);
+
         armorEXP.put(Material.IRON_BOOTS,200*5);
         armorEXP.put(Material.IRON_LEGGINGS,350*5);
         armorEXP.put(Material.IRON_CHESTPLATE,400*5);

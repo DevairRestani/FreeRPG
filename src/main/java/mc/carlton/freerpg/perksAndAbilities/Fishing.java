@@ -553,6 +553,31 @@ public class Fishing extends Skill{
                 drop.setType(Material.PURPUR_BLOCK);
             }
             increaseStats.changeEXP(skillName,expMap.get("robShulker"));
+        } else if (hookedEntity.getType() == EntityType.GLOW_SQUID) {
+            drop.setType(Material.GLOW_INK_SAC);
+            increaseStats.changeEXP(skillName,expMap.get("robGlow_Squid"));
+        } else if (hookedEntity.getType() == EntityType.ARMADILLO) {
+            drop.setType(Material.ARMADILLO_SCUTE);
+            increaseStats.changeEXP(skillName,expMap.get("robArmadillo"));
+        } else if (hookedEntity.getType() == EntityType.BOGGED) {
+            double randomNum = rand.nextDouble();
+            if (randomNum < .49) {
+                drop.setType(Material.BONE);
+            } else if (randomNum < .98) {
+                drop.setType(Material.ARROW);
+                drop.setAmount(rand.nextInt(3) + 1);
+            } else {
+                drop.setType(Material.RED_MUSHROOM);
+            }
+            increaseStats.changeEXP(skillName,expMap.get("robBogged"));
+        } else if (hookedEntity.getType() == EntityType.BREEZE) {
+            double randomNum = rand.nextDouble();
+            if (randomNum < .25) {
+                drop.setType(Material.BREEZE_ROD);
+            } else {
+                drop.setType(Material.WIND_CHARGE);
+            }
+            increaseStats.changeEXP(skillName,expMap.get("robBreeze"));
         }  else if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
             if (hookedEntity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
                 double randomNum = rand.nextDouble();
@@ -828,7 +853,10 @@ public class Fishing extends Skill{
 
         Material[] music_discs = {Material.MUSIC_DISC_11, Material.MUSIC_DISC_13, Material.MUSIC_DISC_BLOCKS, Material.MUSIC_DISC_CAT,
                 Material.MUSIC_DISC_CHIRP, Material.MUSIC_DISC_FAR, Material.MUSIC_DISC_MALL, Material.MUSIC_DISC_MELLOHI,
-                Material.MUSIC_DISC_STAL, Material.MUSIC_DISC_STRAD, Material.MUSIC_DISC_WAIT, Material.MUSIC_DISC_WARD};
+                Material.MUSIC_DISC_STAL, Material.MUSIC_DISC_STRAD, Material.MUSIC_DISC_WAIT, Material.MUSIC_DISC_WARD,
+                Material.MUSIC_DISC_PIGSTEP, Material.MUSIC_DISC_OTHERSIDE, Material.MUSIC_DISC_RELIC, Material.MUSIC_DISC_CREATOR,
+                Material.MUSIC_DISC_CREATOR_MUSIC_BOX, Material.MUSIC_DISC_PRECIPICE, Material.MUSIC_DISC_TEARS, Material.MUSIC_DISC_LAVA_CHICKEN,
+                Material.MUSIC_DISC_BOUNCE};
         Material[] chainmail = {Material.CHAINMAIL_BOOTS,Material.CHAINMAIL_CHESTPLATE,Material.CHAINMAIL_HELMET,Material.CHAINMAIL_LEGGINGS};
         PsuedoEnchanting enchant = new PsuedoEnchanting();
 

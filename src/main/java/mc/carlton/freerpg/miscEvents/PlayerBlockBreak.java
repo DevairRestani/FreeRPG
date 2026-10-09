@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Cocoa;
+import org.bukkit.block.data.type.CaveVinesPlant;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -113,7 +114,8 @@ public class PlayerBlockBreak implements Listener {
             }
                 increaseStats.changeEXP("digging", diggingEXP.get(blockType));
             Material[] treasureBlocks0 = {Material.CLAY,Material.GRASS_BLOCK,Material.GRAVEL,Material.MYCELIUM, Material.PODZOL,Material.COARSE_DIRT,
-                                          Material.DIRT,Material.RED_SAND,Material.SAND,Material.SOUL_SAND,Material.SNOW_BLOCK};
+                                          Material.DIRT,Material.RED_SAND,Material.SAND,Material.SOUL_SAND,Material.SNOW_BLOCK,
+                                          Material.ROOTED_DIRT,Material.MUD,Material.MUDDY_MANGROVE_ROOTS,Material.MOSS_BLOCK,Material.PALE_MOSS_BLOCK};
             List<Material> treasureBlocks = Arrays.asList(treasureBlocks0);
             Digging diggingClass = new Digging(p);
             boolean dropFlint = diggingClass.flintFinder(blockType);
@@ -166,6 +168,12 @@ public class PlayerBlockBreak implements Listener {
             Farming farmingClass = new Farming(p);
             if (tallCrops.contains(blockType)) {
                 farmingClass.tallCrops(block,world);
+            }
+            else if (block_data instanceof CaveVinesPlant) { //Glow berries, only rewarded if the vine has berries
+                if (((CaveVinesPlant) block_data).hasBerries()) {
+                    increaseStats.changeEXP("farming",farmingEXP.get(blockType));
+                    farmingClass.farmingDoubleDropCrop(block,world);
+                }
             }
             else if (block_data instanceof Ageable) {
                 Ageable age = (Ageable) block_data;

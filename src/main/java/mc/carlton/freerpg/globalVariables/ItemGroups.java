@@ -4,6 +4,7 @@ import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -134,6 +135,13 @@ public class ItemGroups {
             List<Material> trackedBlocks_append = Arrays.asList(trackedBlocks_v1_16);
             trackedBlocks1.addAll(trackedBlocks_append);
         }
+        Material[] trackedBlocks_v1_17 = {Material.MANGROVE_LOG, Material.MANGROVE_LEAVES, Material.CHERRY_LOG, Material.CHERRY_LEAVES,
+                Material.PALE_OAK_LOG, Material.PALE_OAK_LEAVES, Material.AZALEA_LEAVES, Material.FLOWERING_AZALEA_LEAVES,
+                Material.DEEPSLATE_COAL_ORE, Material.DEEPSLATE_DIAMOND_ORE, Material.DEEPSLATE_EMERALD_ORE, Material.DEEPSLATE_GOLD_ORE,
+                Material.DEEPSLATE_IRON_ORE, Material.DEEPSLATE_LAPIS_ORE, Material.DEEPSLATE_REDSTONE_ORE, Material.COPPER_ORE,
+                Material.DEEPSLATE_COPPER_ORE, Material.RAW_IRON_BLOCK, Material.RAW_GOLD_BLOCK, Material.RAW_COPPER_BLOCK,
+                Material.AMETHYST_CLUSTER, Material.TORCHFLOWER, Material.CREAKING_HEART};
+        trackedBlocks1.addAll(Arrays.asList(trackedBlocks_v1_17));
         for (Material mat : trackedBlocks1) {
             trackedBlocks.putIfAbsent(mat,true);
         }
@@ -167,9 +175,13 @@ public class ItemGroups {
             List<Material> logs_append = Arrays.asList(logs_append0);
             logs.addAll(logs_append);
         }
+        Material[] logs_v1_17 = {Material.MANGROVE_LOG,Material.CHERRY_LOG,Material.PALE_OAK_LOG,
+                Material.STRIPPED_MANGROVE_LOG,Material.STRIPPED_CHERRY_LOG,Material.STRIPPED_PALE_OAK_LOG};
+        logs.addAll(Arrays.asList(logs_v1_17));
 
         Material[] crops0 = {Material.WHEAT,Material.BEETROOTS,Material.CARROTS,Material.CHORUS_FLOWER,Material.MELON_STEM,Material.MELON,
-                Material.NETHER_WART,Material.POTATOES,Material.PUMPKIN_STEM,Material.PUMPKIN,Material.SWEET_BERRY_BUSH,Material.COCOA};
+                Material.NETHER_WART,Material.POTATOES,Material.PUMPKIN_STEM,Material.PUMPKIN,Material.SWEET_BERRY_BUSH,Material.COCOA,
+                Material.TORCHFLOWER_CROP,Material.TORCHFLOWER,Material.PITCHER_CROP,Material.CAVE_VINES,Material.CAVE_VINES_PLANT};
         crops = Arrays.asList(crops0);
         Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,Material.GOLD_ORE,
                 Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE};
@@ -179,6 +191,10 @@ public class ItemGroups {
             List<Material> ores_append = Arrays.asList(ores_append0);
             ores.addAll(ores_append);
         }
+        Material[] ores_v1_17 = {Material.DEEPSLATE_REDSTONE_ORE,Material.DEEPSLATE_LAPIS_ORE,Material.DEEPSLATE_IRON_ORE,Material.DEEPSLATE_GOLD_ORE,
+                Material.DEEPSLATE_EMERALD_ORE,Material.DEEPSLATE_DIAMOND_ORE,Material.DEEPSLATE_COAL_ORE,Material.COPPER_ORE,Material.DEEPSLATE_COPPER_ORE,
+                Material.RAW_IRON_BLOCK,Material.RAW_GOLD_BLOCK,Material.RAW_COPPER_BLOCK};
+        ores.addAll(Arrays.asList(ores_v1_17));
         Material[] flamePickOres0 = {Material.IRON_ORE,Material.GOLD_ORE};
         flamePickOres = new LinkedList<>(Arrays.asList(flamePickOres0));
         if (mcVersion >= 1.16) {
@@ -186,17 +202,23 @@ public class ItemGroups {
             List<Material> flamePickOres_append = Arrays.asList(flamePickOres_append0);
             flamePickOres.addAll(flamePickOres_append);
         }
-        Material[] strippedLogs0 = {Material.STRIPPED_SPRUCE_LOG,Material.STRIPPED_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_ACACIA_LOG};
+        Material[] flamePickOres_v1_17 = {Material.DEEPSLATE_IRON_ORE,Material.DEEPSLATE_GOLD_ORE,Material.COPPER_ORE,Material.DEEPSLATE_COPPER_ORE};
+        flamePickOres.addAll(Arrays.asList(flamePickOres_v1_17));
+        Material[] strippedLogs0 = {Material.STRIPPED_SPRUCE_LOG,Material.STRIPPED_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_ACACIA_LOG,
+                Material.STRIPPED_MANGROVE_LOG,Material.STRIPPED_CHERRY_LOG,Material.STRIPPED_PALE_OAK_LOG};
         strippedLogs = Arrays.asList(strippedLogs0);
-        Material[] wood0 = {Material.SPRUCE_WOOD,Material.OAK_WOOD,Material.JUNGLE_WOOD,Material.DARK_OAK_WOOD,Material.BIRCH_WOOD,Material.ACACIA_WOOD};
+        Material[] wood0 = {Material.SPRUCE_WOOD,Material.OAK_WOOD,Material.JUNGLE_WOOD,Material.DARK_OAK_WOOD,Material.BIRCH_WOOD,Material.ACACIA_WOOD,
+                Material.MANGROVE_WOOD,Material.CHERRY_WOOD,Material.PALE_OAK_WOOD};
         wood = Arrays.asList(wood0);
-        Material[] strippedWood0 = {Material.STRIPPED_SPRUCE_WOOD,Material.STRIPPED_OAK_WOOD,Material.STRIPPED_JUNGLE_WOOD,Material.STRIPPED_DARK_OAK_WOOD,Material.STRIPPED_BIRCH_WOOD,Material.STRIPPED_ACACIA_WOOD};
+        Material[] strippedWood0 = {Material.STRIPPED_SPRUCE_WOOD,Material.STRIPPED_OAK_WOOD,Material.STRIPPED_JUNGLE_WOOD,Material.STRIPPED_DARK_OAK_WOOD,Material.STRIPPED_BIRCH_WOOD,Material.STRIPPED_ACACIA_WOOD,
+                Material.STRIPPED_MANGROVE_WOOD,Material.STRIPPED_CHERRY_WOOD,Material.STRIPPED_PALE_OAK_WOOD};
         strippedWood = Arrays.asList(strippedWood0);
         allLogs.addAll(logs);
         allLogs.addAll(strippedLogs);
         allLogs.addAll(wood);
         allLogs.addAll(strippedWood);
-        Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES};
+        Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES,
+                Material.MANGROVE_LEAVES,Material.CHERRY_LEAVES,Material.PALE_OAK_LEAVES,Material.AZALEA_LEAVES,Material.FLOWERING_AZALEA_LEAVES};
         leaves = Arrays.asList(leaves0);
 
         ConfigLoad configLoad = new ConfigLoad();
@@ -219,7 +241,11 @@ public class ItemGroups {
                 Material.MAGMA_CREAM,Material.NETHER_BRICK,Material.NETHER_WART,Material.PAPER,Material.PRISMARINE_SHARD,Material.PRISMARINE_CRYSTALS,
                 Material.RABBIT_HIDE,Material.LEATHER,Material.LEATHER_HORSE_ARMOR,Material.RABBIT_FOOT,Material.SADDLE,Material.SHEARS,
                 Material.SLIME_BALL,Material.SHULKER_SHELL,Material.SPIDER_EYE,Material.STICK,Material.STRING,Material.TOTEM_OF_UNDYING,
-                Material.CLOCK,Material.WRITTEN_BOOK};
+                Material.CLOCK,Material.WRITTEN_BOOK,
+                Material.RAW_IRON,Material.RAW_GOLD,Material.RAW_COPPER,Material.COPPER_INGOT,Material.COPPER_NUGGET,Material.AMETHYST_SHARD,
+                Material.ECHO_SHARD,Material.DISC_FRAGMENT_5,Material.ARMADILLO_SCUTE,Material.TURTLE_SCUTE,Material.BREEZE_ROD,Material.RESIN_BRICK,
+                Material.NETHERITE_SCRAP,Material.NETHERITE_INGOT,Material.COPPER_HORSE_ARMOR,Material.NETHERITE_HORSE_ARMOR,Material.WOLF_ARMOR,
+                Material.HEAVY_CORE,Material.TRIAL_KEY,Material.OMINOUS_TRIAL_KEY};
         noRightClick = Arrays.asList(noRightClick0);
         Material[] actionableBlocks0 = {Material.ANVIL, Material.BLACK_BED, Material.BLUE_BED, Material.BROWN_BED, Material.CYAN_BED, Material.GRAY_BED,
                 Material.GREEN_BED,Material.LIGHT_BLUE_BED,Material.LIGHT_GRAY_BED,Material.LIME_BED,Material.MAGENTA_BED,
@@ -237,7 +263,24 @@ public class ItemGroups {
                 Material.BLUE_SHULKER_BOX,Material.BROWN_SHULKER_BOX,Material.CYAN_SHULKER_BOX,Material.GRAY_SHULKER_BOX,Material.GREEN_SHULKER_BOX,Material.LIGHT_BLUE_SHULKER_BOX,
                 Material.LIGHT_GRAY_SHULKER_BOX,Material.LIME_SHULKER_BOX,Material.MAGENTA_SHULKER_BOX, Material.RED_SHULKER_BOX,Material.WHITE_SHULKER_BOX,Material.YELLOW_SHULKER_BOX,
                 Material.ORANGE_SHULKER_BOX, Material.PURPLE_SHULKER_BOX,Material.PINK_SHULKER_BOX};
-        actionableBlocks = Arrays.asList(actionableBlocks0);
+        actionableBlocks = new LinkedList<>(Arrays.asList(actionableBlocks0));
+        Material[] actionableBlocks_append0 = {Material.CRIMSON_DOOR,Material.WARPED_DOOR,Material.MANGROVE_DOOR,Material.CHERRY_DOOR,Material.BAMBOO_DOOR,
+                Material.PALE_OAK_DOOR,Material.COPPER_DOOR,Material.EXPOSED_COPPER_DOOR,Material.WEATHERED_COPPER_DOOR,Material.OXIDIZED_COPPER_DOOR,
+                Material.WAXED_COPPER_DOOR,Material.WAXED_EXPOSED_COPPER_DOOR,Material.WAXED_WEATHERED_COPPER_DOOR,Material.WAXED_OXIDIZED_COPPER_DOOR,
+                Material.CRIMSON_TRAPDOOR,Material.WARPED_TRAPDOOR,Material.MANGROVE_TRAPDOOR,Material.CHERRY_TRAPDOOR,Material.BAMBOO_TRAPDOOR,
+                Material.PALE_OAK_TRAPDOOR,Material.COPPER_TRAPDOOR,Material.EXPOSED_COPPER_TRAPDOOR,Material.WEATHERED_COPPER_TRAPDOOR,Material.OXIDIZED_COPPER_TRAPDOOR,
+                Material.WAXED_COPPER_TRAPDOOR,Material.WAXED_EXPOSED_COPPER_TRAPDOOR,Material.WAXED_WEATHERED_COPPER_TRAPDOOR,Material.WAXED_OXIDIZED_COPPER_TRAPDOOR,
+                Material.CRIMSON_FENCE_GATE,Material.WARPED_FENCE_GATE,Material.MANGROVE_FENCE_GATE,Material.CHERRY_FENCE_GATE,Material.BAMBOO_FENCE_GATE,
+                Material.PALE_OAK_FENCE_GATE,Material.CRIMSON_BUTTON,Material.WARPED_BUTTON,Material.MANGROVE_BUTTON,Material.CHERRY_BUTTON,
+                Material.BAMBOO_BUTTON,Material.PALE_OAK_BUTTON,Material.POLISHED_BLACKSTONE_BUTTON,
+                Material.COPPER_CHEST,Material.EXPOSED_COPPER_CHEST,Material.WEATHERED_COPPER_CHEST,Material.OXIDIZED_COPPER_CHEST,
+                Material.WAXED_COPPER_CHEST,Material.WAXED_EXPOSED_COPPER_CHEST,Material.WAXED_WEATHERED_COPPER_CHEST,Material.WAXED_OXIDIZED_COPPER_CHEST,
+                Material.OAK_SHELF,Material.SPRUCE_SHELF,Material.BIRCH_SHELF,Material.JUNGLE_SHELF,Material.ACACIA_SHELF,Material.DARK_OAK_SHELF,
+                Material.CRIMSON_SHELF,Material.WARPED_SHELF,Material.MANGROVE_SHELF,Material.CHERRY_SHELF,Material.BAMBOO_SHELF,Material.PALE_OAK_SHELF,
+                Material.CRAFTER,Material.DECORATED_POT,Material.CHISELED_BOOKSHELF,Material.SMITHING_TABLE,Material.RESPAWN_ANCHOR,Material.VAULT,
+                Material.CAMPFIRE,Material.SOUL_CAMPFIRE};
+        actionableBlocks.addAll(Arrays.asList(actionableBlocks_append0));
+        actionableBlocks.addAll(Tag.ALL_SIGNS.getValues()); //Signs can be edited by right clicking them
     }
 
     public void initializeTools() {
@@ -258,6 +301,11 @@ public class ItemGroups {
             hoes.add(Material.NETHERITE_HOE);
             swords.add(Material.NETHERITE_SWORD);
         }
+        pickaxes.add(Material.COPPER_PICKAXE);
+        axes.add(Material.COPPER_AXE);
+        shovels.add(Material.COPPER_SHOVEL);
+        hoes.add(Material.COPPER_HOE);
+        swords.add(Material.COPPER_SWORD);
     }
 
     public void initializeLeftClickItems(){
@@ -272,6 +320,10 @@ public class ItemGroups {
             List<Material> leftClickItems_append = Arrays.asList(leftClickItems_append0);
             leftClickItems.addAll(leftClickItems_append);
         }
+        Material[] leftClickItems_v1_17 = {Material.COPPER_SWORD,Material.COPPER_SHOVEL,Material.COPPER_AXE,Material.COPPER_PICKAXE,Material.MACE,
+                Material.WOODEN_SPEAR,Material.STONE_SPEAR,Material.COPPER_SPEAR,Material.IRON_SPEAR,Material.GOLDEN_SPEAR,Material.DIAMOND_SPEAR,
+                Material.NETHERITE_SPEAR};
+        leftClickItems.addAll(Arrays.asList(leftClickItems_v1_17));
     }
 
     public void initializeIngredients() {
@@ -410,6 +462,15 @@ public class ItemGroups {
             List<Material> valueableItems_append = Arrays.asList(valuableItems_append0);
             valuableItems.addAll(valueableItems_append);
         }
+        Material[] valuableItems_v1_17 = {Material.DEEPSLATE_IRON_ORE,Material.DEEPSLATE_GOLD_ORE,Material.DEEPSLATE_DIAMOND_ORE,Material.DEEPSLATE_EMERALD_ORE,
+                Material.DEEPSLATE_REDSTONE_ORE,Material.DEEPSLATE_LAPIS_ORE,Material.RAW_IRON_BLOCK,Material.RAW_GOLD_BLOCK,Material.RAW_GOLD,
+                Material.MACE,Material.HEAVY_CORE,Material.ECHO_SHARD,Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,Material.OMINOUS_TRIAL_KEY,
+                Material.TRIAL_KEY,Material.SNIFFER_EGG,Material.DIAMOND_SPEAR,Material.NETHERITE_SPEAR,Material.DIAMOND_HORSE_ARMOR,
+                Material.NETHERITE_HORSE_ARMOR,Material.DIAMOND_NAUTILUS_ARMOR,Material.NETHERITE_NAUTILUS_ARMOR,Material.WOLF_ARMOR,
+                Material.MUSIC_DISC_5,Material.MUSIC_DISC_PIGSTEP,Material.MUSIC_DISC_OTHERSIDE,Material.MUSIC_DISC_RELIC,
+                Material.MUSIC_DISC_CREATOR,Material.MUSIC_DISC_CREATOR_MUSIC_BOX,Material.MUSIC_DISC_PRECIPICE,Material.MUSIC_DISC_TEARS,
+                Material.MUSIC_DISC_LAVA_CHICKEN,Material.MUSIC_DISC_BOUNCE};
+        valuableItems.addAll(Arrays.asList(valuableItems_v1_17));
     }
 
     public void initializeRepairItems() {
@@ -478,6 +539,24 @@ public class ItemGroups {
             repairItems.put(Material.NETHERITE_LEGGINGS,Material.NETHERITE_SCRAP);
             repairItems.put(Material.NETHERITE_BOOTS,Material.NETHERITE_SCRAP);
         }
+        repairItems.put(Material.COPPER_AXE,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_HOE,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_PICKAXE,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_SWORD,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_SHOVEL,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_HELMET,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_CHESTPLATE,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_LEGGINGS,Material.COPPER_INGOT);
+        repairItems.put(Material.COPPER_BOOTS,Material.COPPER_INGOT);
+        repairItems.put(Material.WOODEN_SPEAR,Material.STICK);
+        repairItems.put(Material.STONE_SPEAR,Material.COBBLESTONE);
+        repairItems.put(Material.COPPER_SPEAR,Material.COPPER_INGOT);
+        repairItems.put(Material.IRON_SPEAR,Material.IRON_INGOT);
+        repairItems.put(Material.GOLDEN_SPEAR,Material.GOLD_INGOT);
+        repairItems.put(Material.DIAMOND_SPEAR,Material.DIAMOND);
+        repairItems.put(Material.NETHERITE_SPEAR,Material.NETHERITE_SCRAP);
+        repairItems.put(Material.MACE,Material.BREEZE_ROD);
+        repairItems.put(Material.WOLF_ARMOR,Material.ARMADILLO_SCUTE);
 
         repairItemsAmount.put(Material.WOODEN_AXE,3);
         repairItemsAmount.put(Material.WOODEN_HOE,2);
@@ -537,6 +616,23 @@ public class ItemGroups {
             repairItemsAmount.put(Material.NETHERITE_LEGGINGS,7);
             repairItemsAmount.put(Material.NETHERITE_BOOTS,4);
         }
+        repairItemsAmount.put(Material.COPPER_AXE,3);
+        repairItemsAmount.put(Material.COPPER_HOE,2);
+        repairItemsAmount.put(Material.COPPER_PICKAXE,3);
+        repairItemsAmount.put(Material.COPPER_SWORD,2);
+        repairItemsAmount.put(Material.COPPER_SHOVEL,1);
+        repairItemsAmount.put(Material.COPPER_HELMET,5);
+        repairItemsAmount.put(Material.COPPER_CHESTPLATE,8);
+        repairItemsAmount.put(Material.COPPER_LEGGINGS,7);
+        repairItemsAmount.put(Material.COPPER_BOOTS,4);
+        repairItemsAmount.put(Material.WOODEN_SPEAR,1);
+        repairItemsAmount.put(Material.STONE_SPEAR,1);
+        repairItemsAmount.put(Material.COPPER_SPEAR,1);
+        repairItemsAmount.put(Material.IRON_SPEAR,1);
+        repairItemsAmount.put(Material.GOLDEN_SPEAR,1);
+        repairItemsAmount.put(Material.DIAMOND_SPEAR,1);
+        repairItemsAmount.put(Material.NETHERITE_SPEAR,1);
+        repairItemsAmount.put(Material.WOLF_ARMOR,6);
 
         repairItemsAmount.put(Material.BOW,3);
 
@@ -676,9 +772,40 @@ public class ItemGroups {
         if (mcVersion >= 1.16) {
             smeltableItemsMap.put(Material.ANCIENT_DEBRIS,Material.NETHERITE_SCRAP);
             smeltableItemsMap.put(Material.NETHER_GOLD_ORE,Material.GOLD_INGOT);
-            smeltableItemsMap.put(Material.NETHER_BRICK,Material.CRACKED_NETHER_BRICKS);
-
+            smeltableItemsMap.put(Material.NETHER_BRICKS,Material.CRACKED_NETHER_BRICKS);
+            smeltableItemsMap.put(Material.BASALT,Material.SMOOTH_BASALT);
+            smeltableItemsMap.put(Material.POLISHED_BLACKSTONE_BRICKS,Material.CRACKED_POLISHED_BLACKSTONE_BRICKS);
         }
+        //1.17+ (In 1.17+ iron, gold, and copper ores drop raw ores, which are what is usually smelted)
+        smeltableItemsMap.put(Material.RAW_IRON,Material.IRON_INGOT);
+        smeltableItemsMap.put(Material.RAW_GOLD,Material.GOLD_INGOT);
+        smeltableItemsMap.put(Material.RAW_COPPER,Material.COPPER_INGOT);
+        smeltableItemsMap.put(Material.COPPER_ORE,Material.COPPER_INGOT);
+        smeltableItemsMap.put(Material.DEEPSLATE_COPPER_ORE,Material.COPPER_INGOT);
+        smeltableItemsMap.put(Material.DEEPSLATE_IRON_ORE,Material.IRON_INGOT);
+        smeltableItemsMap.put(Material.DEEPSLATE_GOLD_ORE,Material.GOLD_INGOT);
+        smeltableItemsMap.put(Material.DEEPSLATE_DIAMOND_ORE,Material.DIAMOND);
+        smeltableItemsMap.put(Material.DEEPSLATE_LAPIS_ORE,Material.LAPIS_LAZULI);
+        smeltableItemsMap.put(Material.DEEPSLATE_REDSTONE_ORE,Material.REDSTONE);
+        smeltableItemsMap.put(Material.DEEPSLATE_COAL_ORE,Material.COAL);
+        smeltableItemsMap.put(Material.DEEPSLATE_EMERALD_ORE,Material.EMERALD);
+        smeltableItemsMap.put(Material.COBBLED_DEEPSLATE,Material.DEEPSLATE);
+        smeltableItemsMap.put(Material.DEEPSLATE_BRICKS,Material.CRACKED_DEEPSLATE_BRICKS);
+        smeltableItemsMap.put(Material.DEEPSLATE_TILES,Material.CRACKED_DEEPSLATE_TILES);
+        smeltableItemsMap.put(Material.RESIN_CLUMP,Material.RESIN_BRICK);
+        smeltableItemsMap.put(Material.COPPER_SWORD,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_PICKAXE,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_AXE,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_SHOVEL,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_HOE,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_HELMET,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_CHESTPLATE,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_LEGGINGS,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_BOOTS,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_HORSE_ARMOR,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.COPPER_SPEAR,Material.COPPER_NUGGET);
+        smeltableItemsMap.put(Material.IRON_SPEAR,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_SPEAR,Material.GOLD_NUGGET);
 
     }
 
@@ -700,6 +827,7 @@ public class ItemGroups {
         smeltingXPMap.put(Material.SANDSTONE,0.1);
         smeltingXPMap.put(Material.RED_SANDSTONE,0.1);
         smeltingXPMap.put(Material.STONE,0.1);
+        smeltingXPMap.put(Material.QUARTZ_BLOCK,0.1);
         smeltingXPMap.put(Material.CLAY_BALL,0.3);
         smeltingXPMap.put(Material.NETHERRACK,0.1);
         smeltingXPMap.put(Material.CLAY,0.35);
@@ -772,9 +900,40 @@ public class ItemGroups {
         if (mcVersion >= 1.16) {
             smeltingXPMap.put(Material.ANCIENT_DEBRIS,2.0);
             smeltingXPMap.put(Material.NETHER_GOLD_ORE,1.0);
-            smeltingXPMap.put(Material.NETHER_BRICK,0.1);
-
+            smeltingXPMap.put(Material.NETHER_BRICKS,0.1);
+            smeltingXPMap.put(Material.BASALT,0.1);
+            smeltingXPMap.put(Material.POLISHED_BLACKSTONE_BRICKS,0.1);
         }
+        //1.17+
+        smeltingXPMap.put(Material.RAW_IRON,0.7);
+        smeltingXPMap.put(Material.RAW_GOLD,1.0);
+        smeltingXPMap.put(Material.RAW_COPPER,0.7);
+        smeltingXPMap.put(Material.COPPER_ORE,0.7);
+        smeltingXPMap.put(Material.DEEPSLATE_COPPER_ORE,0.7);
+        smeltingXPMap.put(Material.DEEPSLATE_IRON_ORE,0.7);
+        smeltingXPMap.put(Material.DEEPSLATE_GOLD_ORE,1.0);
+        smeltingXPMap.put(Material.DEEPSLATE_DIAMOND_ORE,1.0);
+        smeltingXPMap.put(Material.DEEPSLATE_LAPIS_ORE,0.2);
+        smeltingXPMap.put(Material.DEEPSLATE_REDSTONE_ORE,0.3);
+        smeltingXPMap.put(Material.DEEPSLATE_COAL_ORE,0.1);
+        smeltingXPMap.put(Material.DEEPSLATE_EMERALD_ORE,1.0);
+        smeltingXPMap.put(Material.COBBLED_DEEPSLATE,0.1);
+        smeltingXPMap.put(Material.DEEPSLATE_BRICKS,0.1);
+        smeltingXPMap.put(Material.DEEPSLATE_TILES,0.1);
+        smeltingXPMap.put(Material.RESIN_CLUMP,0.1);
+        smeltingXPMap.put(Material.COPPER_SWORD,0.1);
+        smeltingXPMap.put(Material.COPPER_PICKAXE,0.1);
+        smeltingXPMap.put(Material.COPPER_AXE,0.1);
+        smeltingXPMap.put(Material.COPPER_SHOVEL,0.1);
+        smeltingXPMap.put(Material.COPPER_HOE,0.1);
+        smeltingXPMap.put(Material.COPPER_HELMET,0.1);
+        smeltingXPMap.put(Material.COPPER_CHESTPLATE,0.1);
+        smeltingXPMap.put(Material.COPPER_LEGGINGS,0.1);
+        smeltingXPMap.put(Material.COPPER_BOOTS,0.1);
+        smeltingXPMap.put(Material.COPPER_HORSE_ARMOR,0.1);
+        smeltingXPMap.put(Material.COPPER_SPEAR,0.1);
+        smeltingXPMap.put(Material.IRON_SPEAR,0.1);
+        smeltingXPMap.put(Material.GOLDEN_SPEAR,0.1);
 
     }
 

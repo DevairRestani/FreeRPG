@@ -110,6 +110,7 @@ public class Farming extends Skill{
         farmAnimalsEXP.put(EntityType.RABBIT,expMap.get("killRabbit"));
         farmAnimalsEXP.put(EntityType.LLAMA,expMap.get("killLlama"));
         farmAnimalsEXP.put(EntityType.TURTLE,expMap.get("killTurtle"));
+        farmAnimalsEXP.put(EntityType.GOAT,expMap.get("killGoat"));
         if (farmAnimalsEXP.containsKey(animal.getType())) {
             increaseStats.changeEXP(skillName,farmAnimalsEXP.get(animal.getType()));
         }
@@ -283,7 +284,8 @@ public class Farming extends Skill{
         if (doubleDropChance < rand.nextDouble()) {
             return;
         }
-        List<Material> blackListedDrops = Arrays.asList(new Material[]{Material.SADDLE,Material.DIAMOND_HORSE_ARMOR,Material.GOLDEN_HORSE_ARMOR,Material.IRON_HORSE_ARMOR,Material.LEATHER_HORSE_ARMOR});
+        List<Material> blackListedDrops = Arrays.asList(new Material[]{Material.SADDLE,Material.DIAMOND_HORSE_ARMOR,Material.GOLDEN_HORSE_ARMOR,Material.IRON_HORSE_ARMOR,Material.LEATHER_HORSE_ARMOR,
+                Material.COPPER_HORSE_ARMOR,Material.NETHERITE_HORSE_ARMOR});
         EntityGroups entityGroups = new EntityGroups();
         List<EntityType> animals = entityGroups.getAnimals();
         if (animals.contains(entity.getType())) {
@@ -639,7 +641,7 @@ public class Farming extends Skill{
         if (!runMethods) {
             return;
         }
-        if (entity.getType() == EntityType.COW || entity.getType() == EntityType.MOOSHROOM) {
+        if (entity.getType() == EntityType.COW || entity.getType() == EntityType.MOOSHROOM || entity.getType() == EntityType.GOAT) {
             if (itemInHand.getType() == Material.BUCKET) {
                 new BukkitRunnable() {
                     @Override
