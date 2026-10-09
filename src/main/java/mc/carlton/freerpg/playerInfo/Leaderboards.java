@@ -121,6 +121,7 @@ public class Leaderboards {
     public void sortAllLeaderBoards(boolean forceSort){
         if (!forceSort) {
             sortAllLeaderBoards();
+            return;
         }
         for (String leaderBoardName : leaderboardNames) {
             sortLeaderBoard(leaderBoardName,forceSort);
@@ -136,36 +137,21 @@ public class Leaderboards {
             updateLeaderboard("playTime");
         }
         ArrayList<PlayerLeaderboardStat> leaderboard = leaderboards.get(skillName);
-        leaderboard.sort(new Comparator<PlayerLeaderboardStat>() {
-            @Override
-            public int compare(PlayerLeaderboardStat o1, PlayerLeaderboardStat o2) {
-                if (o1.get_sortedStat().doubleValue() < o2.get_sortedStat().doubleValue()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
+        //Descending; must return 0 for equal stats or TimSort throws "Comparison method violates its general contract!"
+        leaderboard.sort(Comparator.comparingDouble((PlayerLeaderboardStat stat) -> stat.get_sortedStat().doubleValue()).reversed());
         leaderboards.put(skillName,leaderboard);
     }
     public void sortLeaderBoard(String skillName, boolean forceSort) {
         if (!forceSort) {
             sortLeaderBoard(skillName);
+            return;
         }
         if (skillName.equalsIgnoreCase("playTime")) { //PlayTime doesn't update dynamically like the others,
             updateLeaderboard("playTime");
         }
         ArrayList<PlayerLeaderboardStat> leaderboard = leaderboards.get(skillName);
-        leaderboard.sort(new Comparator<PlayerLeaderboardStat>() {
-            @Override
-            public int compare(PlayerLeaderboardStat o1, PlayerLeaderboardStat o2) {
-                if ( o1.get_sortedStat().doubleValue() < o2.get_sortedStat().doubleValue()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
+        //Descending; must return 0 for equal stats or TimSort throws "Comparison method violates its general contract!"
+        leaderboard.sort(Comparator.comparingDouble((PlayerLeaderboardStat stat) -> stat.get_sortedStat().doubleValue()).reversed());
     }
 
     public void updateAllLeaderboards() {

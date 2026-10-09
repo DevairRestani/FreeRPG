@@ -72,10 +72,19 @@ public class Skill {
         damageTool(1,modifier);
     }
     public void damageTool(int damage,double modifier) {
-        if (itemInHand.getItemMeta().isUnbreakable()) {
+        //Every ItemMeta implements Damageable, so non-tools (max durability 0) must be skipped explicitly,
+        //otherwise any damage "breaks" them and the held item is deleted (e.g. vein mining glowstone by hand)
+        if (itemInHand == null || itemInHand.getType().isAir()) {
             return;
         }
         ItemMeta toolMeta = itemInHand.getItemMeta();
+        if (toolMeta == null || toolMeta.isUnbreakable() || !(toolMeta instanceof Damageable)) {
+            return;
+        }
+        int maxDurability = ((Damageable) toolMeta).hasMaxDamage() ? ((Damageable) toolMeta).getMaxDamage() : itemInHand.getType().getMaxDurability();
+        if (maxDurability <= 0) {
+            return;
+        }
 
         //Unnbreaking checks
         int unbreakingLevel = 0;
@@ -106,7 +115,7 @@ public class Skill {
         if (toolMeta instanceof Damageable) {
             ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+damage);
             itemInHand.setItemMeta(toolMeta);
-            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
+            if (((Damageable) toolMeta).getDamage() > maxDurability) {
                 itemInHand.setAmount(0);
                 p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
             }

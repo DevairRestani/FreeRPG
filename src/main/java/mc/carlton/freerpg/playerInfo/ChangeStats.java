@@ -361,7 +361,7 @@ public class ChangeStats {
         Global globalClass = new Global(p);
         String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
         List<String> labels_arr = Arrays.asList(labels_0);
-        return ((double)pGlobalStats.get(23) * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName));
+        return (pGlobalStats.get(23).doubleValue() * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName));
     }
 
     public void checkPlayerLevelEXPCurveConsistency() {

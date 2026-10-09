@@ -59,7 +59,7 @@ public class PlayerStatsLoadIn {
             playTime = Long.valueOf(getStat("general.playTime",0L).toString());
             return playTime;
         }
-        return Instant.now().getEpochSecond();
+        return playTime; //No file yet (new player): no play time, not the current unix time
     }
 
     public String getPlayerLanguage() {
@@ -217,8 +217,7 @@ public class PlayerStatsLoadIn {
             //Setting playTime in seconds
             if (savePlayTime) {
                 playerData.set("general.lastLogout", unixTime);
-                long lastLoginTime = pStatClass.getPlayerLoginTime();
-                long playTime = unixTime - lastLoginTime;
+                long playTime = pStatClass.getNewPlayTime(); //Total play time (stored + current session)
                 playerData.set("general.playTime", playTime);
             }
 
@@ -276,8 +275,8 @@ public class PlayerStatsLoadIn {
                     playerData.set(i+".skill_3a",pStatAll.get(i).get(11));
                     playerData.set(i+".skill_3b",pStatAll.get(i).get(12));
                     playerData.set(i+".skill_M",pStatAll.get(i).get(13));
-                    playerData.set(i+".triggerAbilityToggle",expBarToggles.get(i));
-                    playerData.set(i+".showEXPBarToggle",abilityToggles.get(i));
+                    playerData.set(i+".triggerAbilityToggle",abilityToggles.get(i));
+                    playerData.set(i+".showEXPBarToggle",expBarToggles.get(i));
                 }
             }
             playerData.save(f);

@@ -32,7 +32,16 @@ public class PlayerStatsFilePreparation {
     public void playJoinConditions(Player p) {
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
-        preparePlayerFile(pName,pUUID,true);
+        //Done synchronously: the caller reads the file right after this, so an async write would race it
+        //(new players would read no file and get a play time of "now" and 0 starting tokens)
+        PlayerFilesManager playerFilesManager = new PlayerFilesManager();
+        File f = playerFilesManager.getPlayerFile(pUUID);
+        if (!f.exists()) {
+            createPlayerFile(f, pName);
+        }
+        else {
+            updatePlayerFile(f, pName, true);
+        }
     }
 
     public void preparePlayerFile(String pName, UUID playerUUID,boolean isRealLogin) {

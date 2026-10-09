@@ -26,7 +26,7 @@ public class PlayerDeath implements Listener {
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         ConfigLoad configLoad = new ConfigLoad();
-        if (configLoad.getAllowedSkillsMap().get("alchemy")) {
+        if (configLoad.getAllowedSkillsMap().get("enchanting")) {
             int immortalExperienceLevel = (int) pStat.get("enchanting").get(13);
             int expBuffLevel = (int) pStat.get("enchanting").get(4);
             double multiplier = 1 + expBuffLevel*0.002;

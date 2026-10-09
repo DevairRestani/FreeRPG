@@ -509,7 +509,7 @@ public class Repair extends Skill{
             }
             if (amountToReturn == 0){
                 if (amountToReturn_pre > rand.nextDouble()) {
-                    p.getInventory().addItem(new ItemStack(type,1));
+                    giveOrDrop(new ItemStack(type,1));
                 }
                 else {
                     actionMessage.sendMessage(ChatColor.RED + lang.getString("repairFail1"));
@@ -517,7 +517,7 @@ public class Repair extends Skill{
             }
             else {
                 if (!type.equals(Material.NETHERITE_SCRAP)) {
-                    p.getInventory().addItem(new ItemStack(type, amountToReturn));
+                    giveOrDrop(new ItemStack(type, amountToReturn));
                 }
                 else {
                     double multiplier1 = 0.1*salvageLevel + (1 - 0.1*salvageLevel)*rand.nextDouble();
@@ -526,20 +526,20 @@ public class Repair extends Skill{
                     int amountToReturnGold = (int) Math.round(amountToReturnGold_pre);
                     double amountToReturnScrap_pre = 4*percentDurability*multiplier2;
                     int amountToReturnScrap = (int) Math.round(amountToReturnScrap_pre);
-                    p.getInventory().addItem(new ItemStack(Material.DIAMOND, amountToReturn));
+                    giveOrDrop(new ItemStack(Material.DIAMOND, amountToReturn));
                     if (p.getInventory().firstEmpty() == -1) {
                         World world = p.getWorld();
                         world.dropItemNaturally(p.getLocation().add(0,0.5,0),new ItemStack(Material.GOLD_INGOT,amountToReturnGold));
                         world.dropItemNaturally(p.getLocation().add(0,0.5,0),new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
                     }
                     else {
-                        p.getInventory().addItem(new ItemStack(Material.GOLD_INGOT,amountToReturnGold));
+                        giveOrDrop(new ItemStack(Material.GOLD_INGOT,amountToReturnGold));
                         if (p.getInventory().firstEmpty() == -1) {
                             World world = p.getWorld();
                             world.dropItemNaturally(p.getLocation().add(0,0.5,0),new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
                         }
                         else {
-                            p.getInventory().addItem(new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
+                            giveOrDrop(new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
                         }
                     }
                 }
@@ -558,7 +558,7 @@ public class Repair extends Skill{
                         world.dropItemNaturally(p.getLocation().add(0,0.5,0),enchantedBook);
                     }
                     else {
-                        p.getInventory().addItem(enchantedBook);
+                        giveOrDrop(enchantedBook);
                     }
                 }
             }
@@ -633,5 +633,11 @@ public class Repair extends Skill{
             return false;
         }
         return true;
+    }
+
+    private void giveOrDrop(ItemStack item) { //Salvaged items that don't fit in the inventory are dropped instead of lost
+        for (ItemStack leftover : p.getInventory().addItem(item).values()) {
+            p.getWorld().dropItemNaturally(p.getLocation().add(0,0.5,0), leftover);
+        }
     }
 }

@@ -9,13 +9,14 @@ public class PlayerStats {
     //This class is very messy, it would be better if I created a class to store all these stats for each player,
     // And used a hashmap to assign that class to a UUID, but that would take major restructuring
     private UUID uuid;
-    static Map<UUID, Map<String, ArrayList<Number>>> player_statsMap = new HashMap<UUID, Map<String, ArrayList<Number>>>();
-    static Map<UUID,Number> player_LoginTime = new HashMap<>();
-    static Map<UUID,Number> player_playTime = new HashMap<>();
-    static Map<UUID,String> player_language = new HashMap<>();
-    static Map<UUID,Map<String,Integer>> playerSkillToggleEXPBar = new HashMap<>();
-    static Map<UUID,Map<String,Integer>> playerSkillToggleAbility = new HashMap<>();
-    static Map<UUID,Boolean> playerAreStatsSaved = new HashMap<>();
+    //Synchronized: these maps are read and written from both the main thread and async save/load tasks
+    static Map<UUID, Map<String, ArrayList<Number>>> player_statsMap = Collections.synchronizedMap(new HashMap<UUID, Map<String, ArrayList<Number>>>());
+    static Map<UUID,Number> player_LoginTime = Collections.synchronizedMap(new HashMap<>());
+    static Map<UUID,Number> player_playTime = Collections.synchronizedMap(new HashMap<>());
+    static Map<UUID,String> player_language = Collections.synchronizedMap(new HashMap<>());
+    static Map<UUID,Map<String,Integer>> playerSkillToggleEXPBar = Collections.synchronizedMap(new HashMap<>());
+    static Map<UUID,Map<String,Integer>> playerSkillToggleAbility = Collections.synchronizedMap(new HashMap<>());
+    static Map<UUID,Boolean> playerAreStatsSaved = Collections.synchronizedMap(new HashMap<>());
 
     public PlayerStats(Player p) {
         this.uuid = p.getUniqueId();
