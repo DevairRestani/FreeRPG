@@ -91,6 +91,32 @@ public final class SkillNodeIcon {
         ICONS.put("global", new Material[]{Material.IRON_PICKAXE, Material.BOOKSHELF, Material.IRON_SWORD, Material.DIAMOND_PICKAXE, Material.ENCHANTING_TABLE, Material.TARGET, Material.TOTEM_OF_UNDYING, Material.SOUL_LANTERN, Material.BEACON, Material.NETHER_STAR});
     }
 
+    private static final String PASSIVE_KEY = "skill_passive_slot";
+    private static final Material[] PASSIVE_CLICK_MATERIALS = {Material.RED_DYE, Material.GREEN_DYE, Material.BLUE_DYE};
+
+    //Passives of the 10 main skills: slot 1 is always the ability duration (a clock), slots 2 and 3 are listed here.
+    //Same order as the passive titles in languages.yml
+    private static final Map<String, Material[]> PASSIVE_ICONS = new HashMap<>();
+    //Passive of the 5 secondary skills (they only have one)
+    private static final Map<String, Material> SECONDARY_PASSIVE_ICONS = new HashMap<>();
+    static {
+        PASSIVE_ICONS.put("digging", new Material[]{Material.ENDER_CHEST});
+        PASSIVE_ICONS.put("woodcutting", new Material[]{Material.OAK_LOG});
+        PASSIVE_ICONS.put("mining", new Material[]{Material.RAW_IRON, Material.TNT});
+        PASSIVE_ICONS.put("farming", new Material[]{Material.CARROT, Material.EGG});
+        PASSIVE_ICONS.put("fishing", new Material[]{Material.COD, Material.PRISMARINE_CRYSTALS});
+        PASSIVE_ICONS.put("archery", new Material[]{Material.FLETCHING_TABLE});
+        PASSIVE_ICONS.put("beastMastery", new Material[]{Material.ROTTEN_FLESH});
+        PASSIVE_ICONS.put("swordsmanship", new Material[]{Material.DIAMOND_SWORD});
+        PASSIVE_ICONS.put("defense", new Material[]{Material.SHIELD, Material.GUNPOWDER});
+        PASSIVE_ICONS.put("axeMastery", new Material[]{Material.GLOWSTONE_DUST});
+        SECONDARY_PASSIVE_ICONS.put("repair", Material.SMITHING_TABLE);
+        SECONDARY_PASSIVE_ICONS.put("agility", Material.SLIME_BLOCK);
+        SECONDARY_PASSIVE_ICONS.put("alchemy", Material.SPLASH_POTION);
+        SECONDARY_PASSIVE_ICONS.put("smelting", Material.BLAST_FURNACE);
+        SECONDARY_PASSIVE_ICONS.put("enchanting", Material.ENCHANTING_TABLE);
+    }
+
     private SkillNodeIcon() {
     }
 
@@ -184,12 +210,78 @@ public final class SkillNodeIcon {
     }
 
     /**
+     * Creates the icon of one passive skill (the dyes next to the tree).
+     * Passives have no prerequisites: they are either maxed out, or can be invested in when the player has passive tokens.
+     * Their tier follows their slot: ability duration is common, the first chance is uncommon, the second chance is rare.
+     * @param skillName skill the passive belongs to
+     * @param slot 1, 2 or 3 (the passive's position, also the dye color the click handler expects)
+     * @param level tokens invested so far
+     * @param maxLevel cap of the passive, Integer.MAX_VALUE if it has none
+     * @param passiveTokens passive tokens the player can still invest
+     * @param title translated passive name
+     * @param statLine already formatted line with the current effect (ex. "Duration: 2.4 s")
+     * @param descriptionLines description of the passive, one entry per lore line
+     * @param lang language of the player the menu is shown to
+     */
+    public static ItemStack createPassive(String skillName, int slot, int level, int maxLevel, int passiveTokens,
+                                          String title, String statLine, List<String> descriptionLines, LanguageSelector lang) {
+        Material material;
+        Tier tier;
+        if (SECONDARY_PASSIVE_ICONS.containsKey(skillName)) {
+            material = SECONDARY_PASSIVE_ICONS.get(skillName);
+            tier = Tier.UNCOMMON;
+        } else {
+            Material[] icons = PASSIVE_ICONS.get(skillName);
+            material = (slot == 1 || icons == null || slot - 2 >= icons.length) ? Material.CLOCK : icons[slot - 2];
+            tier = (slot == 1) ? Tier.COMMON : (slot == 2 ? Tier.UNCOMMON : Tier.RARE);
+        }
+        boolean capped = maxLevel != Integer.MAX_VALUE;
+        State state = (capped && level >= maxLevel) ? State.MAXED : (passiveTokens > 0 ? State.AVAILABLE : State.LOCKED);
+
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_ENCHANTS);
+        meta.setEnchantmentGlintOverride(state == State.MAXED);
+        meta.setDisplayName(tier.color.toString() + ChatColor.BOLD + title);
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY + translate(lang, "nodeRarity", "Rarity") + ": " + tier.color + "★".repeat(tier.stars) + " " + translate(lang, tier.langId, tier.fallback));
+        lore.add(ChatColor.GRAY + translate(lang, "level", "Level") + " " + ChatColor.GREEN + level + (capped ? "/" + maxLevel : ""));
+        lore.add(statLine);
+        switch (state) {
+            case MAXED:
+                lore.add(ChatColor.GREEN + "✔ " + translate(lang, "nodeMaxed", "Maxed out"));
+                break;
+            case AVAILABLE:
+                lore.add(ChatColor.YELLOW + "▶ " + translate(lang, "passiveInvest", "Click to invest"));
+                break;
+            default:
+                lore.add(ChatColor.RED + "✖ " + translate(lang, "passiveNoTokens", "No passive tokens"));
+                break;
+        }
+        lore.add("");
+        for (String line : descriptionLines) {
+            lore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + line);
+        }
+        meta.setLore(lore);
+
+        meta.getPersistentDataContainer().set(passiveKey(), PersistentDataType.INTEGER, slot);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    /**
      * The material the click handlers switch on. Skill tree nodes report the terracotta that matches their state
-     * (locked = red, available = pink, in progress = yellow, maxed = green); every other item reports its own type.
+     * (locked = red, available = pink, in progress = yellow, maxed = green), passives report the dye of their slot
+     * (red, green, blue); every other item reports its own type.
      */
     public static Material clickType(ItemStack item) {
         if (item == null || !item.hasItemMeta()) {
             return item == null ? Material.AIR : item.getType();
+        }
+        Integer passiveSlot = item.getItemMeta().getPersistentDataContainer().get(passiveKey(), PersistentDataType.INTEGER);
+        if (passiveSlot != null && passiveSlot >= 1 && passiveSlot <= PASSIVE_CLICK_MATERIALS.length) {
+            return PASSIVE_CLICK_MATERIALS[passiveSlot - 1];
         }
         String stored = item.getItemMeta().getPersistentDataContainer().get(stateKey(), PersistentDataType.STRING);
         if (stored != null) {
@@ -229,6 +321,10 @@ public final class SkillNodeIcon {
             }
         }
         return text;
+    }
+
+    private static NamespacedKey passiveKey() {
+        return new NamespacedKey(FreeRPG.getPlugin(FreeRPG.class), PASSIVE_KEY);
     }
 
     private static NamespacedKey stateKey() {

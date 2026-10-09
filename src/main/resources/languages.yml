@@ -411,6 +411,8 @@
       nodeAvailable: Click to unlock
       nodeInProgress: Click to upgrade
       nodeMaxed: Maxed out
+      passiveInvest: Click to invest
+      passiveNoTokens: No passive tokens
       requiredGlobalPerks0: You need the previous perk to unlock this perk
       requiredGlobalPerks1: are required to unlock this perk
       requiredGlobalPerks2: is required to unlock this perk
@@ -4825,6 +4827,8 @@
       nodeAvailable: Clique para desbloquear
       nodeInProgress: Clique para melhorar
       nodeMaxed: Nível máximo
+      passiveInvest: Clique para investir
+      passiveNoTokens: Sem tokens passivos
       requiredGlobalPerks0: Você precisa do benefício anterior para desbloquear este benefício
       requiredGlobalPerks1: são necessários para desbloquear este privilégio
       requiredGlobalPerks2: é necessário para desbloquear este privilégio

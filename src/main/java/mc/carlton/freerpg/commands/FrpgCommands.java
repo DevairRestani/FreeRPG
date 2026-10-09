@@ -12,6 +12,7 @@ import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.guiTools.GuiDisplayStatistic;
 import mc.carlton.freerpg.guiTools.GuiItem;
 import mc.carlton.freerpg.guiTools.GuiWrapper;
+import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.guiTools.SkillNodeIcon;
 import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.playerInfo.*;
@@ -2658,6 +2659,12 @@ public class FrpgCommands implements CommandExecutor {
                         ArrayList<String> appendingDesc = stringsAndOtherData.getStringLines(lang.getString("abilityDescription_"+skillName));
                         splitDescs.addAll(appendingDesc);
                     }
+                    if (i >= 3) { //The passive skills (dyes) get their own icons
+                        int passiveSlot = i - 2;
+                        int passiveMax = (passiveSlot == 1) ? Integer.MAX_VALUE : new MaxPassiveLevels().findMaxLevel(skillName, passiveSlot);
+                        gui.setItem(indices_2[i], SkillNodeIcon.createPassive(skillName, passiveSlot, pStats.get(3 + passiveSlot).intValue(), passiveMax, tokens_P, labels_2[i], lores_line1_2[i], splitDescs, lang));
+                        continue;
+                    }
                     lore.add(lores_line1_2[i]);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
@@ -2987,6 +2994,10 @@ public class FrpgCommands implements CommandExecutor {
 
                 Integer[] indices_2 = {45,0,18};
                 for (int i = 0; i < labels_2.length; i++) {
+                    if (i == 2) { //The passive skill (dye) gets its own icon
+                        gui.setItem(indices_2[i], SkillNodeIcon.createPassive(skillName, 1, passive1.intValue(), Integer.MAX_VALUE, pStats.get(2).intValue(), labels_2[i], lores_line1_2[i], stringsAndOtherData.getStringLines(lores_line2_2[i]), lang));
+                        continue;
+                    }
                     ItemMeta meta = menu_items_2[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels_2[i]);
                     ArrayList<String> lore = new ArrayList<>();
