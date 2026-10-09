@@ -15,6 +15,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ConfigLoad {
@@ -241,12 +244,31 @@ public class ConfigLoad {
         }
 
         //EXP Info
+        //Default expDrops bundled with the plugin, used for any key missing from the server's advancedConfig.yml
+        //(e.g. keys added for newer Minecraft content when autoUpdateConfig is false)
+        FileConfiguration defaultAdvancedConfig = null;
+        InputStream defaultAdvancedConfigStream = plugin.getResource("advancedConfig.yml");
+        if (defaultAdvancedConfigStream != null) {
+            defaultAdvancedConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultAdvancedConfigStream, StandardCharsets.UTF_8));
+        }
         for (String label : labels) {
             Map<String,Integer> skillExpMap = new HashMap<>();
             ConfigurationSection skillExpDrops = advancedConfig.getConfigurationSection(label+".expDrops");
-            for (String id : skillExpDrops.getKeys(false)) {
-                if (!id.equalsIgnoreCase("enableEXPDrops")) {
-                    skillExpMap.put(id,advancedConfig.getInt(label+".expDrops." + id));
+            if (skillExpDrops != null) {
+                for (String id : skillExpDrops.getKeys(false)) {
+                    if (!id.equalsIgnoreCase("enableEXPDrops")) {
+                        skillExpMap.put(id, advancedConfig.getInt(label + ".expDrops." + id));
+                    }
+                }
+            }
+            if (defaultAdvancedConfig != null) {
+                ConfigurationSection defaultSkillExpDrops = defaultAdvancedConfig.getConfigurationSection(label+".expDrops");
+                if (defaultSkillExpDrops != null) {
+                    for (String id : defaultSkillExpDrops.getKeys(false)) {
+                        if (!id.equalsIgnoreCase("enableEXPDrops")) {
+                            skillExpMap.putIfAbsent(id, defaultAdvancedConfig.getInt(label + ".expDrops." + id));
+                        }
+                    }
                 }
             }
             expMap.put(label,skillExpMap);
