@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.commands;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
@@ -10,6 +12,7 @@ import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.guiTools.GuiDisplayStatistic;
 import mc.carlton.freerpg.guiTools.GuiItem;
 import mc.carlton.freerpg.guiTools.GuiWrapper;
+import mc.carlton.freerpg.guiTools.SkillNodeIcon;
 import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
@@ -869,7 +872,7 @@ public class FrpgCommands implements CommandExecutor {
                 try {
                     saveStats.setPlayerStatsMap();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    FrpgPrint.error("Unexpected error", e);
                 }
             }
         }
@@ -1942,7 +1945,7 @@ public class FrpgCommands implements CommandExecutor {
                 p.performCommand("frpg");
             }
             else {
-                System.out.println("You must be a player to perform this command");
+                sender.sendMessage("You must be a player to perform this command");
             }
         }
 
@@ -2492,18 +2495,10 @@ public class FrpgCommands implements CommandExecutor {
                 Integer[] indices = {11,29,13,31,7,43,26};
                 //
                 for (int i = 0; i < labels.length; i++) {
-                    ItemMeta meta = menu_items[i].getItemMeta();
-                    meta.setDisplayName(ChatColor.BOLD + labels[i]);
-                    ArrayList<String> lore = new ArrayList<>();
-                    lore.add(lores_line1[i]);
-                    String longString = lores_line2[i];
-                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
-                    for (int j = 0; j < splitDescs.size(); j++) {
-                        lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
-                    }
-                    meta.setLore(lore);
-                    menu_items[i].setItemMeta(meta);
-                    gui.setItem(indices[i], menu_items[i]);
+                    int nodeLevel = pStats.get(7 + i).intValue();
+                    int nodeMaxLevel = i < 4 ? 5 : 1;
+                    SkillNodeIcon.State nodeState = SkillNodeIcon.stateOf(menu_items[i].getType());
+                    gui.setItem(indices[i], SkillNodeIcon.create(skillName, i, nodeState, nodeLevel, nodeMaxLevel, labels[i], lores_line1[i], stringsAndOtherData.getStringLines(lores_line2[i]), lang));
                 }
                 //Tokens, passives, and back button
                 ItemStack passive_token = new ItemStack(Material.IRON_NUGGET);
@@ -2932,18 +2927,10 @@ public class FrpgCommands implements CommandExecutor {
                 Integer[] indices = {20,23,26};
                 //Set skills
                 for (int i = 0; i < labels.length; i++) {
-                    ItemMeta meta = menu_items[i].getItemMeta();
-                    meta.setDisplayName(ChatColor.BOLD + labels[i]);
-                    ArrayList<String> lore = new ArrayList<>();
-                    lore.add(lores_line1[i]);
-                    String longString = lores_line2[i];
-                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
-                    for (int j = 0; j < splitDescs.size(); j++) {
-                        lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
-                    }
-                    meta.setLore(lore);
-                    menu_items[i].setItemMeta(meta);
-                    gui.setItem(indices[i], menu_items[i]);
+                    int nodeLevel = pStats.get(new int[]{7, 9, 13}[i]).intValue();
+                    int nodeMaxLevel = i < 2 ? 5 : 1;
+                    SkillNodeIcon.State nodeState = SkillNodeIcon.stateOf(menu_items[i].getType());
+                    gui.setItem(indices[i], SkillNodeIcon.create(skillName, i, nodeState, nodeLevel, nodeMaxLevel, labels[i], lores_line1[i], stringsAndOtherData.getStringLines(lores_line2[i]), lang));
                 }
 
                 //Tokens, passives, and back button
@@ -3285,18 +3272,10 @@ public class FrpgCommands implements CommandExecutor {
                 Integer[] indices = {1,19,37,3,21,39,6,24,42,26};
                 //
                 for (int i = 0; i < labels.length; i++) {
-                    ItemMeta meta = menu_items[i].getItemMeta();
-                    meta.setDisplayName(ChatColor.BOLD + labels[i]);
-                    ArrayList<String> lore = new ArrayList<>();
-                    lore.add(lores_line1[i]);
-                    String longString = lores_line2[i];
-                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
-                    for (int j = 0; j < splitDescs.size(); j++) {
-                        lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
-                    }
-                    meta.setLore(lore);
-                    menu_items[i].setItemMeta(meta);
-                    gui.setItem(indices[i], menu_items[i]);
+                    int nodeLevel = pStats.get(2 + i).intValue();
+                    int nodeMaxLevel = 1;
+                    SkillNodeIcon.State nodeState = SkillNodeIcon.stateOf(menu_items[i].getType());
+                    gui.setItem(indices[i], SkillNodeIcon.create(skillName, i, nodeState, nodeLevel, nodeMaxLevel, labels[i], lores_line1[i], stringsAndOtherData.getStringLines(lores_line2[i]), lang));
                 }
                 ItemStack g_token = new ItemStack(Material.DIAMOND);
                 ItemStack back_button = new ItemStack(Material.ARROW);
@@ -3344,7 +3323,7 @@ public class FrpgCommands implements CommandExecutor {
             }
 
             else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
