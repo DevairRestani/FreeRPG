@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -11,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -41,120 +41,88 @@ public class Alchemy extends Skill{
         if (counter.containsKey(inventory)) {
             return;
         }
-        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         //int speedBrewingLevel = (int) pStat.get(skillName).get(7);
         int time = 400;
         BrewingStand stand = inventory.getHolder();
+        if (stand == null) {
+            return;
+        }
+        if (stand.getFuelLevel() == 0) { //Checked before registering the stand, otherwise it would be locked out of custom brewing forever
+            return;
+        }
         World world = stand.getWorld();
-        ItemStack[] originalContents = {inventory.getItem(0), inventory.getItem(1), inventory.getItem(2), inventory.getItem(3), inventory.getItem(4)};
         counter.put(inventory, time);
         failSafe.put(inventory, time + 2);
         stand.setBrewingTime(time);
-        if (stand.getFuelLevel() == 0) {
-            return;
-        }
         stand.update();
         new BukkitRunnable() {
             @Override
             public void run() {
                 failSafe.put(inventory, failSafe.get(inventory) - 1);
                 if (failSafe.get(inventory) < 0) {
-                    failSafe.remove(inventory);
-                    counter.remove(inventory);
+                    stopBrewing(inventory);
                     cancel();
+                    return;
                 }
                 int timer = counter.get(inventory);
 
+                if (!isStillBrewing(inventory, input)) {
+                    stopBrewing(inventory);
+                    cancel();
+                    return;
+                }
+
                 if (timer == 0) //Finished brewing item changes
                 {
-                    originalContents[3].setAmount(originalContents[3].getAmount() - 1);
-                    stand.getSnapshotInventory().setItem(3, originalContents[3]);
-                    PotionMeta outputMeta = (PotionMeta) output.getItemMeta();
-                    PotionEffect oldEffect = outputMeta.getCustomEffects().get(0);
-                    String normalName = outputMeta.getDisplayName();
+                    /*
+                     * Only the live inventory is modified here. Writing items through an old BrewingStand snapshot
+                     * (getSnapshotInventory() + update()) puts stale stacks back into the stand, which duplicated
+                     * anything taken out of it while brewing.
+                     */
+                    ItemStack ingredient = inventory.getIngredient();
+                    ingredient.setAmount(ingredient.getAmount() - 1);
+                    inventory.setIngredient(ingredient);
                     for (int i = 0; i < 3; i++) {
-                        if (inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR) {
+                        ItemStack slotItem = inventory.getItem(i);
+                        if (slotItem == null || slotItem.getType() == Material.AIR) {
                             continue;
                         }
-
-                        if (inventory.getItem(i).getType() == Material.SPLASH_POTION) {
-                            output.setType(Material.SPLASH_POTION);
-                            outputMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + "Splash " + normalName);
-                            output.setItemMeta(outputMeta);
-                        } else if (inventory.getItem(i).getType() == Material.LINGERING_POTION) {
-                            output.setType(Material.LINGERING_POTION);
-                            outputMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + "Lingering " + normalName);
-                            PotionEffectType effect = outputMeta.getCustomEffects().get(0).getType();
-                            int newLength = (int) Math.round(outputMeta.getCustomEffects().get(0).getDuration() / 4.0);
-                            outputMeta.addCustomEffect(new PotionEffect(effect, newLength, 0), true);
-                            output.setItemMeta(outputMeta);
+                        // output is a shared template (see ItemGroups), so never modify it directly
+                        ItemStack result = output.clone();
+                        PotionMeta resultMeta = (PotionMeta) result.getItemMeta();
+                        String normalName = resultMeta.getDisplayName();
+                        if (slotItem.getType() == Material.SPLASH_POTION) {
+                            result = result.withType(Material.SPLASH_POTION);
+                            resultMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + "Splash " + normalName);
+                        } else if (slotItem.getType() == Material.LINGERING_POTION) {
+                            result = result.withType(Material.LINGERING_POTION);
+                            resultMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + "Lingering " + normalName);
+                            if (resultMeta.hasCustomEffects()) {
+                                PotionEffect oldEffect = resultMeta.getCustomEffects().get(0);
+                                int newLength = (int) Math.round(oldEffect.getDuration() / 4.0);
+                                resultMeta.addCustomEffect(new PotionEffect(oldEffect.getType(), newLength, oldEffect.getAmplifier()), true);
+                            }
                         } else {
-                            output.setType(Material.POTION);
-                            outputMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + normalName);
-                            output.setItemMeta(outputMeta);
+                            resultMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + normalName);
                         }
-                        inventory.setItem(i, output);
-                        stand.getSnapshotInventory().setItem(i, output);
-                        outputMeta.addCustomEffect(oldEffect, true);
+                        result.setItemMeta(resultMeta);
+                        inventory.setItem(i, result);
                         increaseStats.changeEXP(skillName,expMap.get("brewCustomPotion"));
-
                     }
 
-                    stand.setFuelLevel(stand.getFuelLevel() - 1);
-                    stand.update();
-                    world.playEffect(stand.getLocation(), Effect.BREWING_STAND_BREW, 1);
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
+                    BrewingStand liveStand = inventory.getHolder(); //Fresh snapshot, so update() can't restore old items
+                    liveStand.setFuelLevel(Math.max(liveStand.getFuelLevel() - 1, 0));
+                    liveStand.setBrewingTime(0);
+                    liveStand.update();
+                    world.playEffect(liveStand.getLocation(), Effect.BREWING_STAND_BREW, 1);
+                    stopBrewing(inventory);
                     cancel();
                     return;
                 }
 
-                // ingredient removed checks
-                if (inventory.getIngredient() == null) {
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
-                    cancel();
-                    return;
-                }
-                if (inventory.getIngredient().getType() != input.getType()) {
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
-                    cancel();
-                    return;
-                }
-
-                // water bottles removed check
-                boolean[] bottles = {false, false, false};
-                for (int i = 0; i < 3; i++) {
-                    if (inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR) {
-                        bottles[i] = true;
-                    }
-                }
-                if (!bottles[0] && !bottles[1] && !bottles[2]) {
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
-                    cancel();
-                    return;
-                }
                 //Update counter progress
                 counter.put(inventory, timer - 1);
-                stand.setBrewingTime(timer - 1);
-                for (int i = 0; i < 5; i++) {
-                    if (inventory.getItem(i) == null && originalContents[i] == null) {
-                        continue;
-                    } else if (inventory.getItem(i) == null) {
-                        stand.getSnapshotInventory().setItem(i, inventory.getItem(i));
-                        originalContents[i] = inventory.getItem(i);
-                    } else if (originalContents[i] == null) {
-                        stand.getSnapshotInventory().setItem(i, inventory.getItem(i));
-                        originalContents[i] = inventory.getItem(i);
-                    } else if (!inventory.getItem(i).equals(originalContents[i])) {
-                        stand.getSnapshotInventory().setItem(i, inventory.getItem(i));
-                        originalContents[i] = inventory.getItem(i);
-                    }
-                }
-                stand.update();
-
+                updateBrewingTime(inventory, timer - 1);
             }
         }.runTaskTimer(plugin, 1, 1);
     }
@@ -177,18 +145,19 @@ public class Alchemy extends Skill{
         if (counter.containsKey(inventory)) {
             return;
         }
-        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         //int speedBrewingLevel = (int) pStat.get(skillName).get(7);
         int time = 400; //(int) Math.round((1 - speedBrewingLevel * 0.15) * 400);
         BrewingStand stand = inventory.getHolder();
+        if (stand == null) {
+            return;
+        }
+        if (stand.getFuelLevel() == 0) { //Checked before registering the stand, otherwise it would be locked out of custom brewing forever
+            return;
+        }
         World world = stand.getWorld();
-        ItemStack[] originalContents = {inventory.getItem(0), inventory.getItem(1), inventory.getItem(2), inventory.getItem(3), inventory.getItem(4)};
         counter.put(inventory, time);
         failSafe.put(inventory, time + 2);
         stand.setBrewingTime(time);
-        if (stand.getFuelLevel() == 0) {
-            return;
-        }
         stand.update();
         double finalDurationMultiplier = durationMultiplier;
         int finalPotency = potency;
@@ -197,25 +166,40 @@ public class Alchemy extends Skill{
             public void run() {
                 failSafe.put(inventory, failSafe.get(inventory) - 1);
                 if (failSafe.get(inventory) < 0) {
-                    failSafe.remove(inventory);
-                    counter.remove(inventory);
+                    stopBrewing(inventory);
                     cancel();
+                    return;
                 }
                 int timer = counter.get(inventory);
 
+                if (!isStillBrewing(inventory, input)) {
+                    stopBrewing(inventory);
+                    cancel();
+                    return;
+                }
+
                 if (timer == 0) //Finished brewing item changes
                 {
-                    originalContents[3].setAmount(originalContents[3].getAmount() - 1);
-                    stand.getSnapshotInventory().setItem(3, originalContents[3]);
+                    //Only the live inventory is modified here (see startBrewing)
+                    ItemStack ingredient = inventory.getIngredient();
+                    ingredient.setAmount(ingredient.getAmount() - 1);
+                    inventory.setIngredient(ingredient);
                     for (int i = 0; i < 3; i++) {
                         if (!slotsToCheck[i]) {
                             continue;
                         }
-                        if (inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR) {
+                        ItemStack potion = inventory.getItem(i);
+                        if (potion == null || potion.getType() == Material.AIR) {
                             continue;
                         }
-                        ItemStack potion = inventory.getItem(i);
+                        if (!(potion.getItemMeta() instanceof PotionMeta)) {
+                            continue;
+                        }
                         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+                        //The potion may have been swapped while brewing, only upgrade custom potions that weren't upgraded yet
+                        if (!potionMeta.hasEnchant(Enchantment.LOYALTY) || !potionMeta.hasCustomEffects()) {
+                            continue;
+                        }
                         PotionEffectType effect = potionMeta.getCustomEffects().get(0).getType();
                         int newLength = (int) Math.round(potionMeta.getCustomEffects().get(0).getDuration() * finalDurationMultiplier);
                         potionMeta.addCustomEffect(new PotionEffect(effect, newLength, finalPotency), true);
@@ -225,69 +209,64 @@ public class Alchemy extends Skill{
                         potionMeta.removeEnchant(Enchantment.LOYALTY);
                         potionMeta.addEnchant(Enchantment.UNBREAKING,1,true);
                         potion.setItemMeta(potionMeta);
-                        stand.getSnapshotInventory().setItem(i, potion);
+                        inventory.setItem(i, potion);
                         increaseStats.changeEXP(skillName,expMap.get("upgradeCustomPotion"));
                     }
 
-                    stand.setFuelLevel(stand.getFuelLevel() - 1);
-                    stand.update();
-                    world.playEffect(stand.getLocation(), Effect.BREWING_STAND_BREW, 1);
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
+                    BrewingStand liveStand = inventory.getHolder(); //Fresh snapshot, so update() can't restore old items
+                    liveStand.setFuelLevel(Math.max(liveStand.getFuelLevel() - 1, 0));
+                    liveStand.setBrewingTime(0);
+                    liveStand.update();
+                    world.playEffect(liveStand.getLocation(), Effect.BREWING_STAND_BREW, 1);
+                    stopBrewing(inventory);
                     cancel();
                     return;
                 }
 
-                // ingredient removed checks
-                if (inventory.getIngredient() == null) {
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
-                    cancel();
-                    return;
-                }
-                if (inventory.getIngredient().getType() != input.getType()) {
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
-                    cancel();
-                    return;
-                }
-
-                // water bottles removed check
-                boolean[] bottles = {false, false, false};
-                for (int i = 0; i < 3; i++) {
-                    if (inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR) {
-                        bottles[i] = true;
-                    }
-                }
-                if (!bottles[0] && !bottles[1] && !bottles[2]) {
-                    counter.remove(inventory);
-                    failSafe.remove(inventory);
-                    cancel();
-                    return;
-                }
                 //Update counter progress
                 counter.put(inventory, timer - 1);
-                stand.setBrewingTime(timer - 1);
-
-                //Check for item changes
-                for (int i = 0; i < 5; i++) {
-                    if (inventory.getItem(i) == null && originalContents[i] == null) {
-                        continue;
-                    } else if (inventory.getItem(i) == null) {
-                        stand.getSnapshotInventory().setItem(i, inventory.getItem(i));
-                        originalContents[i] = inventory.getItem(i);
-                    } else if (originalContents[i] == null) {
-                        stand.getSnapshotInventory().setItem(i, inventory.getItem(i));
-                        originalContents[i] = inventory.getItem(i);
-                    } else if (!(inventory.getItem(i).equals(originalContents[i]))) {
-                        stand.getSnapshotInventory().setItem(i, inventory.getItem(i));
-                        originalContents[i] = inventory.getItem(i);
-                    }
-                }
-                stand.update();
-
+                updateBrewingTime(inventory, timer - 1);
             }
         }.runTaskTimer(plugin, 1, 1);
+    }
+
+    private static void stopBrewing(BrewerInventory inventory) {
+        counter.remove(inventory);
+        failSafe.remove(inventory);
+    }
+
+    /**
+     * @return false if the custom brew should be aborted (the stand is gone, the ingredient was removed/changed, or all bottles were taken out)
+     */
+    private static boolean isStillBrewing(BrewerInventory inventory, ItemStack input) {
+        if (inventory.getHolder() == null) {
+            return false;
+        }
+        // ingredient removed checks
+        ItemStack ingredient = inventory.getIngredient();
+        if (ingredient == null || ingredient.getType() != input.getType()) {
+            return false;
+        }
+        // water bottles removed check
+        for (int i = 0; i < 3; i++) {
+            if (inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Updates the brewing progress arrow. A fresh BlockState is used every time: its items equal the live items,
+     * so update() only changes the brewing time (an old snapshot would overwrite the stand's items with stale copies).
+     */
+    private static void updateBrewingTime(BrewerInventory inventory, int brewingTime) {
+        BrewingStand liveStand = inventory.getHolder();
+        if (liveStand == null) {
+            return;
+        }
+        liveStand.setBrewingTime(brewingTime);
+        liveStand.update();
     }
 
     public boolean comparePotionEffects(ItemStack p1, ItemStack p2) {
@@ -304,8 +283,8 @@ public class Alchemy extends Skill{
         if (!(p1.getItemMeta() instanceof PotionMeta) || !(p2.getItemMeta() instanceof PotionMeta)) {
             return false;
         }
-        PotionType p1Type = ((PotionMeta) p1.getItemMeta()).getBasePotionData().getType();
-        PotionType p2Type = ((PotionMeta) p2.getItemMeta()).getBasePotionData().getType();
+        PotionType p1Type = ((PotionMeta) p1.getItemMeta()).getBasePotionType();
+        PotionType p2Type = ((PotionMeta) p2.getItemMeta()).getBasePotionType();
         if (p1Type == p2Type) {
             return true;
         }
@@ -328,13 +307,15 @@ public class Alchemy extends Skill{
             return;
         }
         if (potion.getItemMeta() instanceof PotionMeta) {
+            PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+            PotionType potionType = potionMeta.getBasePotionType(); //null for potions that only have custom effects
             PotionType[] noEXPPots0 = {PotionType.MUNDANE,PotionType.WATER,PotionType.AWKWARD,PotionType.THICK};
             List<PotionType> noEXPPots = Arrays.asList(noEXPPots0);
-            if (!noEXPPots.contains( ((PotionMeta) potion.getItemMeta()).getBasePotionData().getType() ) ) {
-                if ( ((PotionMeta) potion.getItemMeta()).getBasePotionData().isUpgraded() ) {
+            if (!noEXPPots.contains(potionType)) {
+                if (UtilityMethods.isUpgradedPotionType(potionType)) {
                     increaseStats.changeEXP(skillName, expMap.get("drinkUpgradedPotion"));
                 }
-                else if ( ((PotionMeta) potion.getItemMeta()).getBasePotionData().isExtended() ) {
+                else if (UtilityMethods.isExtendedPotionType(potionType)) {
                     increaseStats.changeEXP(skillName, expMap.get("drinkExtendedPotion"));
                 }
                 else {
@@ -343,80 +324,86 @@ public class Alchemy extends Skill{
             }
 
 
-            if (((PotionMeta) potion.getItemMeta()).hasCustomEffects()) {
-                PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+            if (potionMeta.hasCustomEffects()) {
                 increaseStats.changeEXP(skillName, expMap.get("drinkCustomPotion"));
                 for (PotionEffect effect : potionMeta.getCustomEffects()) {
-                    p.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * durationMultiplier), effect.getAmplifier() + potionMasterLevel), true);
+                    p.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * durationMultiplier), effect.getAmplifier() + potionMasterLevel));
                 }
-            } else {
-                PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
-                PotionData potionData = potionMeta.getBasePotionData();
-                PotionEffect pEffect = potionToEffect(potionData);
+            } else if (potionType != null) {
+                PotionEffect pEffect = potionToEffect(potionType);
                 if (!pEffect.getType().equals(PotionEffectType.BAD_OMEN)) {
-                    p.addPotionEffect(pEffect, true);
+                    p.addPotionEffect(pEffect);
                 }
 
             }
         }
     }
 
-    public PotionEffect potionToEffect(PotionData potionData) {
+    public PotionEffect potionToEffect(PotionType potionType) {
         PotionEffect pEffect = new PotionEffect(PotionEffectType.BAD_OMEN, 1, 1);
+        if (potionType == null) {
+            return pEffect;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int lengthBoostLevel = (int) pStat.get(skillName).get(4);
         double durationMultiplier = 1.0 + 0.001 * lengthBoostLevel;
         int potionMasterLevel = (int) Math.min((int) pStat.get(skillName).get(13), 1);
-        switch (potionData.getType()) {
+        if ((int) pStat.get("global").get(15) != 1) { //Potion Master toggled off
+            potionMasterLevel = 0;
+        }
+        //Since 1.20.5 long/strong potions are separate types (e.g. LONG_SWIFTNESS), so switch on the base type
+        boolean isExtended = UtilityMethods.isExtendedPotionType(potionType);
+        boolean isUpgraded = UtilityMethods.isUpgradedPotionType(potionType);
+        switch (UtilityMethods.getBasePotionType(potionType)) {
             case WEAKNESS:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.WEAKNESS, (int) Math.round(20 * 60 * 4 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.WEAKNESS, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.WEAKNESS, (int) Math.round(20 * 90 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case POISON:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.POISON, (int) Math.round(20 * 90 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.POISON, (int) Math.round(20 * 21 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.POISON, (int) Math.round(20 * 45 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case LEAPING:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.JUMP_BOOST, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.JUMP_BOOST, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.JUMP_BOOST, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case SWIFTNESS:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.SPEED, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.SPEED, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.SPEED, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case WATER_BREATHING:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.WATER_BREATHING, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.WATER_BREATHING, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.WATER_BREATHING, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case FIRE_RESISTANCE:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
@@ -428,27 +415,27 @@ public class Alchemy extends Skill{
                 }
                 break;
             case SLOW_FALLING:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.SLOW_FALLING, (int) Math.round(20 * 4 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.SLOW_FALLING, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.SLOW_FALLING, (int) Math.round(20 * 90 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case NIGHT_VISION:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.NIGHT_VISION, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.NIGHT_VISION, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.NIGHT_VISION, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case INVISIBILITY:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.INVISIBILITY, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.INVISIBILITY, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.INVISIBILITY, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
@@ -460,27 +447,27 @@ public class Alchemy extends Skill{
                 }
                 break;
             case STRENGTH:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.STRENGTH, (int) Math.round(20 * 8 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.STRENGTH, (int) Math.round(20 * 90 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.STRENGTH, (int) Math.round(20 * 180 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case SLOWNESS:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.SLOWNESS, (int) Math.round(20 * 4 * 60 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.SLOWNESS, (int) Math.round(20 * 20 * durationMultiplier), 3 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.SLOWNESS, (int) Math.round(20 * 90 * durationMultiplier), potionMasterLevel);
                 }
                 break;
             case REGENERATION:
-                if (potionData.isExtended()) {
+                if (isExtended) {
                     pEffect = new PotionEffect(PotionEffectType.REGENERATION, (int) Math.round(20 * 90 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
+                } else if (isUpgraded) {
                     pEffect = new PotionEffect(PotionEffectType.REGENERATION, (int) Math.round(20 * 22 * durationMultiplier), 1 + potionMasterLevel);
                 } else {
                     pEffect = new PotionEffect(PotionEffectType.REGENERATION, (int) Math.round(20 * 45 * durationMultiplier), potionMasterLevel);
@@ -551,7 +538,7 @@ public class Alchemy extends Skill{
             case DRAGON_BREATH:
                 expToGive = expMap.get("brewLingeringPotion");
                 break;
-            case GLOWSTONE:
+            case GLOWSTONE_DUST:
                 expToGive = expMap.get("upgradePotion");
                 break;
             case REDSTONE:

@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
@@ -504,7 +505,7 @@ public class StringsAndOtherData {
         String effectType = "";
         if (!name.equalsIgnoreCase("Potion")) {
             LanguageSelector lang = new LanguageSelector(p);
-            String id = "potion" + name.substring(10).replace(" ","");
+            String id = "potion" + name.substring(10).replace(" ","").replace("'","");
             effectType = lang.getString(id);
         }
         return effectType;
@@ -587,7 +588,11 @@ public class StringsAndOtherData {
     }
 
     public String getPotionNameIDFromPotionType(PotionType potionType) {
-        switch (potionType) {
+        if (potionType == null) { //Potions with only custom effects have no base type (used to be UNCRAFTABLE)
+            return "potionUncraftable";
+        }
+        //Since 1.20.5 long/strong potions are separate types (e.g. LONG_SWIFTNESS), they share the name of the base type
+        switch (UtilityMethods.getBasePotionType(potionType)) {
             case AWKWARD:
                 return "potionAwkward";
             case MUNDANE:
@@ -599,8 +604,15 @@ public class StringsAndOtherData {
             case WATER:
                 return "potionWater";
             default:
-                String tempName = getPotionNameFromEffect(potionType.getEffectType());
-                String id = "potion" + tempName.substring(10).replace(" ","");
+                List<PotionEffect> potionEffects = potionType.getPotionEffects();
+                if (potionEffects.isEmpty()) {
+                    return "potionUncraftable";
+                }
+                String tempName = getPotionNameFromEffect(potionEffects.get(0).getType());
+                if (!tempName.startsWith("Potion of ")) {
+                    return "potionUncraftable";
+                }
+                String id = "potion" + tempName.substring(10).replace(" ","").replace("'","");
                 return id;
         }
 
@@ -608,102 +620,130 @@ public class StringsAndOtherData {
 
     public String getPotionNameFromEffect(PotionEffectType potionEffectType) {
         String name = "Potion";
-        switch (potionEffectType.getName()) {
-            case "ABSORPTION":
+        if (potionEffectType == null) {
+            return name;
+        }
+        //Uses the registry key, the old effect names (e.g. SLOW_DIGGING) were renamed in 1.20.5
+        switch (potionEffectType.getKey().getKey()) {
+            case "absorption":
                 name = "Potion of Absorption";
                 break;
-            case "BAD_OMEN":
+            case "bad_omen":
                 name = "Potion of Bad Omen";
                 break;
-            case "BLINDNESS":
+            case "blindness":
                 name = "Potion of Blindness";
                 break;
-            case "CONDUIT_POWER":
+            case "conduit_power":
                 name = "Potion of Conduit Power";
                 break;
-            case "CONFUSION":
+            case "nausea":
                 name = "Potion of Confusion";
                 break;
-            case "DAMAGE_RESISTANCE":
+            case "resistance":
                 name = "Potion of Resistance";
                 break;
-            case "DOLPHINS_GRACE":
+            case "dolphins_grace":
                 name = "Potion of Dolphin's Grace";
                 break;
-            case "FAST_DIGGING":
+            case "haste":
                 name = "Potion of Haste";
                 break;
-            case "FIRE_RESISTANCE":
+            case "fire_resistance":
                 name = "Potion of Fire Resistance";
                 break;
-            case "GLOWING":
+            case "glowing":
                 name = "Potion of Glowing";
                 break;
-            case "HARM":
+            case "instant_damage":
                 name = "Potion of Harm";
                 break;
-            case "HEAL":
+            case "instant_health":
                 name = "Potion of Healing";
                 break;
-            case "HEALTH_BOOST":
+            case "health_boost":
                 name = "Potion of Health Boost";
                 break;
-            case "HERO_OF_THE_VILLAGE":
+            case "hero_of_the_village":
                 name = "Potion of the Hero";
                 break;
-            case "HUNGER":
+            case "hunger":
                 name = "Potion of Hunger";
                 break;
-            case "INCREASE_DAMAGE":
+            case "strength":
                 name = "Potion of Strength";
                 break;
-            case "INVISIBILITY":
+            case "invisibility":
                 name = "Potion of Invisibility";
                 break;
-            case "JUMP":
+            case "jump_boost":
                 name = "Potion of Jump";
                 break;
-            case "LEVITATION":
+            case "levitation":
                 name = "Potion of Levitation";
                 break;
-            case "LUCK":
+            case "luck":
                 name = "Potion of Luck";
                 break;
-            case "NIGHT_VISION":
+            case "night_vision":
                 name = "Potion of Night Vision";
                 break;
-            case "POISON":
-                name = "Potion of Night Vision";
+            case "poison":
+                name = "Potion of Poison";
                 break;
-            case "REGENERATION":
+            case "regeneration":
                 name = "Potion of Regeneration";
                 break;
-            case "SATURATION":
+            case "saturation":
                 name = "Potion of Saturation";
                 break;
-            case "SLOW":
+            case "slowness":
                 name = "Potion of Slowness";
                 break;
-            case "SLOW_DIGGING":
+            case "mining_fatigue":
                 name = "Potion of Fatigue";
                 break;
-            case "SLOW_FALLING":
+            case "slow_falling":
                 name = "Potion of Slow Falling";
                 break;
-            case "SPEED":
+            case "speed":
                 name = "Potion of Speed";
                 break;
-            case "UNLUCK":
+            case "unluck":
                 name = "Potion of Bad Luck";
                 break;
-            case "WATER_BREATHING":
+            case "water_breathing":
                 name = "Potion of Water Breathing";
                 break;
-            case "WEAKNESS":
+            case "weakness":
                 name = "Potion of Weakness";
                 break;
-            case "WITHER":
+            case "wither":
                 name = "Potion of Decay";
+                break;
+            case "wind_charged":
+                name = "Potion of Wind Charging";
+                break;
+            case "weaving":
+                name = "Potion of Weaving";
+                break;
+            case "oozing":
+                name = "Potion of Oozing";
+                break;
+            case "infested":
+                name = "Potion of Infestation";
+                break;
+            case "darkness":
+                name = "Potion of Darkness";
+                break;
+            case "trial_omen":
+                name = "Potion of Trial Omen";
+                break;
+            case "raid_omen":
+                name = "Potion of Raid Omen";
+                break;
+            case "breath_of_the_nautilus":
+                name = "Potion of Breath of the Nautilus";
                 break;
             default:
                 break;

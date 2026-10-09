@@ -529,7 +529,7 @@ public class CraftingRecipes {
         Material potionIngredient = (Material) alchemyInfo.get(21);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
+        meta.setBasePotionType(potionType);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgWaterBreathingPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -546,7 +546,7 @@ public class CraftingRecipes {
         Material potionIngredient = (Material) alchemyInfo.get(23);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
+        meta.setBasePotionType(potionType);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgSpeedPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -563,7 +563,7 @@ public class CraftingRecipes {
         Material potionIngredient = (Material) alchemyInfo.get(25);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
+        meta.setBasePotionType(potionType);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgFireResistancePotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -580,7 +580,7 @@ public class CraftingRecipes {
         Material potionIngredient = (Material) alchemyInfo.get(27);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
+        meta.setBasePotionType(potionType);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgHealingPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -597,7 +597,7 @@ public class CraftingRecipes {
         Material potionIngredient = (Material) alchemyInfo.get(29);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
+        meta.setBasePotionType(potionType);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgStrengthPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);

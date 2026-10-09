@@ -17,10 +17,10 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -91,21 +91,18 @@ public class BrewingInventoryClick implements Listener {
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
                 ItemStack awkwardBottle = new ItemStack(Material.POTION,1);
                 PotionMeta awkward = (PotionMeta) awkwardBottle.getItemMeta();
-                awkward.setBasePotionData(new PotionData(PotionType.AWKWARD));
+                awkward.setBasePotionType(PotionType.AWKWARD);
                 awkwardBottle.setItemMeta(awkward);
-                final ItemStack ingredient = e.getCurrentItem();
-                final ItemStack cursorClone = e.getCursor().clone();
-                final ItemStack potionSlot1 = e.getInventory().getItem(0);
-                final ItemStack potionSlot2 = e.getInventory().getItem(1);
-                final ItemStack potionSlot3 = e.getInventory().getItem(2);
-                final ItemStack[] potionSlots = {potionSlot1,potionSlot2,potionSlot3};
+                final ItemStack ingredient = (e.getCurrentItem() == null) ? null : e.getCurrentItem().clone();
+                final ItemStack cursorClone = (e.getCursor() == null) ? null : e.getCursor().clone();
+                final InventoryView view = e.getView();
                 if (cursorClone == null) {
                     return;
                 }
                 if (cursorClone.getType() == Material.AIR) {
                     return;
                 }
-                if (cursorClone.getType() == ingredient.getType()) {
+                if (ingredient != null && cursorClone.getType() == ingredient.getType()) {
                     e.setCancelled(true);
                     return;
                 }
@@ -113,14 +110,31 @@ public class BrewingInventoryClick implements Listener {
                     @Override
                     public void run() {
                         if (!(oldIngredients.contains(cursorClone.getType()))) {
-                            e.getView().setCursor(ingredient);
-                            e.getClickedInventory().setItem(e.getSlot(), cursorClone);
+                            /*
+                             * Vanilla doesn't accept custom ingredients in the ingredient slot, so they are swapped in by hand.
+                             * This happens one tick after the click, so first make sure nothing changed in the meantime:
+                             * the cursor item may have been placed elsewhere, dropped or put back in the inventory
+                             * (e.g. by closing the inventory), and swapping a stale copy of it into the stand would duplicate it.
+                             */
+                            if (!p.isOnline() || !brewingInventory.equals(p.getOpenInventory().getTopInventory())) {
+                                return;
+                            }
+                            if (!isSameItem(view.getCursor(), cursorClone) || !isSameItem(brewingInventory.getItem(3), ingredient)) {
+                                return;
+                            }
+                            view.setCursor(ingredient);
+                            brewingInventory.setItem(3, cursorClone);
                             p.updateInventory();
                         }
+                        //Only start custom brewing if the ingredient really ended up in the stand
+                        ItemStack currentIngredient = brewingInventory.getIngredient();
+                        if (currentIngredient == null || currentIngredient.getType() != cursorClone.getType()) {
+                            return;
+                        }
+                        ItemStack[] potionSlots = {brewingInventory.getItem(0), brewingInventory.getItem(1), brewingInventory.getItem(2)};
                         Alchemy alchemyClass = new Alchemy(p);
                         if (newIngredients.contains(cursorClone.getType())) {
-                            ItemStack[] potionSlots = {potionSlot1,potionSlot2,potionSlot3};
-                            boolean[] slotsAwkward = {alchemyClass.comparePotionEffects(potionSlot1, awkwardBottle), alchemyClass.comparePotionEffects(potionSlot2, awkwardBottle), alchemyClass.comparePotionEffects(potionSlot3, awkwardBottle)};
+                            boolean[] slotsAwkward = {alchemyClass.comparePotionEffects(potionSlots[0], awkwardBottle), alchemyClass.comparePotionEffects(potionSlots[1], awkwardBottle), alchemyClass.comparePotionEffects(potionSlots[2], awkwardBottle)};
                             boolean proceed = true;
                             for (int i = 0; i < 3; i++) {
                                 if (slotsAwkward[i]) {
@@ -149,7 +163,7 @@ public class BrewingInventoryClick implements Listener {
                         } else if (cursorClone.getType() == Material.GLOWSTONE_DUST || cursorClone.getType() == Material.REDSTONE) {
                             boolean[] slotsToCheck = {false,false,false};
                             for (int i = 0; i < 3; i++) {
-                                if (potionSlots[i] != null) {
+                                if (potionSlots[i] != null && potionSlots[i].hasItemMeta()) {
                                     if (potionSlots[i].getItemMeta().hasEnchant(Enchantment.LOYALTY)) {
                                         slotsToCheck[i] = true;
                                     }
@@ -164,5 +178,14 @@ public class BrewingInventoryClick implements Listener {
                 }.runTaskLater(plugin, 1);
             }
         }
+    }
+
+    private static boolean isSameItem(ItemStack item1, ItemStack item2) {
+        boolean item1Empty = (item1 == null || item1.getType() == Material.AIR);
+        boolean item2Empty = (item2 == null || item2.getType() == Material.AIR);
+        if (item1Empty || item2Empty) {
+            return item1Empty && item2Empty;
+        }
+        return item1.equals(item2);
     }
 }

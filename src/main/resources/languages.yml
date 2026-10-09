@@ -611,6 +611,13 @@
       potionTurtleMaster: Potion of the Turtle Master
       potionThick: Thick Potion
       potionWater: Water Bottle
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingredient
       usedToBrew: Is used to brew
       costs: costs
@@ -1212,6 +1219,13 @@
       potionTurtleMaster: Potion of the Turtle Master
       potionThick: Thick Potion
       potionWater: Water Bottle
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingredient
       usedToBrew: Is used to brew
       costs: costs
@@ -1808,6 +1822,13 @@
       potionTurtleMaster: Potion of the Turtle Master
       potionThick: Thick Potion
       potionWater: Water Bottle
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingredient
       usedToBrew: Is used to brew
       costs: costs
@@ -2425,6 +2446,13 @@
       potionTurtleMaster: Trank der Schildkrötenmeister
       potionThick: Dicker Trank
       potionWater: Wasserflasche
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Zutat
       usedToBrew: Wird zum Brauen verwendet
       costs: kostet
@@ -3049,6 +3077,13 @@
       potionTurtleMaster: Potion of the Turtle Master
       potionThick: Thick Potion
       potionWater: Water Bottle
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingredient
       usedToBrew: Is used to brew
       costs: costs
@@ -3744,6 +3779,13 @@
       potionTurtleMaster: Poción del maestro tortuga
       potionThick: Poción espesa
       potionWater: Botella de agua
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: ingrediente
       usedToBrew: se utiliza para preparar
       costs: costos
@@ -4340,6 +4382,13 @@
       potionTurtleMaster: Зелье Мастера черепах
       potionThick: Густое зелье
       potionWater: Бутылка с водой
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ингредиент
       usedToBrew: Используется для варки
       costs: стоимость
@@ -4971,6 +5020,13 @@
       potionTurtleMaster: Poção do Mestre da Tartaruga
       potionThick: Poção Grossa
       potionWater: Garrafa de agua
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingrediente
       usedToBrew: É usado para preparar cerveja
       costs: custos
@@ -5567,6 +5623,13 @@
       potionTurtleMaster: Potion of the Turtle Master
       potionThick: Thick Potion
       potionWater: Water Bottle
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingredience
       usedToBrew: Je použit k vaření
       costs: cena
@@ -6203,6 +6266,13 @@
       potionTurtleMaster: 거북 도사의 물약
       potionThick: 진한 물약
       potionWater: 물병
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: 성분
       usedToBrew: 양조 할때 사용됨
       costs: 비용
@@ -6836,6 +6906,13 @@
       potionTurtleMaster: Potion of the Turtle Master
       potionThick: Thick Potion
       potionWater: Water Bottle
+      potionPoison: Potion of Poison
+      potionBlindness: Potion of Blindness
+      potionInvisibility: Potion of Invisibility
+      potionWindCharging: Potion of Wind Charging
+      potionWeaving: Potion of Weaving
+      potionOozing: Potion of Oozing
+      potionInfestation: Potion of Infestation
       ingredient: Ingredient
       usedToBrew: Is used to brew
       costs: costs

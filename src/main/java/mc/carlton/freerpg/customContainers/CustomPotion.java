@@ -6,15 +6,16 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CustomPotion extends CustomItem {
     private PotionType potionType;
@@ -23,7 +24,7 @@ public class CustomPotion extends CustomItem {
     private List<PotionEffect> potionEffects = new ArrayList<>();
     private Color color;
     private ArrayList<Color> colors = new ArrayList<>();
-    private static Map<PotionEffectType, Color> potionEffectColors;
+    private static Map<PotionEffectType, Color> potionEffectColors = new HashMap<>();
 
     public CustomPotion(Map<String, Object> containerInformation) {
         super(Material.POTION,containerInformation);
@@ -44,7 +45,7 @@ public class CustomPotion extends CustomItem {
         ItemStack potion = getItemStackWithoutPotionEffects();
         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
         if (potionType != null) {
-            potionMeta.setBasePotionData(new PotionData(potionType,isExtended,isUpgraded));
+            potionMeta.setBasePotionType(UtilityMethods.getPotionTypeVariant(potionType,isExtended,isUpgraded));
         } else {
             for (PotionEffect potionEffect : potionEffects) {
                 potionMeta.addCustomEffect(potionEffect,true);
@@ -62,7 +63,11 @@ public class CustomPotion extends CustomItem {
         if (colors.isEmpty()) {
             ArrayList<Color> defaultColors = new ArrayList<>();
             for (PotionEffect potionEffect : potionEffects) {
-                defaultColors.add(potionEffectColors.get(potionEffect.getType()));
+                Color effectColor = potionEffectColors.get(potionEffect.getType());
+                if (effectColor == null) {
+                    effectColor = potionEffect.getType().getColor();
+                }
+                defaultColors.add(effectColor);
             }
             return mixColors(defaultColors);
         }
@@ -73,11 +78,11 @@ public class CustomPotion extends CustomItem {
         if (colorsToBeMixed.isEmpty()) {
             return Color.fromRGB(255,255,255); //Absolute default is white
         }
-        int numberOfColors = colors.size();
+        int numberOfColors = colorsToBeMixed.size();
         double red = 0;
         double green = 0;
         double blue = 0;
-        for (Color c : colors) {
+        for (Color c : colorsToBeMixed) {
             red += c.getRed()/((double)numberOfColors);
             green += c.getGreen()/((double)numberOfColors);
             blue += c.getBlue()/((double)numberOfColors);
@@ -130,38 +135,42 @@ public class CustomPotion extends CustomItem {
             PotionMeta potionMeta = ((PotionMeta) new ItemStack(Material.POTION).getItemMeta());
 
             //Effects with predetermined color
-            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
-            potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
-            potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
-            potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.HARMING));
-            potionEffectColors.put(PotionEffectType.INSTANT_DAMAGE,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.HEALING));
-            potionEffectColors.put(PotionEffectType.INSTANT_HEALTH,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.STRENGTH));
-            potionEffectColors.put(PotionEffectType.STRENGTH,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
-            potionEffectColors.put(PotionEffectType.INVISIBILITY,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.LEAPING));
-            potionEffectColors.put(PotionEffectType.JUMP_BOOST,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.SLOW_FALLING));
-            potionEffectColors.put(PotionEffectType.LEVITATION,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.NIGHT_VISION));
-            potionEffectColors.put(PotionEffectType.NIGHT_VISION,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.POISON));
-            potionEffectColors.put(PotionEffectType.POISON,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.REGENERATION));
-            potionEffectColors.put(PotionEffectType.REGENERATION,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.SLOWNESS));
-            potionEffectColors.put(PotionEffectType.SLOWNESS,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.SWIFTNESS));
-            potionEffectColors.put(PotionEffectType.SPEED,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.WATER_BREATHING));
-            potionEffectColors.put(PotionEffectType.WATER_BREATHING,potionMeta.getColor());
-            potionMeta.setBasePotionData(new PotionData(PotionType.WEAKNESS));
-            potionEffectColors.put(PotionEffectType.WEAKNESS,potionMeta.getColor());
+            potionMeta.setBasePotionType(PotionType.FIRE_RESISTANCE);
+            potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.HARMING);
+            potionEffectColors.put(PotionEffectType.INSTANT_DAMAGE,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.HEALING);
+            potionEffectColors.put(PotionEffectType.INSTANT_HEALTH,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.STRENGTH);
+            potionEffectColors.put(PotionEffectType.STRENGTH,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.INVISIBILITY);
+            potionEffectColors.put(PotionEffectType.INVISIBILITY,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.LEAPING);
+            potionEffectColors.put(PotionEffectType.JUMP_BOOST,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.SLOW_FALLING);
+            potionEffectColors.put(PotionEffectType.SLOW_FALLING,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.NIGHT_VISION);
+            potionEffectColors.put(PotionEffectType.NIGHT_VISION,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.POISON);
+            potionEffectColors.put(PotionEffectType.POISON,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.REGENERATION);
+            potionEffectColors.put(PotionEffectType.REGENERATION,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.SLOWNESS);
+            potionEffectColors.put(PotionEffectType.SLOWNESS,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.SWIFTNESS);
+            potionEffectColors.put(PotionEffectType.SPEED,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.WATER_BREATHING);
+            potionEffectColors.put(PotionEffectType.WATER_BREATHING,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.WEAKNESS);
+            potionEffectColors.put(PotionEffectType.WEAKNESS,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.WIND_CHARGED);
+            potionEffectColors.put(PotionEffectType.WIND_CHARGED,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.WEAVING);
+            potionEffectColors.put(PotionEffectType.WEAVING,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.OOZING);
+            potionEffectColors.put(PotionEffectType.OOZING,potionMeta.computeEffectiveColor());
+            potionMeta.setBasePotionType(PotionType.INFESTED);
+            potionEffectColors.put(PotionEffectType.INFESTED,potionMeta.computeEffectiveColor());
 
             // Effects with no predetermined color
             potionEffectColors.put(PotionEffectType.ABSORPTION,Color.fromRGB(196, 201, 34));
@@ -207,7 +216,7 @@ public class CustomPotion extends CustomItem {
         }
         stringValue += "Exp: " + experienceDrop + ", ";
         if (potionType != null) {
-            stringValue += "Potion: " + potionType.toString() + ", level: " + (isUpgraded ? 1 : 2) + ", duration: " + (isExtended ? "normal" : "extended") + ", ";
+            stringValue += "Potion: " + potionType.toString() + ", level: " + (isUpgraded ? 2 : 1) + ", duration: " + (isExtended ? "extended" : "normal") + ", ";
         }
         if (!potionEffects.isEmpty()) {
             stringValue += "Potion Effects: {";
@@ -239,7 +248,7 @@ public class CustomPotion extends CustomItem {
         if (!customItemEquals(otherCustomPotion)) { //Are inherited variables not equal?
             return false;
         }
-        if (potionType.equals(otherCustomPotion.potionType) &&
+        if (Objects.equals(potionType, otherCustomPotion.potionType) &&
             isUpgraded == otherCustomPotion.isUpgraded &&
             isExtended == otherCustomPotion.isExtended &&
             potionEffects.equals(otherCustomPotion.potionEffects)) {
