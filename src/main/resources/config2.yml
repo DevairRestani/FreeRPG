@@ -110,10 +110,10 @@ fishing:
       - [drop: FISHING_ROD,   amount: 1, exp: 1000, weight: 2,  durability: [lower: 0.10, upper: 1.00]]
       - [drop: LEATHER,       amount: 1, exp: 1000, weight: 10]
       - [drop: LEATHER_BOOTS, amount: 1, exp: 1000, weight: 10, durability: [lower: 0.10, upper: 1.00]]
-      - [drop: ROTTEN FLESH,  amount: 1, exp: 1000, weight: 10]
+      - [drop: ROTTEN_FLESH,  amount: 1, exp: 1000, weight: 10]
       - [drop: STICK,         amount: 1, exp: 1000, weight: 5 ]
       - [drop: STRING,        amount: 1, exp: 1000, weight: 5 ]
-      - [drop: BOTTLE,        amount: 1, exp: 1000, weight: 10, potion: [effect: WATER] ]
+      - [drop: POTION,        amount: 1, exp: 1000, weight: 10, potion: [effect: WATER] ]
       - [drop: BONE,          amount: 1, exp: 1000, weight: 10]
       - [drop: INK_SAC,       amount: 1, exp: 1000, weight: 1 ]
       - [drop: TRIPWIRE_HOOK, amount: 1, exp: 1000, weight: 10]
@@ -128,7 +128,7 @@ fishing:
       - [drop: FISHING_ROD,    amount: 1, exp: 2000, weight: 1, durability: [lower: 0, upper: 0.18], enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
       - [drop: NAME_TAG,       amount: 1, exp: 2000, weight: 1]
       - [drop: NAUTILUS_SHELL, amount: 1, exp: 2000, weight: 1]
-      - [drop: ROTTEN SADDLE,  amount: 1, exp: 2000, weight: 1]
+      - [drop: SADDLE,         amount: 1, exp: 2000, weight: 1]
 archery:
   enabled: true #Setting this to false disables all skill features and EXP drops.
   startingSkillTokens: 0 #number of skill tokens each player starts with in this skill

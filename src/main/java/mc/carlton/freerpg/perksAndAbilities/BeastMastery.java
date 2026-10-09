@@ -219,7 +219,8 @@ public class BeastMastery extends Skill{
         if (!runMethods) {
             return;
         }
-        if (entity.getType() == EntityType.HORSE || entity.getType() == EntityType.DONKEY || entity.getType() == EntityType.MULE || entity.getType() == EntityType.LLAMA) {
+        if (entity.getType() == EntityType.HORSE || entity.getType() == EntityType.DONKEY || entity.getType() == EntityType.MULE || entity.getType() == EntityType.LLAMA
+                || entity.getType() == EntityType.TRADER_LLAMA || entity.getType() == EntityType.NAUTILUS || entity.getType() == EntityType.ZOMBIE_NAUTILUS) {
             increaseStats.changeEXP(skillName, expMap.get("tameHorse"));
         } else if (entity.getType() == EntityType.WOLF) {
             increaseStats.changeEXP(skillName, expMap.get("tameWolf"));
@@ -234,7 +235,8 @@ public class BeastMastery extends Skill{
         if (!runMethods) {
             return;
         }
-        List<EntityType> mounts = Arrays.asList(new EntityType[]{EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.LLAMA,EntityType.ZOMBIE_HORSE,EntityType.SKELETON_HORSE});
+        List<EntityType> mounts = Arrays.asList(new EntityType[]{EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.LLAMA,EntityType.ZOMBIE_HORSE,EntityType.SKELETON_HORSE,
+                EntityType.TRADER_LLAMA,EntityType.CAMEL,EntityType.CAMEL_HUSK,EntityType.HAPPY_GHAST});
         if (mounts.contains(entity.getType())) {
             Entity mount = entity;
             HorseRiding data_set = new HorseRiding();

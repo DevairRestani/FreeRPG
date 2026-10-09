@@ -60,6 +60,14 @@ public class ExpMaps {
         if (mcVersion >= 1.16) {
             diggingEXP.put(Material.SOUL_SOIL,expMap.get("breakSoulSoil"));
         }
+        //1.17+ Blocks
+        diggingEXP.put(Material.ROOTED_DIRT,expMap.get("breakRooted_Dirt"));
+        diggingEXP.put(Material.MOSS_BLOCK,expMap.get("breakMoss_Block"));
+        diggingEXP.put(Material.MUD,expMap.get("breakMud"));
+        diggingEXP.put(Material.MUDDY_MANGROVE_ROOTS,expMap.get("breakMuddy_Mangrove_Roots"));
+        diggingEXP.put(Material.SUSPICIOUS_SAND,expMap.get("breakSuspicious_Sand"));
+        diggingEXP.put(Material.SUSPICIOUS_GRAVEL,expMap.get("breakSuspicious_Gravel"));
+        diggingEXP.put(Material.PALE_MOSS_BLOCK,expMap.get("breakPale_Moss_Block"));
     }
 
     public void initializeWoodcuttingEXP() {
@@ -109,9 +117,39 @@ public class ExpMaps {
             woodcuttingEXP.put(Material.WARPED_STEM, expMap.get("breakWarped_Stem"));
             woodcuttingEXP.put(Material.STRIPPED_CRIMSON_STEM, expMap.get("breakCrimson_Stem"));
             woodcuttingEXP.put(Material.STRIPPED_WARPED_STEM, expMap.get("breakWarped_Stem"));
-            woodcuttingEXP.put(Material.WARPED_PLANKS, expMap.get("breakCrimson_Planks"));
-            woodcuttingEXP.put(Material.CRIMSON_PLANKS, expMap.get("breakWarped_Planks"));
+            woodcuttingEXP.put(Material.CRIMSON_HYPHAE, expMap.get("breakCrimson_Stem"));
+            woodcuttingEXP.put(Material.WARPED_HYPHAE, expMap.get("breakWarped_Stem"));
+            woodcuttingEXP.put(Material.STRIPPED_CRIMSON_HYPHAE, expMap.get("breakCrimson_Stem"));
+            woodcuttingEXP.put(Material.STRIPPED_WARPED_HYPHAE, expMap.get("breakWarped_Stem"));
+            woodcuttingEXP.put(Material.CRIMSON_PLANKS, expMap.get("breakCrimson_Planks"));
+            woodcuttingEXP.put(Material.WARPED_PLANKS, expMap.get("breakWarped_Planks"));
         }
+        //1.17+ Blocks
+        woodcuttingEXP.put(Material.MANGROVE_LOG,expMap.get("breakMangrove_Log"));
+        woodcuttingEXP.put(Material.CHERRY_LOG,expMap.get("breakCherry_Log"));
+        woodcuttingEXP.put(Material.PALE_OAK_LOG,expMap.get("breakPale_Oak_Log"));
+        woodcuttingEXP.put(Material.STRIPPED_MANGROVE_LOG,expMap.get("breakMangrove_Log"));
+        woodcuttingEXP.put(Material.STRIPPED_CHERRY_LOG,expMap.get("breakCherry_Log"));
+        woodcuttingEXP.put(Material.STRIPPED_PALE_OAK_LOG,expMap.get("breakPale_Oak_Log"));
+        woodcuttingEXP.put(Material.MANGROVE_WOOD,expMap.get("breakMangrove_Log"));
+        woodcuttingEXP.put(Material.CHERRY_WOOD,expMap.get("breakCherry_Log"));
+        woodcuttingEXP.put(Material.PALE_OAK_WOOD,expMap.get("breakPale_Oak_Log"));
+        woodcuttingEXP.put(Material.STRIPPED_MANGROVE_WOOD,expMap.get("breakMangrove_Log"));
+        woodcuttingEXP.put(Material.STRIPPED_CHERRY_WOOD,expMap.get("breakCherry_Log"));
+        woodcuttingEXP.put(Material.STRIPPED_PALE_OAK_WOOD,expMap.get("breakPale_Oak_Log"));
+        woodcuttingEXP.put(Material.BAMBOO_BLOCK,expMap.get("breakBamboo_Block"));
+        woodcuttingEXP.put(Material.STRIPPED_BAMBOO_BLOCK,expMap.get("breakBamboo_Block"));
+        woodcuttingEXP.put(Material.MANGROVE_PLANKS,expMap.get("breakMangrove_Plank"));
+        woodcuttingEXP.put(Material.CHERRY_PLANKS,expMap.get("breakCherry_Plank"));
+        woodcuttingEXP.put(Material.PALE_OAK_PLANKS,expMap.get("breakPale_Oak_Plank"));
+        woodcuttingEXP.put(Material.BAMBOO_PLANKS,expMap.get("breakBamboo_Plank"));
+        woodcuttingEXP.put(Material.MANGROVE_LEAVES,expMap.get("breakMangrove_Leaves"));
+        woodcuttingEXP.put(Material.CHERRY_LEAVES,expMap.get("breakCherry_Leaves"));
+        woodcuttingEXP.put(Material.PALE_OAK_LEAVES,expMap.get("breakPale_Oak_Leaves"));
+        woodcuttingEXP.put(Material.AZALEA_LEAVES,expMap.get("breakAzalea_Leaves"));
+        woodcuttingEXP.put(Material.FLOWERING_AZALEA_LEAVES,expMap.get("breakAzalea_Leaves"));
+        woodcuttingEXP.put(Material.MANGROVE_ROOTS,expMap.get("breakMangrove_Roots"));
+        woodcuttingEXP.put(Material.CREAKING_HEART,expMap.get("breakCreaking_Heart"));
     }
 
     public void initializeMiningEXP() {
@@ -158,6 +196,29 @@ public class ExpMaps {
             miningEXP.put(Material.WARPED_NYLIUM, expMap.get("breakWarped_Nylium"));
             miningEXP.put(Material.GILDED_BLACKSTONE, expMap.get("breakGilded_Blackstone"));
         }
+        //1.17+ Blocks
+        miningEXP.put(Material.DEEPSLATE_COAL_ORE,expMap.get("breakCoal_Ore"));
+        miningEXP.put(Material.DEEPSLATE_IRON_ORE,expMap.get("breakIron_Ore"));
+        miningEXP.put(Material.DEEPSLATE_GOLD_ORE,expMap.get("breakGold_Ore"));
+        miningEXP.put(Material.DEEPSLATE_REDSTONE_ORE,expMap.get("breakRedstone_Ore"));
+        miningEXP.put(Material.DEEPSLATE_LAPIS_ORE,expMap.get("breakLapis_Ore"));
+        miningEXP.put(Material.DEEPSLATE_DIAMOND_ORE,expMap.get("breakDiamond_Ore"));
+        miningEXP.put(Material.DEEPSLATE_EMERALD_ORE,expMap.get("breakEmerald_Ore"));
+        miningEXP.put(Material.COPPER_ORE,expMap.get("breakCopper_Ore"));
+        miningEXP.put(Material.DEEPSLATE_COPPER_ORE,expMap.get("breakCopper_Ore"));
+        miningEXP.put(Material.RAW_IRON_BLOCK,expMap.get("breakIron_Ore"));
+        miningEXP.put(Material.RAW_GOLD_BLOCK,expMap.get("breakGold_Ore"));
+        miningEXP.put(Material.RAW_COPPER_BLOCK,expMap.get("breakCopper_Ore"));
+        miningEXP.put(Material.DEEPSLATE,expMap.get("breakDeepslate"));
+        miningEXP.put(Material.TUFF,expMap.get("breakTuff"));
+        miningEXP.put(Material.CALCITE,expMap.get("breakCalcite"));
+        miningEXP.put(Material.DRIPSTONE_BLOCK,expMap.get("breakDripstone_Block"));
+        miningEXP.put(Material.SMOOTH_BASALT,expMap.get("breakBasalt"));
+        miningEXP.put(Material.AMETHYST_BLOCK,expMap.get("breakAmethyst_Block"));
+        miningEXP.put(Material.BUDDING_AMETHYST,expMap.get("breakAmethyst_Block"));
+        miningEXP.put(Material.AMETHYST_CLUSTER,expMap.get("breakAmethyst_Cluster"));
+        miningEXP.put(Material.CINNABAR,expMap.get("breakCinnabar"));
+        miningEXP.put(Material.SULFUR,expMap.get("breakSulfur"));
     }
 
     public void initializeFarmingEXP() {
@@ -175,11 +236,16 @@ public class ExpMaps {
         farmingEXP.put(Material.CACTUS,expMap.get("breakCactus"));
         farmingEXP.put(Material.RED_MUSHROOM,expMap.get("breakRed_Mushroom"));
         farmingEXP.put(Material.BROWN_MUSHROOM,expMap.get("breakBrown_Mushroom"));
-        farmingEXP.put(Material.SWEET_BERRIES,expMap.get("breakSweetBerries"));
+        farmingEXP.put(Material.SWEET_BERRY_BUSH,expMap.get("breakSweetBerries"));
         farmingEXP.put(Material.KELP,expMap.get("breakKelp"));
         farmingEXP.put(Material.SEA_PICKLE,expMap.get("breakSea_Pickle"));
         farmingEXP.put(Material.NETHER_WART,expMap.get("breakNether_Wart"));
         farmingEXP.put(Material.CHORUS_PLANT,expMap.get("breakChorusPlant"));
+        //1.17+ Blocks
+        farmingEXP.put(Material.CAVE_VINES,expMap.get("breakGlowBerries"));
+        farmingEXP.put(Material.CAVE_VINES_PLANT,expMap.get("breakGlowBerries"));
+        farmingEXP.put(Material.TORCHFLOWER,expMap.get("breakTorchflower"));
+        farmingEXP.put(Material.PITCHER_CROP,expMap.get("breakPitcherCrop"));
     }
     public void initializeFlamePickEXP() {
         ConfigLoad configLoad = new ConfigLoad();
@@ -225,6 +291,25 @@ public class ExpMaps {
             flamePickEXP.put(Material.NETHER_GOLD_ORE,new Object[]{"mining",expMap.get("mining").get("breakNether_Gold_Ore")});
             flamePickEXP.put(Material.ANCIENT_DEBRIS,new Object[]{"mining",expMap.get("mining").get("breakAncient_Debris")});
         }
+        //1.17+ Blocks
+        flamePickEXP.put(Material.DEEPSLATE_IRON_ORE,new Object[]{"mining",expMap.get("mining").get("breakIron_Ore")});
+        flamePickEXP.put(Material.DEEPSLATE_GOLD_ORE,new Object[]{"mining",expMap.get("mining").get("breakGold_Ore")});
+        flamePickEXP.put(Material.COPPER_ORE,new Object[]{"mining",expMap.get("mining").get("breakCopper_Ore")});
+        flamePickEXP.put(Material.DEEPSLATE_COPPER_ORE,new Object[]{"mining",expMap.get("mining").get("breakCopper_Ore")});
+        flamePickEXP.put(Material.COBBLED_DEEPSLATE,new Object[]{"mining",0});
+        flamePickEXP.put(Material.BASALT,new Object[]{"mining",expMap.get("mining").get("breakBasalt")});
+        flamePickEXP.put(Material.MANGROVE_LOG,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakMangrove_Log")});
+        flamePickEXP.put(Material.CHERRY_LOG,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakCherry_Log")});
+        flamePickEXP.put(Material.PALE_OAK_LOG,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakPale_Oak_Log")});
+        flamePickEXP.put(Material.STRIPPED_MANGROVE_LOG,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakMangrove_Log")});
+        flamePickEXP.put(Material.STRIPPED_CHERRY_LOG,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakCherry_Log")});
+        flamePickEXP.put(Material.STRIPPED_PALE_OAK_LOG,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakPale_Oak_Log")});
+        flamePickEXP.put(Material.MANGROVE_WOOD,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakMangrove_Log")});
+        flamePickEXP.put(Material.CHERRY_WOOD,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakCherry_Log")});
+        flamePickEXP.put(Material.PALE_OAK_WOOD,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakPale_Oak_Log")});
+        flamePickEXP.put(Material.STRIPPED_MANGROVE_WOOD,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakMangrove_Log")});
+        flamePickEXP.put(Material.STRIPPED_CHERRY_WOOD,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakCherry_Log")});
+        flamePickEXP.put(Material.STRIPPED_PALE_OAK_WOOD,new Object[]{"woodcutting",expMap.get("woodcutting").get("breakPale_Oak_Log")});
     }
 
 

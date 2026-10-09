@@ -4,7 +4,6 @@ import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
 import mc.carlton.freerpg.globalVariables.ExpMaps;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
-import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
@@ -276,12 +275,14 @@ public class Smelting extends Skill{
                 EXP = expMap.get("smeltGlass");
                 break;
             case BRICK:
+            case RESIN_BRICK:
                 EXP = expMap.get("smeltBrick");
                 break;
             case NETHER_BRICK:
                 EXP = expMap.get("smeltNether_Brick");
                 break;
             case STONE:
+            case DEEPSLATE:
                 EXP = expMap.get("smeltStone");
                 break;
             case SMOOTH_SANDSTONE:
@@ -294,6 +295,7 @@ public class Smelting extends Skill{
                 EXP = expMap.get("smeltSmooth_Red_Sandstone");
                 break;
             case SMOOTH_STONE:
+            case SMOOTH_BASALT:
                 EXP = expMap.get("smeltSmooth_Stone");
                 break;
             case SMOOTH_QUARTZ:
@@ -329,6 +331,9 @@ public class Smelting extends Skill{
             case GOLD_INGOT:
                 EXP = expMap.get("smeltGoldIngot");
                 break;
+            case COPPER_INGOT:
+                EXP = expMap.get("smeltCopperIngot");
+                break;
             case DIAMOND:
                 EXP = expMap.get("smeltDiamond");
                 break;
@@ -353,21 +358,24 @@ public class Smelting extends Skill{
             case GOLD_NUGGET:
                 EXP = expMap.get("smeltGold_Nugget");
                 break;
+            case COPPER_NUGGET:
+                EXP = expMap.get("smeltCopper_Nugget");
+                break;
             case CRACKED_STONE_BRICKS:
+            case CRACKED_DEEPSLATE_BRICKS:
+            case CRACKED_DEEPSLATE_TILES:
+            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
                 EXP = expMap.get("smeltCracked_Stone_Bricks");
+                break;
+            case NETHERITE_SCRAP:
+                EXP = expMap.get("smeltNetherite_Scrap");
+                break;
+            case CRACKED_NETHER_BRICKS:
+                EXP = expMap.get("smeltCracked_Nether_Bricks");
                 break;
             default:
                 EXP = expMap.get("smeltAnythingElse");
                 break;
-        }
-        MinecraftVersion minecraftVersion = new MinecraftVersion();
-        if (minecraftVersion.getMinecraftVersion_Double() >= 1.16 && EXP != expMap.get("smeltAnythingElse")) {
-            if (smeltedMaterial.equals(Material.NETHERITE_SCRAP)) {
-                EXP = expMap.get("smeltNetherite_Scrap");
-            }
-            if (smeltedMaterial.equals(Material.CRACKED_NETHER_BRICKS)) {
-                EXP = expMap.get("smeltCracked_Nether_Bricks");
-            }
         }
         return EXP;
     }

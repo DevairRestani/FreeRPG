@@ -197,11 +197,11 @@ public class Mining extends Skill{
                 increaseStats.changeEXP(skillName,expMap.get("breakCoal_Ore"));
             }
             else if (randomNum2 < 0.7) {
-                world.dropItemNaturally(loc, new ItemStack(Material.IRON_ORE,1));
+                world.dropItemNaturally(loc, new ItemStack(Material.RAW_IRON,1));
                 increaseStats.changeEXP(skillName,expMap.get("breakIron_Ore"));
             }
             else if (randomNum2 < 0.8) {
-                world.dropItemNaturally(loc, new ItemStack(Material.GOLD_ORE,1));
+                world.dropItemNaturally(loc, new ItemStack(Material.RAW_GOLD,1));
                 increaseStats.changeEXP(skillName,expMap.get("breakGold_Ore"));
             }
             else if (randomNum2 < 0.85) {
@@ -468,28 +468,31 @@ public class Mining extends Skill{
         }
         MinecraftVersion minecraftVersion = new MinecraftVersion();
         int EXP = 0;
-        if(brokenOre.equals(Material.COAL_ORE)) {
+        if(brokenOre.equals(Material.COAL_ORE) || brokenOre.equals(Material.DEEPSLATE_COAL_ORE)) {
             EXP = expMap.get("breakCoal_Ore");
         }
         else if(brokenOre.equals(Material.NETHER_QUARTZ_ORE)) {
             EXP = expMap.get("breakNether_Quartz_Ore");
         }
-        else if(brokenOre.equals(Material.IRON_ORE)) {
+        else if(brokenOre.equals(Material.IRON_ORE) || brokenOre.equals(Material.DEEPSLATE_IRON_ORE) || brokenOre.equals(Material.RAW_IRON_BLOCK)) {
             EXP = expMap.get("breakIron_Ore");
         }
-        else if(brokenOre.equals(Material.GOLD_ORE)) {
+        else if(brokenOre.equals(Material.GOLD_ORE) || brokenOre.equals(Material.DEEPSLATE_GOLD_ORE) || brokenOre.equals(Material.RAW_GOLD_BLOCK)) {
             EXP = expMap.get("breakGold_Ore");
         }
-        else if(brokenOre.equals(Material.EMERALD_ORE)) {
+        else if(brokenOre.equals(Material.COPPER_ORE) || brokenOre.equals(Material.DEEPSLATE_COPPER_ORE) || brokenOre.equals(Material.RAW_COPPER_BLOCK)) {
+            EXP = expMap.get("breakCopper_Ore");
+        }
+        else if(brokenOre.equals(Material.EMERALD_ORE) || brokenOre.equals(Material.DEEPSLATE_EMERALD_ORE)) {
             EXP = expMap.get("breakEmerald_Ore");
         }
-        else if(brokenOre.equals(Material.REDSTONE_ORE)) {
+        else if(brokenOre.equals(Material.REDSTONE_ORE) || brokenOre.equals(Material.DEEPSLATE_REDSTONE_ORE)) {
             EXP = expMap.get("breakRedstone_Ore");
         }
-        else if(brokenOre.equals(Material.LAPIS_ORE)) {
+        else if(brokenOre.equals(Material.LAPIS_ORE) || brokenOre.equals(Material.DEEPSLATE_LAPIS_ORE)) {
             EXP = expMap.get("breakLapis_Ore");
         }
-        else if(brokenOre.equals(Material.DIAMOND_ORE)) {
+        else if(brokenOre.equals(Material.DIAMOND_ORE) || brokenOre.equals(Material.DEEPSLATE_DIAMOND_ORE)) {
             EXP = expMap.get("breakDiamond_Ore");
         }
         else if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
