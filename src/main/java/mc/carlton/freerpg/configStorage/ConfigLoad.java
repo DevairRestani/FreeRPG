@@ -9,7 +9,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -310,7 +309,7 @@ public class ConfigLoad {
             oldCustomRecipe.setOutputAmount(advancedConfig.getInt("enchanting.crafting.recipeOutputAmount"+i));
             String enchantType = advancedConfig.getString("enchanting.crafting.recipeEnchant"+i);
             if (!enchantType.equalsIgnoreCase("none")) {
-                oldCustomRecipe.setEnchantment(EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchantType)));
+                oldCustomRecipe.setEnchantment(org.bukkit.Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantType)));
                 oldCustomRecipe.setEnchantmentLevel(advancedConfig.getInt("enchanting.crafting.recipeEnchantLevel"+i));
                 oldCustomRecipe.setXPcraftCost(advancedConfig.getInt("enchanting.crafting.XPcostToCraft"+i));
             }

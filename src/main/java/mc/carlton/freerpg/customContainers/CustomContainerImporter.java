@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -660,7 +659,7 @@ public class CustomContainerImporter {
     }
 
     private Enchantment getEnchantment(Object value) {
-        Enchantment enchantment = EnchantmentWrapper.getByKey(NamespacedKey.minecraft(value.toString().toLowerCase()));
+        Enchantment enchantment = org.bukkit.Registry.ENCHANTMENT.get(NamespacedKey.minecraft(value.toString().toLowerCase()));
         if (enchantment == null) {
             printReadInError(INVALID_ENCHANTMENT + value.toString());
             return null;

@@ -567,7 +567,7 @@ public class Repair extends Skill{
                         itemInHand.setItemMeta(itemInHandMeta);
                         int enchantEXP = magicRepair();
                         increaseStats.changeEXP(skillName,enchantEXP+expToGive+(expRepairMultiplier*expDamage));
-                        p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+                        p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
                     }
                 }
             }
@@ -595,7 +595,7 @@ public class Repair extends Skill{
         ItemGroups itemGroups = new ItemGroups();
         Map<Material,Integer> repairItemsAmount = itemGroups.getRepairItemsAmount();
         if (repairItemsAmount.containsKey(itemInHand.getType())) {
-            p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+            p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
             ItemMeta itemInHandMeta = itemInHand.getItemMeta();
             Material itemType = itemInHand.getType();
             int amount = repairItemsAmount.get(itemType);

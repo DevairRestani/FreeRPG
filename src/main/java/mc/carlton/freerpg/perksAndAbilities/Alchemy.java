@@ -114,7 +114,7 @@ public class Alchemy extends Skill{
                     liveStand.setFuelLevel(Math.max(liveStand.getFuelLevel() - 1, 0));
                     liveStand.setBrewingTime(0);
                     liveStand.update();
-                    world.playEffect(liveStand.getLocation(), Effect.BREWING_STAND_BREW, 1);
+                    world.playSound(liveStand.getLocation(), org.bukkit.Sound.BLOCK_BREWING_STAND_BREW, 1.0f, 1.0f);
                     stopBrewing(inventory);
                     cancel();
                     return;
@@ -217,7 +217,7 @@ public class Alchemy extends Skill{
                     liveStand.setFuelLevel(Math.max(liveStand.getFuelLevel() - 1, 0));
                     liveStand.setBrewingTime(0);
                     liveStand.update();
-                    world.playEffect(liveStand.getLocation(), Effect.BREWING_STAND_BREW, 1);
+                    world.playSound(liveStand.getLocation(), org.bukkit.Sound.BLOCK_BREWING_STAND_BREW, 1.0f, 1.0f);
                     stopBrewing(inventory);
                     cancel();
                     return;

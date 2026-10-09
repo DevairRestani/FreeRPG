@@ -229,7 +229,7 @@ public class Farming extends Skill{
                 itemInHand.setItemMeta(toolMeta);
                 if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
                     itemInHand.setAmount(0);
-                    p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
+                    p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f); //STEP_SOUND with int data throws on modern servers
                 }
             }
             if (block_data instanceof Ageable) {

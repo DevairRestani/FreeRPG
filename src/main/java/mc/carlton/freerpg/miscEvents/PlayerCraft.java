@@ -193,7 +193,7 @@ public class PlayerCraft implements Listener {
                 p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             } else {
                 p.setLevel(p.getLevel()-xpLevelCost);
-                p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+                p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
             }
         }
         else if (craftingMatch(sharpness,crafting) || craftingMatch(protection,crafting)) {
@@ -217,7 +217,7 @@ public class PlayerCraft implements Listener {
                 p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             } else {
                 p.setLevel(p.getLevel()-xpLevelCost);
-                p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+                p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
             }
         }
         else if (craftingMatch(luck,crafting) || craftingMatch(lure,crafting)) {
@@ -241,7 +241,7 @@ public class PlayerCraft implements Listener {
                 p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             } else {
                 p.setLevel(p.getLevel()-xpLevelCost);
-                p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+                p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
             }
         }
         else if (craftingMatch(depth,crafting) || craftingMatch(frost,crafting)) {
@@ -265,7 +265,7 @@ public class PlayerCraft implements Listener {
                 p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             } else {
                 p.setLevel(p.getLevel()-xpLevelCost);
-                p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+                p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
             }
         }
         else if (craftingMatch(mending,crafting) || craftingMatch(fortune,crafting)) {
@@ -290,7 +290,7 @@ public class PlayerCraft implements Listener {
                 p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             } else {
                 p.setLevel(p.getLevel()-xpLevelCost);
-                p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
+                p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
             }
         }
         else if (craftingMatch(waterBreathing,crafting)) {
