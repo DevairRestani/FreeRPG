@@ -161,6 +161,10 @@ public class Smelting extends Skill{
     }
 
     public boolean flamePick(Block block,World world,Material blockType,boolean giveEXP) {
+        return flamePick(block,world,blockType,giveEXP,true);
+    }
+    //natural = false for player-placed blocks: still smelted, but no EXP, XP orbs or bonus drops (prevents place/break dupes)
+    public boolean flamePick(Block block,World world,Material blockType,boolean giveEXP,boolean natural) {
         if (!runMethods) {
             return false;
         }
@@ -180,18 +184,23 @@ public class Smelting extends Skill{
         double chanceDoubleSmelt = doubleSmeltLevel*0.05;
         double chanceDoubleLogDrop = 0.0005*doubleDropWoodcuttingLevel;
         int dropAmount = 1;
-        if (chanceDoubleSmelt > rand.nextDouble()) {
+        if (natural && chanceDoubleSmelt > rand.nextDouble()) {
             dropAmount *= 2;
         }
         world.spawnParticle(Particle.FLAME, block.getLocation(), 5);
         block.setType(Material.AIR);
         ConfigLoad configLoad = new ConfigLoad();
         damageTool(configLoad.getDurabilityModifiers().get("flamePick"));
-        if (giveEXP) {
+        if (giveEXP && natural) {
             increaseStats.changeEXP(skillName, getEXP(blockType));
         }
-        dropXP(itemGroups.getSmeltingXPMap().get(blockType),block.getLocation());
-        if (itemGroups.getOres().contains(blockType)) {
+        if (natural) {
+            dropXP(itemGroups.getSmeltingXPMap().get(blockType),block.getLocation());
+        }
+        if (!natural) {
+            //No bonus drops for placed blocks
+        }
+        else if (itemGroups.getOres().contains(blockType)) {
             if (chanceDoubleOreDrop > rand.nextDouble()) {
                 if ((int) pStat.get("mining").get(13) > 0) {
                     dropAmount *= 3;
@@ -207,7 +216,7 @@ public class Smelting extends Skill{
             }
         }
         for (int i = 0; i < dropAmount; i++) {
-            if (chanceDoubleSmelt > rand.nextDouble()) {
+            if (natural && chanceDoubleSmelt > rand.nextDouble()) {
                 dropAmount += 1;
             }
         }

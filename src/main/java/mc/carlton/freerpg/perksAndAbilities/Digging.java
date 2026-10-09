@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
+import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
+
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
@@ -136,6 +138,7 @@ public class Digging extends Skill{
         BlockFace blockFace = blockFaceTracker.getBlockface(p);
         Vector normalVector = blockFace.getDirection();
         ConfigLoad configLoad = new ConfigLoad();
+        PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
@@ -152,12 +155,21 @@ public class Digging extends Skill{
                         }
                         if (diggingEXP.containsKey(blockType)) {
                             damageTool(configLoad.getDurabilityModifiers().get("megaDig"));
-                            increaseStats.changeEXP(skillName,(int) Math.round(diggingEXP.get(blockType)*configLoad.getSpecialMultiplier().get("megaDigEXPMultiplier")));
+                            //Player-placed blocks only drop themselves (no EXP or treasure) and stop being tracked
+                            boolean natural = !placedBlocksManager.isBlockTracked(planeBlock);
+                            if (natural) {
+                                increaseStats.changeEXP(skillName,(int) Math.round(diggingEXP.get(blockType)*configLoad.getSpecialMultiplier().get("megaDigEXPMultiplier")));
+                            }
+                            else {
+                                placedBlocksManager.removeBlock(planeBlock);
+                            }
                             Collection<ItemStack> drops = planeBlock.getDrops(itemInHand);
                             for (ItemStack stack : drops) {
                                 dropItemNaturally(blockLocation, stack);
                             }
-                            diggingTreasureDrop(world,blockLocation,blockType);
+                            if (natural) {
+                                diggingTreasureDrop(world,blockLocation,blockType);
+                            }
                             planeBlock.setType(Material.AIR);
                         }
                     }

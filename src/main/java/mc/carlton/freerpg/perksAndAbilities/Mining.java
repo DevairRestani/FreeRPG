@@ -436,7 +436,7 @@ public class Mining extends Skill{
                 numOres -= 1;
             }
             //Flame Pick Conditional
-            didRun = smeltingClass.flamePick(block,world,blockType,false);
+            didRun = smeltingClass.flamePick(block,world,blockType,false,natural);
             //Not Flame Pick
             if (!didRun && ores.contains(blockType)) {
                 Collection<ItemStack> drops = block.getDrops(itemInHand);

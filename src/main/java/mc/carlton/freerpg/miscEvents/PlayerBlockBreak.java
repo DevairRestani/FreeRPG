@@ -99,12 +99,12 @@ public class PlayerBlockBreak implements Listener {
                 }
                 else {
                     Smelting smeltingClass = new Smelting(p);
-                    smeltingClass.flamePick(block, world,blockType,true);
+                    smeltingClass.flamePick(block, world,blockType,true,natural);
                 }
             }
             else {
                 Smelting smeltingClass = new Smelting(p);
-                smeltingClass.flamePick(block, world,blockType,true);
+                smeltingClass.flamePick(block, world,blockType,true,natural);
             }
         }
 
@@ -144,7 +144,9 @@ public class PlayerBlockBreak implements Listener {
             Mining miningClass = new Mining(p);
             miningClass.wastelessHaste(blockType);
             miningClass.miningDoubleDrop(block, world);
-            miningClass.veinMiner(block,blockType);
+            if (pickaxes.contains(itemInHand.getType())) { //Some mining blocks (e.g. glowstone) can be broken without a pickaxe
+                miningClass.veinMiner(block,blockType);
+            }
             if (pAbilities[2] == -2) {
                 //Treasure Drops:
                 int passive2_mining = (int) pStat.get("mining").get(9);
@@ -159,7 +161,7 @@ public class PlayerBlockBreak implements Listener {
                 increaseStats.changeEXP("axeMastery", miningEXP.get(blockType));
             }
         }
-        else if (configLoad.getVeinMinerBlocks().contains(blockType)) {
+        else if (configLoad.getVeinMinerBlocks().contains(blockType) && pickaxes.contains(itemInHand.getType())) {
             Mining miningClass = new Mining(p);
             miningClass.veinMiner(block,blockType);
         }

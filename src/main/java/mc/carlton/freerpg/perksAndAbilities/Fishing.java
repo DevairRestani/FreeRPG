@@ -166,12 +166,23 @@ public class Fishing extends Skill{
         p.setVelocity(velocity);
     }
 
+    //Replaces a normal catch with the FreeRPG drop table, which also awards fishing EXP
+    //(this was removed upstream in 39991dc, which left normal catches without any fishing EXP: issue #17)
+    public void normalCatch(FishHook fishhook, Entity hookedEntity,World world) {
+        if (!runMethods) {
+            return;
+        }
+        if (hookedEntity instanceof Item) {
+            ItemStack drop = dropTable(false);
+            ((Item) hookedEntity).setItemStack(drop);
+        }
+    }
+
     public void superBait(FishHook fishhook, Entity hookedEntity,World world) {
         if (!runMethods) {
             return;
         }
         if (hookedEntity instanceof Item) {
-            ((Item) hookedEntity).setItemStack(new ItemStack(Material.DIRT,0));
             ItemStack drop = dropTable(false);
             ((Item) hookedEntity).setItemStack(drop);
         }

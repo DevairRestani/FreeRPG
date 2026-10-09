@@ -348,9 +348,9 @@ public class Farming extends Skill{
         for (Block b : tallCropBlocks) {
             //Checks if any of the blocks weren't natural
             PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
-            boolean natural = !placedBlocksManager.isBlockTracked(block);
+            boolean natural = !placedBlocksManager.isBlockTracked(b); //Check each block of the tower, not just the one broken
             if (!natural) {
-                placedBlocksManager.removeBlock(block);
+                placedBlocksManager.removeBlock(b);
             }
             if (natural) {
                 totalNatural+=1;
@@ -364,7 +364,8 @@ public class Farming extends Skill{
         }
         switch (block.getType()) {
             case CACTUS:
-                increaseStats.changeEXP(skillName,expMap.get("breakCactus"));
+                increaseStats.changeEXP(skillName,expMap.get("breakCactus")*totalNatural);
+                break;
             case SUGAR_CANE:
                 increaseStats.changeEXP(skillName,expMap.get("breakSugarCane")*totalNatural);
                 break;
