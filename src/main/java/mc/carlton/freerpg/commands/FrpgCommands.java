@@ -554,7 +554,7 @@ public class FrpgCommands implements CommandExecutor {
                 }
             }
         } else {
-            String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global"};
+            String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global", "Total Play Time"};
             String skillTitle = titles_0[labels_arr.indexOf(skillName)];
             sender.sendMessage("------| " + skillTitle + " Leaderboard" + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" + " |-----");
             for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {

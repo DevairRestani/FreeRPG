@@ -53,8 +53,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         //Saves Resources if they aren't there
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-        saveResource("languages.yml",false);
-        saveResource("advancedConfig.yml",false);
+        for (String resource : new String[]{"languages.yml","advancedConfig.yml"}) {
+            if (!new File(getDataFolder(), resource).exists()) { //saveResource(..., false) logs a warning if the file exists
+                saveResource(resource,false);
+            }
+        }
 
 
         //Checks config.yml and languages.yml for updates, and update them if needed (while trying to keep any edits)
