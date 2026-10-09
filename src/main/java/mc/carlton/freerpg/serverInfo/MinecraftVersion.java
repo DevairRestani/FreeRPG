@@ -8,36 +8,13 @@ public class MinecraftVersion {
 
     public void initializeVersion() {
         minecraftVersion = Bukkit.getVersion();
-        if (minecraftVersion.contains("1.8")){
-            minecraftVersion_Double = 1.8;
-        }
-        else if (minecraftVersion.contains("1.9")){
-            minecraftVersion_Double = 1.9;
-        }
-        else if (minecraftVersion.contains("1.10")){
-            minecraftVersion_Double = 1.10;
-        }
-        else if (minecraftVersion.contains("1.11")){
-            minecraftVersion_Double = 1.11;
-        }
-        else if (minecraftVersion.contains("1.12")){
-            minecraftVersion_Double = 1.12;
-        }
-        else if (minecraftVersion.contains("1.13")){
-            minecraftVersion_Double = 1.13;
-        }
-        else if (minecraftVersion.contains("1.14")){
-            minecraftVersion_Double = 1.14;
-        }
-        else if (minecraftVersion.contains("1.15")){
-            minecraftVersion_Double = 1.15;
-        }
-        else if (minecraftVersion.contains("1.16")){
-            minecraftVersion_Double = 1.16;
-        }
-        else {
-            minecraftVersion_Double = 1.16;
-            System.out.println("[FreeRPG] Could not determine minecraft verison, Assuming 1.16...");
+        //Bukkit.getMinecraftVersion() returns e.g. "26.2" or "26.1.2"; keep only "major.minor"
+        String[] parts = Bukkit.getMinecraftVersion().split("\\.");
+        try {
+            minecraftVersion_Double = Double.parseDouble(parts[0] + "." + (parts.length > 1 ? parts[1] : "0"));
+        } catch (NumberFormatException e) {
+            minecraftVersion_Double = 26.2;
+            System.out.println("[FreeRPG] Could not determine minecraft version, assuming 26.2...");
         }
     }
 
