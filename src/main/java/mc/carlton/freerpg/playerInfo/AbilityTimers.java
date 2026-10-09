@@ -283,9 +283,9 @@ public class AbilityTimers {
             if (potentialAbilityItem != null) {
                 itemHeldInHand = potentialAbilityItem;
             }
-            itemHeldInHand.removeEnchantment(Enchantment.DIG_SPEED);
+            itemHeldInHand.removeEnchantment(Enchantment.EFFICIENCY);
             if (enchantLevel != 0) {
-                itemHeldInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, enchantLevel);
+                itemHeldInHand.addUnsafeEnchantment(Enchantment.EFFICIENCY, enchantLevel);
             }
         }
         else if (skillName.equalsIgnoreCase("swordsmanship")) {
@@ -294,13 +294,13 @@ public class AbilityTimers {
             if (potentialAbilityItem != null) {
                 itemHeldInHand = potentialAbilityItem;
             }
-            ((Attributable) player).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
+            ((Attributable) player).getAttribute(Attribute.ATTACK_SPEED).setBaseValue(4.0);
             if (levelReqLevel > 0) {
                 if (enchantLevel > 0) {
-                    itemHeldInHand.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, enchantLevel);
+                    itemHeldInHand.addUnsafeEnchantment(Enchantment.SHARPNESS, enchantLevel);
                 }
                 else {
-                    itemHeldInHand.removeEnchantment(Enchantment.DAMAGE_ALL);
+                    itemHeldInHand.removeEnchantment(Enchantment.SHARPNESS);
                 }
             }
         }

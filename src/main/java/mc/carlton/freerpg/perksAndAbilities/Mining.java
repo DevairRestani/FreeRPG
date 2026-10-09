@@ -85,9 +85,9 @@ public class Mining extends Skill{
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("berserkPick") + " " + lang.getString("activated") + "<<<");
-        int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
-        itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
-        itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel + 5);
+        int effLevel = itemInHand.getEnchantmentLevel(Enchantment.EFFICIENCY);
+        itemInHand.removeEnchantment(Enchantment.EFFICIENCY);
+        itemInHand.addUnsafeEnchantment(Enchantment.EFFICIENCY, effLevel + 5);
 
         //Mark the item
         long unixTime = Instant.now().getEpochSecond();
@@ -261,30 +261,30 @@ public class Mining extends Skill{
             default:
                 break;
         }
-        if (p.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
-            if (p.getPotionEffect(PotionEffectType.FAST_DIGGING).getDuration() > 20*hasteSeconds + 20) {
+        if (p.hasPotionEffect(PotionEffectType.HASTE)) {
+            if (p.getPotionEffect(PotionEffectType.HASTE).getDuration() > 20*hasteSeconds + 20) {
                 return;
         }
     }
         if (hasteSeconds > 1) {
             switch (wastelessHasteLevel) {
                 case 4: //Half of haste is haste 2, second half is haste 1
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 10 * hasteSeconds, 1));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 10 * hasteSeconds, 1));
                     int finalHasteSeconds = hasteSeconds;
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             if (p.isOnline()) {
-                                p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 10 * finalHasteSeconds, 0));
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 10 * finalHasteSeconds, 0));
                             }
                         }
                     }.runTaskLater(plugin, 10 * hasteSeconds+2);
                     break;
                 case 5: //All of buff is haste 2
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20 * hasteSeconds, 1));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 20 * hasteSeconds, 1));
                     break;
                 default: //All of buff is haste 1
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20 * hasteSeconds, 0));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 20 * hasteSeconds, 0));
                     break;
             }
         }
@@ -322,7 +322,7 @@ public class Mining extends Skill{
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[2] == -2) {
             Bukkit.getScheduler().cancelTask(taskID_mining);
-            int effLevel = itemInHand_mining.getEnchantmentLevel(Enchantment.DIG_SPEED)-5;
+            int effLevel = itemInHand_mining.getEnchantmentLevel(Enchantment.EFFICIENCY)-5;
             String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("berserkPick") + " " + lang.getString("readyToUse") + "<<<";
             String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce");
             timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_mining,effLevel,0,isDisabling);

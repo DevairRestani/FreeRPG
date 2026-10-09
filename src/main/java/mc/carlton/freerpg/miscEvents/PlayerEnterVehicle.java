@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.spigotmc.event.entity.EntityMountEvent;
+import org.bukkit.event.entity.EntityMountEvent;
 
 public class PlayerEnterVehicle implements Listener {
     @EventHandler(priority = EventPriority.HIGH)

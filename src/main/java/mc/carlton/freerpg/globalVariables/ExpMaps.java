@@ -30,7 +30,7 @@ public class ExpMaps {
         diggingEXP.put(Material.CLAY, expMap.get("breakClay"));
         diggingEXP.put(Material.FARMLAND,expMap.get("breakFarmland"));
         diggingEXP.put(Material.GRASS_BLOCK,expMap.get("breakGrassBlock"));
-        diggingEXP.put(Material.GRASS_PATH,expMap.get("breakGrassPath"));
+        diggingEXP.put(Material.DIRT_PATH,expMap.get("breakGrassPath"));
         diggingEXP.put(Material.GRAVEL,expMap.get("breakGravel"));
         diggingEXP.put(Material.MYCELIUM,expMap.get("breakMycelium"));
         diggingEXP.put(Material.PODZOL,expMap.get("breakPodzol"));

@@ -257,47 +257,4 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         }
     }
 
-    //Load custom enchantments
-    public void registerEnchantment(Enchantment enchantment) {
-        boolean registered = true;
-        try {
-            Field f = Enchantment.class.getDeclaredField("acceptingNew");
-            f.setAccessible(true);
-            f.set(null, true);
-            Enchantment.registerEnchantment(enchantment);
-        } catch (Exception e) {
-            registered = false;
-            e.printStackTrace();
-        }
-        if(registered){
-            // It's been registered!
-        }
-    }
-
-    public void unregisterEnchantments(Enchantment enchantment) {
-        try {
-            Field keyField = Enchantment.class.getDeclaredField("byKey");
-
-            keyField.setAccessible(true);
-            @SuppressWarnings("unchecked")
-            HashMap<NamespacedKey, Enchantment> byKey = (HashMap<NamespacedKey, Enchantment>) keyField.get(null);
-
-            if(byKey.containsKey(enchantment.getKey())) {
-                byKey.remove(enchantment.getKey());
-            }
-
-            Field nameField = Enchantment.class.getDeclaredField("byName");
-
-            nameField.setAccessible(true);
-            @SuppressWarnings("unchecked")
-            HashMap<String, Enchantment> byName = (HashMap<String, Enchantment>) nameField.get(null);
-
-            if(byName.containsKey(enchantment.getName())) {
-                byName.remove(enchantment.getName());
-            }
-
-        } catch (Exception ignored) { }
-
-    }
-
 }

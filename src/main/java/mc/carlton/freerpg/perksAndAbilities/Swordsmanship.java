@@ -102,10 +102,10 @@ public class Swordsmanship extends Skill{
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
         long duration = (long) duration0;
         int sharperLevel = (int) pStat.get(skillName).get(12);
-        int sharpLevel = itemInHand.getEnchantmentLevel(Enchantment.DAMAGE_ALL);
+        int sharpLevel = itemInHand.getEnchantmentLevel(Enchantment.SHARPNESS);
         if (sharperLevel > 0) {
-            itemInHand.removeEnchantment(Enchantment.DAMAGE_ALL);
-            itemInHand.addUnsafeEnchantment(Enchantment.DAMAGE_ALL,sharpLevel+1);
+            itemInHand.removeEnchantment(Enchantment.SHARPNESS);
+            itemInHand.addUnsafeEnchantment(Enchantment.SHARPNESS,sharpLevel+1);
         }
 
         //Mark the item
@@ -116,7 +116,7 @@ public class Swordsmanship extends Skill{
         itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"frpg-swordsmanship");
         itemInHand.setItemMeta(itemMeta);
 
-        ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0);
+        ((Attributable) p).getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1024.0);
         Bukkit.getScheduler().cancelTask(pAbilities[7]);
         abilities.setPlayerAbility( skillName, -2);
         String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<";
@@ -131,12 +131,12 @@ public class Swordsmanship extends Skill{
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int sharperLevel = (int) pStat.get(skillName).get(12);
-        ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
+        ((Attributable) p).getAttribute(Attribute.ATTACK_SPEED).setBaseValue(4.0);
 
         if (sharperLevel > 0) {
             if (pAbilities[7] == -2) {
                 Bukkit.getScheduler().cancelTask(taskID_swordsmanship);
-                int sharpLevel = itemInHand_swords.getEnchantmentLevel(Enchantment.DAMAGE_ALL)-1;
+                int sharpLevel = itemInHand_swords.getEnchantmentLevel(Enchantment.SHARPNESS)-1;
                 String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>"+lang.getString("magicForce")+"<<<";
                 String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<";
                 timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_swords,sharpLevel,sharperLevel,isDisabling);
@@ -298,7 +298,7 @@ public class Swordsmanship extends Skill{
         hasEffect = false;
         potionEffectLoop:
         for (PotionEffect effect : p.getActivePotionEffects()) {
-            if (effect.getType().equals(PotionEffectType.INCREASE_DAMAGE)) {
+            if (effect.getType().equals(PotionEffectType.STRENGTH)) {
                 hasEffect = true;
                 if ((effect.getDuration() > totalStrengthtime) || (effect.getAmplifier() > 1 && effect.getDuration() > totalStrengthtime * 0.2) || (effect.getAmplifier() == 1 && effect.getDuration() > strengthIItime && effect.getDuration() > totalStrengthtime * 0.2) || totalStrengthtime == 0) {
                     addEffect = false;
@@ -309,12 +309,12 @@ public class Swordsmanship extends Skill{
 
         if (addEffect) {
             if (hasEffect) {
-                p.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+                p.removePotionEffect(PotionEffectType.STRENGTH);
             }
             if (strengthIItime == 0) {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, totalStrengthtime, 0));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, totalStrengthtime, 0));
             } else {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, strengthIItime+2, 1));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, strengthIItime+2, 1));
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -322,7 +322,7 @@ public class Swordsmanship extends Skill{
                         boolean hasEffect = false;
                         potionEffectLoop:
                         for (PotionEffect effect : p.getActivePotionEffects()) {
-                            if (effect.getType().equals(PotionEffectType.INCREASE_DAMAGE)) {
+                            if (effect.getType().equals(PotionEffectType.STRENGTH)) {
                                 hasEffect = true;
                                 if ((effect.getDuration() > totalStrengthtime) || (effect.getAmplifier() > 1 && effect.getDuration() > strengthItime * 0.2)) {
                                     addEffect = false;
@@ -331,8 +331,8 @@ public class Swordsmanship extends Skill{
                             }
                         }
                         if (addEffect && hasEffect) {
-                            p.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, strengthItime, 0));
+                            p.removePotionEffect(PotionEffectType.STRENGTH);
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, strengthItime, 0));
                         }
 
                     }

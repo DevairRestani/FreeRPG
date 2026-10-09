@@ -279,21 +279,9 @@ public class Woodcutting extends Skill{
                 ItemGroups itemGroups = new ItemGroups();
                 Map<Enchantment, Integer> enchantmentLevelMap = itemGroups.getEnchantmentLevelMap();
 
-                int choppingInt = 0;
-                if (hiddenKnowledgeLevel >= 5) {
-                    choppingInt = 1;
-                }
-
-                //Get random enchant
+                //Get random enchant (the unfinished custom "chopping" enchant was never registered, so it is not offered)
                 List<Enchantment> keysAsArray = new ArrayList<Enchantment>(enchantmentLevelMap.keySet());
-                int randInt = rand.nextInt(keysAsArray.size() + choppingInt);
-                Enchantment randomEnchant;
-                if (randInt < keysAsArray.size()) {
-                    randomEnchant = keysAsArray.get(randInt);
-                }
-                else { //Enchantment will be chopping
-                    randomEnchant = Enchantment.getByKey(new NamespacedKey(FreeRPG.getPlugin(FreeRPG.class),"chopping"));
-                }
+                Enchantment randomEnchant = keysAsArray.get(rand.nextInt(keysAsArray.size()));
 
                 int randomLevel = rand.nextInt(enchantmentLevelMap.get(randomEnchant)) + 1;
                 ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK, 1);
@@ -561,7 +549,7 @@ public class Woodcutting extends Skill{
         if (logs.contains(block.getType()) && freshArmsLevel > 0) {
             Integer[] pAbilities = abilities.getPlayerAbilities();
             if (pAbilities[10] == -1) {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20*12 * freshArmsLevel, 0));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 20*12 * freshArmsLevel, 0));
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {

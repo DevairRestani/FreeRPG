@@ -393,7 +393,7 @@ public class CraftingRecipes {
     public void powerBook() {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.ARROW_DAMAGE,1,true);
+        meta.addStoredEnchant(Enchantment.POWER,1,true);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgPowerBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -406,7 +406,7 @@ public class CraftingRecipes {
     public void efficiencyBook() {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.DIG_SPEED,1,true);
+        meta.addStoredEnchant(Enchantment.EFFICIENCY,1,true);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgEfficiencyBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -419,7 +419,7 @@ public class CraftingRecipes {
     public void sharpnessBook() {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.DAMAGE_ALL,1,true);
+        meta.addStoredEnchant(Enchantment.SHARPNESS,1,true);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgSharpnessBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -433,7 +433,7 @@ public class CraftingRecipes {
     public void protectionBook() {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,1,true);
+        meta.addStoredEnchant(Enchantment.PROTECTION,1,true);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgProtectionBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -446,7 +446,7 @@ public class CraftingRecipes {
     public void luckBook() {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.LUCK,1,true);
+        meta.addStoredEnchant(Enchantment.LUCK_OF_THE_SEA,1,true);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgLuckBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
@@ -513,7 +513,7 @@ public class CraftingRecipes {
     public void fortuneBook() {
         ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS,1,true);
+        meta.addStoredEnchant(Enchantment.FORTUNE,1,true);
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(plugin, "frpgFortuneBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);

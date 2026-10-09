@@ -80,43 +80,43 @@ public class ItemGroups {
     }
 
     public void initializeEnchantmentLevelMap() {
-        enchantmentLevelMap.put(Enchantment.ARROW_KNOCKBACK, 2);
-        enchantmentLevelMap.put(Enchantment.ARROW_DAMAGE, 5);
-        enchantmentLevelMap.put(Enchantment.ARROW_FIRE, 1);
-        enchantmentLevelMap.put(Enchantment.ARROW_INFINITE, 1);
+        enchantmentLevelMap.put(Enchantment.PUNCH, 2);
+        enchantmentLevelMap.put(Enchantment.POWER, 5);
+        enchantmentLevelMap.put(Enchantment.FLAME, 1);
+        enchantmentLevelMap.put(Enchantment.INFINITY, 1);
         enchantmentLevelMap.put(Enchantment.BINDING_CURSE, 1);
         enchantmentLevelMap.put(Enchantment.CHANNELING, 1);
-        enchantmentLevelMap.put(Enchantment.DAMAGE_ALL, 4);
-        enchantmentLevelMap.put(Enchantment.DAMAGE_ARTHROPODS, 4);
-        enchantmentLevelMap.put(Enchantment.DAMAGE_UNDEAD, 4);
+        enchantmentLevelMap.put(Enchantment.SHARPNESS, 4);
+        enchantmentLevelMap.put(Enchantment.BANE_OF_ARTHROPODS, 4);
+        enchantmentLevelMap.put(Enchantment.SMITE, 4);
         enchantmentLevelMap.put(Enchantment.DEPTH_STRIDER, 2);
-        enchantmentLevelMap.put(Enchantment.DIG_SPEED, 4);
-        enchantmentLevelMap.put(Enchantment.DURABILITY, 3);
+        enchantmentLevelMap.put(Enchantment.EFFICIENCY, 4);
+        enchantmentLevelMap.put(Enchantment.UNBREAKING, 3);
         enchantmentLevelMap.put(Enchantment.FIRE_ASPECT, 2);
         enchantmentLevelMap.put(Enchantment.FROST_WALKER, 2);
         enchantmentLevelMap.put(Enchantment.IMPALING, 4);
         enchantmentLevelMap.put(Enchantment.KNOCKBACK, 2);
-        enchantmentLevelMap.put(Enchantment.LOOT_BONUS_BLOCKS, 3);
-        enchantmentLevelMap.put(Enchantment.LUCK, 3);
-        enchantmentLevelMap.put(Enchantment.LOOT_BONUS_MOBS, 3);
+        enchantmentLevelMap.put(Enchantment.FORTUNE, 3);
+        enchantmentLevelMap.put(Enchantment.LUCK_OF_THE_SEA, 3);
+        enchantmentLevelMap.put(Enchantment.LOOTING, 3);
         enchantmentLevelMap.put(Enchantment.LOYALTY, 3);
         enchantmentLevelMap.put(Enchantment.LURE, 3);
         enchantmentLevelMap.put(Enchantment.MENDING, 1);
         enchantmentLevelMap.put(Enchantment.MULTISHOT, 1);
-        enchantmentLevelMap.put(Enchantment.OXYGEN, 3);
+        enchantmentLevelMap.put(Enchantment.RESPIRATION, 3);
         enchantmentLevelMap.put(Enchantment.PIERCING, 4);
-        enchantmentLevelMap.put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
-        enchantmentLevelMap.put(Enchantment.PROTECTION_EXPLOSIONS, 4);
-        enchantmentLevelMap.put(Enchantment.PROTECTION_FALL, 4);
-        enchantmentLevelMap.put(Enchantment.PROTECTION_FIRE, 4);
-        enchantmentLevelMap.put(Enchantment.PROTECTION_PROJECTILE, 4);
+        enchantmentLevelMap.put(Enchantment.PROTECTION, 4);
+        enchantmentLevelMap.put(Enchantment.BLAST_PROTECTION, 4);
+        enchantmentLevelMap.put(Enchantment.FEATHER_FALLING, 4);
+        enchantmentLevelMap.put(Enchantment.FIRE_PROTECTION, 4);
+        enchantmentLevelMap.put(Enchantment.PROJECTILE_PROTECTION, 4);
         enchantmentLevelMap.put(Enchantment.QUICK_CHARGE, 3);
         enchantmentLevelMap.put(Enchantment.RIPTIDE, 3);
         enchantmentLevelMap.put(Enchantment.SILK_TOUCH, 1);
         enchantmentLevelMap.put(Enchantment.SWEEPING_EDGE, 3);
         enchantmentLevelMap.put(Enchantment.THORNS, 3);
         enchantmentLevelMap.put(Enchantment.VANISHING_CURSE, 1);
-        enchantmentLevelMap.put(Enchantment.WATER_WORKER, 1);
+        enchantmentLevelMap.put(Enchantment.AQUA_AFFINITY, 1);
     }
 
     public void initializeTrackedBlocks() {
@@ -205,7 +205,7 @@ public class ItemGroups {
 
     public void initializeHarmfulPotions(){
         PotionEffectType[] harmfulEffects0 = {PotionEffectType.WEAKNESS,PotionEffectType.POISON,PotionEffectType.BLINDNESS,PotionEffectType.HUNGER,
-                PotionEffectType.HARM,PotionEffectType.SLOW_DIGGING,PotionEffectType.SLOW,PotionEffectType.WEAKNESS,PotionEffectType.WITHER};
+                PotionEffectType.INSTANT_DAMAGE,PotionEffectType.MINING_FATIGUE,PotionEffectType.SLOWNESS,PotionEffectType.WEAKNESS,PotionEffectType.WITHER};
         harmfulEffects = Arrays.asList(harmfulEffects0);
     }
 
@@ -547,9 +547,9 @@ public class ItemGroups {
 
     public void initalizeArrows() {
         PotionType[] potionType = {PotionType.WATER,PotionType.MUNDANE,PotionType.THICK,PotionType.AWKWARD,PotionType.NIGHT_VISION,
-                PotionType.INVISIBILITY,PotionType.JUMP,PotionType.FIRE_RESISTANCE,PotionType.SPEED,PotionType.SLOWNESS,
-                PotionType.WATER_BREATHING,PotionType.INSTANT_HEAL,PotionType.INSTANT_DAMAGE,PotionType.POISON,
-                PotionType.REGEN,PotionType.STRENGTH,PotionType.WEAKNESS,PotionType.LUCK,PotionType.TURTLE_MASTER,PotionType.SLOW_FALLING};
+                PotionType.INVISIBILITY,PotionType.LEAPING,PotionType.FIRE_RESISTANCE,PotionType.SWIFTNESS,PotionType.SLOWNESS,
+                PotionType.WATER_BREATHING,PotionType.HEALING,PotionType.HARMING,PotionType.POISON,
+                PotionType.REGENERATION,PotionType.STRENGTH,PotionType.WEAKNESS,PotionType.LUCK,PotionType.TURTLE_MASTER,PotionType.SLOW_FALLING};
         String[] labels = {"water","mundane","thick","awkward","night_vision","invisibility","leaping","fire_resistance","swiftness","slowness",
                 "breathing_water","healing","harming","poison","regeneration","strength","weakness","luck","turtle_master","slow_falling"};
         String[] modifiers = {"","long_","strong_"};

@@ -436,8 +436,8 @@ public class StringsAndOtherData {
                 lang.getString("enchantingCraft8"),lang.getString("enchantingCraft9")};
         ConfigLoad configLoad = new ConfigLoad();
         Map<String, OldCustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
-        Enchantment[] defaultEnchants = {Enchantment.ARROW_DAMAGE,Enchantment.DIG_SPEED,Enchantment.DAMAGE_ALL,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.LUCK,
-                Enchantment.LURE,Enchantment.FROST_WALKER,Enchantment.DEPTH_STRIDER,Enchantment.MENDING,Enchantment.LOOT_BONUS_BLOCKS};
+        Enchantment[] defaultEnchants = {Enchantment.POWER,Enchantment.EFFICIENCY,Enchantment.SHARPNESS,Enchantment.PROTECTION,Enchantment.LUCK_OF_THE_SEA,
+                Enchantment.LURE,Enchantment.FROST_WALKER,Enchantment.DEPTH_STRIDER,Enchantment.MENDING,Enchantment.FORTUNE};
         for (int i = 0; i < craftingNames.length; i++) {
             int stringIndex = i+1;
             OldCustomRecipe oldCustomRecipe = customRecipeMap.get("enchanting"+stringIndex);
@@ -590,8 +590,6 @@ public class StringsAndOtherData {
         switch (potionType) {
             case AWKWARD:
                 return "potionAwkward";
-            case UNCRAFTABLE:
-                return "potionUncraftable";
             case MUNDANE:
                 return "potionMundane";
             case TURTLE_MASTER:

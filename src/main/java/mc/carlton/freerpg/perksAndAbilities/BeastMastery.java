@@ -128,9 +128,9 @@ public class BeastMastery extends Skill{
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             int identifyLevel = (int) pStat.get(skillName).get(12);
             if (identifyLevel > 0) {
-                double maxHealth = ((Attributable) animal).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-                double speed = ((Attributable) animal).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue();
-                double jump = ((Attributable) animal).getAttribute(Attribute.HORSE_JUMP_STRENGTH).getBaseValue();
+                double maxHealth = ((Attributable) animal).getAttribute(Attribute.MAX_HEALTH).getBaseValue();
+                double speed = ((Attributable) animal).getAttribute(Attribute.MOVEMENT_SPEED).getBaseValue();
+                double jump = ((Attributable) animal).getAttribute(Attribute.JUMP_STRENGTH).getBaseValue();
 
                 double healthReadable = Math.round((maxHealth / 2.0d) * 10) / 10.0d;
                 double speedReadable = Math.round(speed * 431.1111) / 10.0d;

@@ -57,7 +57,7 @@ public class PlayerPrepareCrafting implements Listener {
                 case LUCK:
                     arrow = itemGroups.getArrow("luck");
                     break;
-                case JUMP:
+                case LEAPING:
                     arrow = itemGroups.getArrow("leaping");
                     if (pData.isExtended()) {
                         arrow = itemGroups.getArrow("long_leaping");
@@ -66,7 +66,7 @@ public class PlayerPrepareCrafting implements Listener {
                         arrow = itemGroups.getArrow("strong_leaping");
                     }
                     break;
-                case REGEN:
+                case REGENERATION:
                     arrow = itemGroups.getArrow("regeneration");
                     if (pData.isExtended()) {
                         arrow = itemGroups.getArrow("long_regeneration");
@@ -75,7 +75,7 @@ public class PlayerPrepareCrafting implements Listener {
                         arrow = itemGroups.getArrow("strong_regeneration");
                     }
                     break;
-                case SPEED:
+                case SWIFTNESS:
                     arrow = itemGroups.getArrow("swiftness");
                     if (pData.isExtended()) {
                         arrow = itemGroups.getArrow("long_swiftness");
@@ -120,7 +120,7 @@ public class PlayerPrepareCrafting implements Listener {
                         arrow = itemGroups.getArrow("strong_weakness");
                     }
                     break;
-                case INSTANT_HEAL:
+                case HEALING:
                     arrow = itemGroups.getArrow("healing");
                     if (pData.isExtended()) {
                         arrow = itemGroups.getArrow("long_healing");
@@ -165,7 +165,7 @@ public class PlayerPrepareCrafting implements Listener {
                         arrow = itemGroups.getArrow("strong_turtle_master");
                     }
                     break;
-                case INSTANT_DAMAGE:
+                case HARMING:
                     arrow = itemGroups.getArrow("harming");
                     if (pData.isExtended()) {
                         arrow = itemGroups.getArrow("long_harming");

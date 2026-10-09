@@ -33,8 +33,8 @@ public class EntityGroups {
     public void initializeHookableMobs() {
         EntityType[] hookableEntities0 = {EntityType.BLAZE,EntityType.GHAST,EntityType.ZOMBIE,EntityType.SPIDER,
                 EntityType.CAVE_SPIDER,EntityType.PIG,EntityType.CREEPER,EntityType.WITCH,EntityType.CHICKEN,
-                EntityType.SKELETON,EntityType.WITHER_SKELETON,EntityType.MAGMA_CUBE,EntityType.COW,EntityType.MUSHROOM_COW,
-                EntityType.ENDERMAN,EntityType.SHEEP,EntityType.IRON_GOLEM,EntityType.SNOWMAN,EntityType.SHULKER};
+                EntityType.SKELETON,EntityType.WITHER_SKELETON,EntityType.MAGMA_CUBE,EntityType.COW,EntityType.MOOSHROOM,
+                EntityType.ENDERMAN,EntityType.SHEEP,EntityType.IRON_GOLEM,EntityType.SNOW_GOLEM,EntityType.SHULKER};
         hookableEntities = new LinkedList<>(Arrays.asList(hookableEntities0));
         if (mcVersion >= 1.16) {
             hookableEntities.add(EntityType.ZOMBIFIED_PIGLIN);
@@ -64,16 +64,16 @@ public class EntityGroups {
     }
 
     public void initializeFarmingAnimals() {
-        EntityType[] animals0 = {EntityType.CHICKEN,EntityType.COW,EntityType.DONKEY,EntityType.FOX,EntityType.HORSE,EntityType.MUSHROOM_COW,
+        EntityType[] animals0 = {EntityType.CHICKEN,EntityType.COW,EntityType.DONKEY,EntityType.FOX,EntityType.HORSE,EntityType.MOOSHROOM,
                 EntityType.MULE,EntityType.PARROT,EntityType.PIG,EntityType.RABBIT,EntityType.SHEEP,EntityType.SQUID,
                 EntityType.SKELETON_HORSE,EntityType.TURTLE};
         animals = Arrays.asList(animals0);
-        EntityType[] babyAnimals0 = {EntityType.MUSHROOM_COW,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
+        EntityType[] babyAnimals0 = {EntityType.MOOSHROOM,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
                 EntityType.WOLF,EntityType.CAT,EntityType.OCELOT,EntityType.LLAMA,EntityType.POLAR_BEAR,
                 EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.SKELETON_HORSE,EntityType.TURTLE,
                 EntityType.PANDA,EntityType.FOX,EntityType.BEE};
         babyAnimals = Arrays.asList(babyAnimals0);
-        EntityType[] breedingAnimals0 = {EntityType.MUSHROOM_COW,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
+        EntityType[] breedingAnimals0 = {EntityType.MOOSHROOM,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
                 EntityType.TURTLE, EntityType.PANDA,EntityType.FOX,EntityType.BEE};
         breedingAnimalsFarming = Arrays.asList(breedingAnimals0);
     }
@@ -123,7 +123,7 @@ public class EntityGroups {
                 else if (type.equals(EntityType.POLAR_BEAR)) {
                     expReward =  expMap.get("killPolarBear");
                 }
-                else if (type.equals(EntityType.MUSHROOM_COW)) {
+                else if (type.equals(EntityType.MOOSHROOM)) {
                     expReward =  expMap.get("killMooshroom");
                 }
                 else if (type.equals(EntityType.MULE)) {
@@ -150,7 +150,7 @@ public class EntityGroups {
                 else if (type.equals(EntityType.SKELETON_HORSE)) {
                     expReward =  expMap.get("killSkeleton_Horse");
                 }
-                else if (type.equals(EntityType.SNOWMAN)) {
+                else if (type.equals(EntityType.SNOW_GOLEM)) {
                     expReward =  expMap.get("killSnowman");
                 }
                 else if (type.equals(EntityType.SQUID)) {
